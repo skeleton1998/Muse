@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class Sound_Front extends Activity{
-    int sound[]={0,0,0,0};
+    int sound[]={0,0,0,0};//データ保存用変数
     int beat=100;
 
     @Override
@@ -16,7 +16,7 @@ public class Sound_Front extends Activity{
         setContentView(R.layout.activity_soundfront);
 
         Intent intent=getIntent();
-        sound[0]=intent.getIntExtra("S1",0);
+        sound[0]=intent.getIntExtra("S1",0);//データ受け取り
         sound[1]=intent.getIntExtra("S2",0);
         sound[2]=intent.getIntExtra("S3",0);
         sound[3]=intent.getIntExtra("S4",0);

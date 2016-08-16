@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.content.Intent;
 
 public class Option extends Activity {
-    private TextView textView1;
+    private TextView textView1;//文章表示使うためのやつ
     private TextView textView2;
     private TextView textView3;
     private TextView textView4;
@@ -23,9 +23,7 @@ public class Option extends Activity {
     private TextView textView8;
     private TextView textView9;
 
-
-
-    private Spinner SelectSound1;
+    private Spinner SelectSound1;//ドロップダウンメニュー使うためのやつ
     private Spinner SelectSound2;
     private Spinner SelectSound3;
     private Spinner SelectSound4;
@@ -33,16 +31,17 @@ public class Option extends Activity {
     String Items2[]={"dummy1","dummy2","dummy3"};
     String Items3[]={"dummy1","dummy2","dummy3"};
     String Items4[]={"dummy1","dummy2","dummy3"};
-    int sound[]={0,0,0,0};
+
+    int sound[]={0,0,0,0};//データ保存用変数
     private int beat=0;
 
-    private SeekBar seekbar;
+    private SeekBar seekbar;//シークバー使うためのやつ
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
-        textView1=(TextView)findViewById(R.id.text_view1);
+        textView1=(TextView)findViewById(R.id.text_view1);//テキスト定義
         textView1.setText("Sound1");
         textView2=(TextView)findViewById(R.id.text_view2);
         textView2.setText("Sound2");
@@ -57,13 +56,13 @@ public class Option extends Activity {
 
 
         Intent intent=getIntent();
-        sound[0]=intent.getIntExtra("S1",0);
+        sound[0]=intent.getIntExtra("S1",0);//データの受け取り
         sound[1]=intent.getIntExtra("S2",0);
         sound[2]=intent.getIntExtra("S3",0);
         sound[3]=intent.getIntExtra("S4",0);
         beat=intent.getIntExtra("BEAT",0);
 
-        SelectSound1=(Spinner)findViewById(R.id.spinner1);
+        SelectSound1=(Spinner)findViewById(R.id.spinner1);//楽器1のドロップダウンメニュー
         ArrayAdapter<String> adapter1
                 =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Items1);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,7 +88,7 @@ public class Option extends Activity {
             public void onNothingSelected(AdapterView<?> parent){}
         });
 
-        SelectSound2=(Spinner)findViewById(R.id.spinner2);
+        SelectSound2=(Spinner)findViewById(R.id.spinner2);//楽器2のドロップダウンメニュー
         ArrayAdapter<String> adapter2
                 =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Items2);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -115,7 +114,7 @@ public class Option extends Activity {
             public void onNothingSelected(AdapterView<?> parent){}
         });
 
-        SelectSound3=(Spinner)findViewById(R.id.spinner3);
+        SelectSound3=(Spinner)findViewById(R.id.spinner3);//楽器3のドロップダウンメニュー
         ArrayAdapter<String> adapter3
                 =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Items3);
         adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -141,7 +140,7 @@ public class Option extends Activity {
             public void onNothingSelected(AdapterView<?> parent){}
         });
 
-        SelectSound4=(Spinner)findViewById(R.id.spinner4);
+        SelectSound4=(Spinner)findViewById(R.id.spinner4);//楽器4のドロップダウンメニュー
         ArrayAdapter<String> adapter4
                 =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Items4);
         adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -167,7 +166,7 @@ public class Option extends Activity {
             public void onNothingSelected(AdapterView<?> parent){}
         });
 
-        textView5=(TextView)findViewById(R.id.text_view5);
+        textView5=(TextView)findViewById(R.id.text_view5);//テンポのシークバー
         textView5.setText("bpm"+beat);
         seekbar=(SeekBar)findViewById(R.id.tempo);
         seekbar.setMax(255);
@@ -188,7 +187,7 @@ public class Option extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-                intent.putExtra("RES_S1",sound[0]);
+                intent.putExtra("RES_S1",sound[0]);//データを返す
                 intent.putExtra("RES_S2",sound[1]);
                 intent.putExtra("RES_S3",sound[2]);
                 intent.putExtra("RES_S4",sound[3]);
