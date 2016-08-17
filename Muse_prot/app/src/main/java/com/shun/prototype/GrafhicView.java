@@ -74,7 +74,7 @@ public class GrafhicView extends View {
         paint.setStrokeWidth(5);
 
         //bpm甲信
-        d = beat;
+        //d = beat;
 
         //四角形の描画
         //canvas.drawRect(rect, paint);

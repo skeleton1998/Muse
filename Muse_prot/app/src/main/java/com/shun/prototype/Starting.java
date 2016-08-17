@@ -14,7 +14,7 @@ public class Starting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting);
 
-        Button sendbutton1=(Button)findViewById(R.id.send_button);
+        Button sendbutton1=(Button)findViewById(R.id.send_button);//MainMenu遷移のボタン
         sendbutton1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
