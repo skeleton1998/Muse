@@ -15,11 +15,16 @@ import android.view.View;
 
 public class GrafhicView extends View {
 
-    private int r = 0;
-    private int x = 600;
+    private int r = 0; //半径
+    private int x = 600; //音生成中心の座標 TODO : 画面大きさから取得
     private int y = 1000;
-    private int d = 100;
+    private int d = 200; //音の間隔 TODO : bpmから取得
+
     private ScheduledExecutorService ses = null;
+
+    //波生成変数
+    private int graLevel = 12; //グラデーションの段階
+    private int graWidth = 6; // グラデーション1段階の幅
 
     //再描画のメソッド
     private final Runnable task = new Runnable(){
@@ -31,10 +36,10 @@ public class GrafhicView extends View {
             // 画面を更新
             postInvalidate();
 
-            //アニメーションを停止する
-            if (r > 1000*d) {
-                //onPause();
-                r = 0;
+            // rがあふれない処理
+            if (r > 2*y)
+            {
+                r -= y ;
             }
         }
     };
@@ -62,24 +67,44 @@ public class GrafhicView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
+    protected void onDraw(Canvas canvas)
+    {
 
-        //Paint , Rectオブジェクトの生成
+        //背景色の設定
+        //canvas.drawColor( Color.rgb( 172, 216, 234 ) );
+        canvas.drawColor( Color.rgb( 206, 206, 206 ) );
+
+        //Paintオブジェクトの生成
         Paint paint = new Paint();
-        //Rect rect = new Rect( ( x - r)/2, ( y - r)/2, ( x + r)/2, ( y + r)/2 );
 
         //描画色の指定
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth( graWidth );
 
-        //bpm甲信
+        //bpm更新
         //d = beat;
 
-        //四角形の描画
-        //canvas.drawRect(rect, paint);
 
         //円
-        for( int i = 0; i <= r / d; i++ ) canvas.drawCircle( x, y, d*i + r%d, paint );
+        int colorGap; //グラデーションの色の差の値
+
+        //波の数ループ
+        for( int i = 0; i <= r / d; i++ )
+        {
+            //グラデーション
+            for (int j = -graLevel; j <= graLevel;j ++ )
+            {
+                //値計算
+                colorGap = j * graWidth;
+                if( colorGap < 0 ) colorGap *= -1;
+
+                //色計算
+                paint.setColor(  Color.rgb( 140 + colorGap,  140 + colorGap,  140 + colorGap) );
+
+                // 表示
+                //// 円で表示させてる(ざまく
+                canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
+            }
+        }
     }
 }
