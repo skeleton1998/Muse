@@ -49,9 +49,8 @@ public class GrafhicView extends View {
     }
     */
 
-    private int xpoint;
-    private int ypoint;
-
+    private int xpoint=-1;
+    private int ypoint=-1;
 
     //時間系の変数
     ////タイマー変数
@@ -99,6 +98,19 @@ public class GrafhicView extends View {
 
     //半径の最大値
     private int overR = sqrt(x  * x + y * y);
+
+    public int getXpoint(){
+        return xpoint;
+    }
+    public int getYpoint(){
+        return ypoint;
+    }
+    public void setXpoint(int x){
+        xpoint=x;
+    }
+    public void setYpoint(int y){
+        ypoint=y;
+    }
 
     //平方根計算メソッド(めのこ平方)
     private int sqrt(int num){
@@ -202,7 +214,8 @@ public class GrafhicView extends View {
                 // 表示
                 //// 円で表示させてる(ざまく
                 canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
-                canvas.drawBitmap(bmp,100,100,paint);
+                if(xpoint>0 && ypoint>0)
+                    canvas.drawBitmap(bmp,xpoint,ypoint,paint);
             }
         }
     }

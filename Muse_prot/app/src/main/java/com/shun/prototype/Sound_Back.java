@@ -16,6 +16,7 @@ public class Sound_Back extends Activity {
 
     private GrafhicView graphicView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +92,8 @@ public class Sound_Back extends Activity {
     public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
         float getx=motionEvent.getX();
         float gety=motionEvent.getY();
+        int nowx=graphicView.getXpoint();
+        int nowy=graphicView.getYpoint();
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN://押した時
@@ -114,7 +117,7 @@ public class Sound_Back extends Activity {
                     startActivityForResult(intent1, requestCode);
                 }
 
-                if(getx>700 && gety<100){
+                else if(getx>700 && gety<100){
                     Intent intent2 = new Intent();
                     intent2.putExtra("RES_S1",sound[0]);//データを返す
                     intent2.putExtra("RES_S2",sound[1]);
@@ -123,6 +126,16 @@ public class Sound_Back extends Activity {
                     intent2.putExtra("RES_BEAT",beat);
                     setResult(RESULT_OK,intent2);
                     finish();
+                }
+
+                else if(getx>nowx && getx<nowx+45 && gety>nowy && gety<nowy+45){
+                    graphicView.setXpoint(-1);
+                    graphicView.setYpoint(-1);
+                }
+
+                else{
+                    graphicView.setXpoint((int)getx);
+                    graphicView.setYpoint((int)gety);
                 }
 
                 break;
