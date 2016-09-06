@@ -1,40 +1,157 @@
 package com.shun.prototype;
-
 /**
  * Created by ryoki_000 on 2016/08/15.
  */
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
+import android.view.Display;
+import android.view.WindowManager;
 
 public class GrafhicView extends View {
 
-    private int r = 0;
-    private int x = 600;
-    private int y = 1000;
-    private int d = 100;
+    //Getting monitor size
+
+    //// Getting instance of WindowManager
+    WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
+
+    //// Getting instance of Display
+    Display disp = wm.getDefaultDisplay();  // instance Display
+    int terminal_width = disp.getWidth();   // monitor width
+    int terminal_height = disp.getHeight(); // monitor height
+
+
+    //画面の位置情報変数
+    private int r = 0; //半径
+    private int x = terminal_width/2; //音生成中心の座標 TODO : 画面大きさから取得
+    private int y = terminal_height/2;
+    private int d = (waveSpeed * 60) / bpm; //音の間隔 TODO : bpmから取得
+
+    //画面の座標計算メソッド   (#define風)
+    /*  作り方(画面をパーセンテージで見る)
+    private int calcpoint(int point,int flag){
+        if(flag == 0)   return point/100 * terminal_width;
+        else{    return point/100 * terminal_height;}
+    }
+    */
+
+    private int xpoint[]={-1,-1,-1,-1,-1};
+    private int ypoint[]={-1,-1,-1,-1,-1};
+
+    private boolean scene;
+
+    //時間系の変数
+    ////タイマー変数
+    private static long startTime = System.currentTimeMillis();
+    ////関連設置系
+    private static int waveSpeed = 300;  //波の速さ(px/s)
+    private static int bpm = 80;    // bpm(beat / miniutes)
+
+
     private ScheduledExecutorService ses = null;
+
+    //波生成変数
+    //黒
+    /*
+    static private int graLevel =  10; //グラデーションの段階
+    static private int graWidth = 3; // グラデーション1段階の幅
+    static private int colorDeference = 30; // 波の頂点と一番下の色の差
+    */
+    //白
+    static private int graLevel =  13; //グラデーションの段階
+    static private int graWidth = 2; // グラデーション1段階の幅
+    static private int colorDeference = 25; // 波の頂点と一番下の色の差
+
+
+    //画面の色
+    ////グラデーションの頂点の色
+    // 黒
+    /*
+    static private int graTopcolorR = 128,
+                          graTopcolorG = 183,
+                          graTopcolorB = 196;
+    */
+    //白
+
+    static private int graTopcolorR = 148,
+            graTopcolorG = 213,
+            graTopcolorB = 225;
+
+
+
+    ////画面の背景色
+    private int colorR = graTopcolorR + colorDeference
+            ,colorG = graTopcolorG + colorDeference
+            ,colorB = graTopcolorB + colorDeference;
+
+    //半径の最大値
+    private int overR = sqrt(x  * x + y * y);
+
+    public int[] getXpoint(){
+        return xpoint;
+    }
+    public int[] getYpoint(){
+        return ypoint;
+    }
+    public void setXpoint(int i,int x){
+        xpoint[i]=x;
+    }
+    public void setYpoint(int i,int y){
+        ypoint[i]=y;
+    }
+
+    public void setScene(boolean i){
+        this.scene = i;
+    }
+    public boolean getScene(){
+        return this.scene;
+    }
+
+    //平方根計算メソッド(めのこ平方)
+    private int sqrt(int num){
+        int odd,rood,sum;
+
+        odd = -1;
+        sum = 0;
+        while(sum <= num){
+            odd += 2;
+            sum += odd;
+        }
+
+        return odd/2;
+    }
 
     //再描画のメソッド
     private final Runnable task = new Runnable(){
         @Override
         public void run() {
-            // 移動処理
-            r += 1;
+
+            //時間更新
+            if((System.currentTimeMillis() - startTime) % (1000/waveSpeed) <= 3){
+                r++;
+            }
 
             // 画面を更新
             postInvalidate();
 
-            //アニメーションを停止する
-            if (r > 1000*d) {
-                //onPause();
-                r = 0;
+            // rがあふれない処理
+            if (r > overR)
+            {
+                r -=  d;
             }
         }
     };
@@ -62,24 +179,98 @@ public class GrafhicView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
+    protected void onDraw(Canvas canvas)
+    {
 
-        //Paint , Rectオブジェクトの生成
+        //背景色の設定
+        ////黒
+        //canvas.drawColor( Color.rgb( colorR , colorG, colorB ) );
+        ////白
+        canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
+        Resources res=getResources();
+        Bitmap bmp1= BitmapFactory.decodeResource(res,R.drawable.test1);
+        Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
+        Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
+        Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
+        Bitmap bmp5= BitmapFactory.decodeResource(res,R.drawable.test5);
+        Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
+
+
+        //Paintオブジェクトの生成
         Paint paint = new Paint();
-        //Rect rect = new Rect( ( x - r)/2, ( y - r)/2, ( x + r)/2, ( y + r)/2 );
 
         //描画色の指定
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth( graWidth );
 
-        //bpm甲信
+        //bpm更新
         //d = beat;
 
-        //四角形の描画
-        //canvas.drawRect(rect, paint);
 
         //円
-        for( int i = 0; i <= r / d; i++ ) canvas.drawCircle( x, y, d*i + r%d, paint );
+        int colorGap; //グラデーションの色の差の値
+
+        //波の数ループ
+        for( int i = 0; i <= r / d; i++ )
+        {
+            //グラデーション
+            for (int j = -graLevel; j <= graLevel;j ++ )
+            {
+                //値計算
+                colorGap = j * graWidth;
+                if( colorGap < 0 ) colorGap *= -1;
+
+                //色計算
+                //黒
+                ////paint.setColor(  Color.rgb( graTopcolorR + colorGap ,  graTopcolorG + colorGap,  graTopcolorB + colorGap));
+                //白
+                paint.setColor(  Color.rgb( colorR - colorGap,  colorG - colorGap,  colorB - colorGap) );
+
+                // 表示
+                //// 円で表示させてる(ざまく
+                canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
+                //canvas.drawBitmap(bmp1,0,400,paint);
+                //canvas.drawBitmap(bmp2,0,480,paint);
+                //canvas.drawBitmap(bmp3,0,560,paint);
+                //canvas.drawBitmap(bmp4,0,640,paint);
+                //canvas.drawBitmap(bmp5,0,720,paint);
+                //canvas.drawBitmap(bmpa,0,800,paint);
+                //if(xpoint[0]>0 && ypoint[0]>0)
+                //    canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
+                //if(xpoint[1]>0 && ypoint[1]>0)
+                //    canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
+                //if(xpoint[2]>0 && ypoint[2]>0)
+                //    canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
+                //if(xpoint[3]>0 && ypoint[3]>0)
+                //    canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
+                //if(xpoint[4]>0 && ypoint[4]>0)
+                //    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+
+                if( this.scene ){    //レイヤー1(表)
+                    //for(int i=0;i<4;i++){
+                    //    if(xpoint > 0 && ypoint > 0)    canvas.drawBitmap(bmp ,instX[i],instY[i], paint);
+                    //}
+                }
+                else{
+                    //if (xpoint > 0 && ypoint > 0)   canvas.drawBitmap(bmp, xpoint, ypoint, paint);
+                    canvas.drawBitmap(bmp1,0,400,paint);
+                    canvas.drawBitmap(bmp2,0,480,paint);
+                    canvas.drawBitmap(bmp3,0,560,paint);
+                    canvas.drawBitmap(bmp4,0,640,paint);
+                    canvas.drawBitmap(bmp5,0,720,paint);
+                    canvas.drawBitmap(bmpa,0,800,paint);
+                    if(xpoint[0]>0 && ypoint[0]>0)
+                        canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
+                    if(xpoint[1]>0 && ypoint[1]>0)
+                        canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
+                    if(xpoint[2]>0 && ypoint[2]>0)
+                        canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
+                    if(xpoint[3]>0 && ypoint[3]>0)
+                        canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
+                    if(xpoint[4]>0 && ypoint[4]>0)
+                        canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+                }
+            }
+        }
     }
 }
