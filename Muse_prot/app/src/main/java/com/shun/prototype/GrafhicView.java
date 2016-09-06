@@ -9,6 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -45,6 +48,10 @@ public class GrafhicView extends View {
         else{    return point/100 * terminal_height;}
     }
     */
+
+    private int xpoint;
+    private int ypoint;
+
 
     //時間系の変数
     ////タイマー変数
@@ -159,6 +166,8 @@ public class GrafhicView extends View {
         //canvas.drawColor( Color.rgb( colorR , colorG, colorB ) );
         ////白
         canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
+        Resources res=getResources();
+        Bitmap bmp= BitmapFactory.decodeResource(res,R.drawable.test);
 
         //Paintオブジェクトの生成
         Paint paint = new Paint();
@@ -193,6 +202,7 @@ public class GrafhicView extends View {
                 // 表示
                 //// 円で表示させてる(ざまく
                 canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
+                canvas.drawBitmap(bmp,100,100,paint);
             }
         }
     }
