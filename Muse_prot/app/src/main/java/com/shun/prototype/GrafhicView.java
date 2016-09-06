@@ -52,6 +52,8 @@ public class GrafhicView extends View {
     private int xpoint[]={-1,-1,-1,-1,-1};
     private int ypoint[]={-1,-1,-1,-1,-1};
 
+    private boolean scene;
+
     //時間系の変数
     ////タイマー変数
     private static long startTime = System.currentTimeMillis();
@@ -110,6 +112,13 @@ public class GrafhicView extends View {
     }
     public void setYpoint(int i,int y){
         ypoint[i]=y;
+    }
+
+    public void setScene(boolean i){
+        this.scene = i;
+    }
+    public boolean getScene(){
+        return this.scene;
     }
 
     //平方根計算メソッド(めのこ平方)
@@ -220,22 +229,47 @@ public class GrafhicView extends View {
                 // 表示
                 //// 円で表示させてる(ざまく
                 canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
-                canvas.drawBitmap(bmp1,0,400,paint);
-                canvas.drawBitmap(bmp2,0,480,paint);
-                canvas.drawBitmap(bmp3,0,560,paint);
-                canvas.drawBitmap(bmp4,0,640,paint);
-                canvas.drawBitmap(bmp5,0,720,paint);
-                canvas.drawBitmap(bmpa,0,800,paint);
-                if(xpoint[0]>0 && ypoint[0]>0)
-                    canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
-                if(xpoint[1]>0 && ypoint[1]>0)
-                    canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
-                if(xpoint[2]>0 && ypoint[2]>0)
-                    canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
-                if(xpoint[3]>0 && ypoint[3]>0)
-                    canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
-                if(xpoint[4]>0 && ypoint[4]>0)
-                    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+                //canvas.drawBitmap(bmp1,0,400,paint);
+                //canvas.drawBitmap(bmp2,0,480,paint);
+                //canvas.drawBitmap(bmp3,0,560,paint);
+                //canvas.drawBitmap(bmp4,0,640,paint);
+                //canvas.drawBitmap(bmp5,0,720,paint);
+                //canvas.drawBitmap(bmpa,0,800,paint);
+                //if(xpoint[0]>0 && ypoint[0]>0)
+                //    canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
+                //if(xpoint[1]>0 && ypoint[1]>0)
+                //    canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
+                //if(xpoint[2]>0 && ypoint[2]>0)
+                //    canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
+                //if(xpoint[3]>0 && ypoint[3]>0)
+                //    canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
+                //if(xpoint[4]>0 && ypoint[4]>0)
+                //    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+
+                if( this.scene ){    //レイヤー1(表)
+                    //for(int i=0;i<4;i++){
+                    //    if(xpoint > 0 && ypoint > 0)    canvas.drawBitmap(bmp ,instX[i],instY[i], paint);
+                    //}
+                }
+                else{
+                    //if (xpoint > 0 && ypoint > 0)   canvas.drawBitmap(bmp, xpoint, ypoint, paint);
+                    canvas.drawBitmap(bmp1,0,400,paint);
+                    canvas.drawBitmap(bmp2,0,480,paint);
+                    canvas.drawBitmap(bmp3,0,560,paint);
+                    canvas.drawBitmap(bmp4,0,640,paint);
+                    canvas.drawBitmap(bmp5,0,720,paint);
+                    canvas.drawBitmap(bmpa,0,800,paint);
+                    if(xpoint[0]>0 && ypoint[0]>0)
+                        canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
+                    if(xpoint[1]>0 && ypoint[1]>0)
+                        canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
+                    if(xpoint[2]>0 && ypoint[2]>0)
+                        canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
+                    if(xpoint[3]>0 && ypoint[3]>0)
+                        canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
+                    if(xpoint[4]>0 && ypoint[4]>0)
+                        canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+                }
             }
         }
     }

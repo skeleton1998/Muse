@@ -64,6 +64,7 @@ public class Sound_Front extends Activity{
         //GraphicViewのオブジェクト生成
         graphicView = new GrafhicView(this);
         setContentView(graphicView);
+        graphicView.setScene(true);
         graphicView.onResume();
 
     }
