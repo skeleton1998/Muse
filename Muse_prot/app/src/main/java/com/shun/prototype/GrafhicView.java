@@ -49,8 +49,8 @@ public class GrafhicView extends View {
     }
     */
 
-    private int xpoint=-1;
-    private int ypoint=-1;
+    private int xpoint[]={-1,-1,-1,-1,-1};
+    private int ypoint[]={-1,-1,-1,-1,-1};
 
     //時間系の変数
     ////タイマー変数
@@ -99,17 +99,17 @@ public class GrafhicView extends View {
     //半径の最大値
     private int overR = sqrt(x  * x + y * y);
 
-    public int getXpoint(){
+    public int[] getXpoint(){
         return xpoint;
     }
-    public int getYpoint(){
+    public int[] getYpoint(){
         return ypoint;
     }
-    public void setXpoint(int x){
-        xpoint=x;
+    public void setXpoint(int i,int x){
+        xpoint[i]=x;
     }
-    public void setYpoint(int y){
-        ypoint=y;
+    public void setYpoint(int i,int y){
+        ypoint[i]=y;
     }
 
     //平方根計算メソッド(めのこ平方)
@@ -179,7 +179,13 @@ public class GrafhicView extends View {
         ////白
         canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
         Resources res=getResources();
-        Bitmap bmp= BitmapFactory.decodeResource(res,R.drawable.test);
+        Bitmap bmp1= BitmapFactory.decodeResource(res,R.drawable.test1);
+        Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
+        Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
+        Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
+        Bitmap bmp5= BitmapFactory.decodeResource(res,R.drawable.test5);
+        Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
+
 
         //Paintオブジェクトの生成
         Paint paint = new Paint();
@@ -214,8 +220,22 @@ public class GrafhicView extends View {
                 // 表示
                 //// 円で表示させてる(ざまく
                 canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
-                if(xpoint>0 && ypoint>0)
-                    canvas.drawBitmap(bmp,xpoint,ypoint,paint);
+                canvas.drawBitmap(bmp1,0,400,paint);
+                canvas.drawBitmap(bmp2,0,480,paint);
+                canvas.drawBitmap(bmp3,0,560,paint);
+                canvas.drawBitmap(bmp4,0,640,paint);
+                canvas.drawBitmap(bmp5,0,720,paint);
+                canvas.drawBitmap(bmpa,0,800,paint);
+                if(xpoint[0]>0 && ypoint[0]>0)
+                    canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
+                if(xpoint[1]>0 && ypoint[1]>0)
+                    canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
+                if(xpoint[2]>0 && ypoint[2]>0)
+                    canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
+                if(xpoint[3]>0 && ypoint[3]>0)
+                    canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
+                if(xpoint[4]>0 && ypoint[4]>0)
+                    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
             }
         }
     }

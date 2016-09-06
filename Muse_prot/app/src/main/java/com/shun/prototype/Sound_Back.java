@@ -13,6 +13,7 @@ public class Sound_Back extends Activity {
     static final int RESULT = 1000;
     int sound[]={0,0,0,0};//データ保存用変数
     int beat=100;
+    int edit=0;
 
     private GrafhicView graphicView;
 
@@ -92,8 +93,8 @@ public class Sound_Back extends Activity {
     public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
         float getx=motionEvent.getX();
         float gety=motionEvent.getY();
-        int nowx=graphicView.getXpoint();
-        int nowy=graphicView.getYpoint();
+        int nowx[]=graphicView.getXpoint();
+        int nowy[]=graphicView.getYpoint();
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN://押した時
@@ -128,14 +129,42 @@ public class Sound_Back extends Activity {
                     finish();
                 }
 
-                else if(getx>nowx && getx<nowx+45 && gety>nowy && gety<nowy+45){
-                    graphicView.setXpoint(-1);
-                    graphicView.setYpoint(-1);
+                else if(getx>nowx[0] && getx<nowx[0]+60 && gety>nowy[0] && gety<nowy[0]+60){
+                    graphicView.setXpoint(0,-1);
+                    graphicView.setYpoint(0,-1);
+                }
+                else if(getx>nowx[1] && getx<nowx[1]+60 && gety>nowy[1] && gety<nowy[1]+60){
+                    graphicView.setXpoint(1,-1);
+                    graphicView.setYpoint(1,-1);
+                }
+                else if(getx>nowx[2] && getx<nowx[2]+60 && gety>nowy[2] && gety<nowy[2]+60){
+                    graphicView.setXpoint(2,-1);
+                    graphicView.setYpoint(2,-1);
+                }
+                else if(getx>nowx[3] && getx<nowx[3]+60 && gety>nowy[3] && gety<nowy[3]+60){
+                    graphicView.setXpoint(3,-1);
+                    graphicView.setYpoint(3,-1);
+                }
+                else if(getx>nowx[4] && getx<nowx[4]+60 && gety>nowy[4] && gety<nowy[4]+60){
+                    graphicView.setXpoint(4,-1);
+                    graphicView.setYpoint(4,-1);
+                }
+
+                else if(getx<60 && gety>400 && gety<780){
+                    edit=((int)gety-400)/80;
+                    Log.d("", "edit="+edit);
+                }
+
+                else if(getx<60 && gety>800 && gety<880){
+                    for(int i=0;i<5;i++) {
+                        graphicView.setXpoint(i, -1);
+                        graphicView.setYpoint(i, -1);
+                    }
                 }
 
                 else{
-                    graphicView.setXpoint((int)getx);
-                    graphicView.setYpoint((int)gety);
+                    graphicView.setXpoint(edit,(int)getx);
+                    graphicView.setYpoint(edit,(int)gety);
                 }
 
                 break;
