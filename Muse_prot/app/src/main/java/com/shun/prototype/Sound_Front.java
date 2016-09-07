@@ -84,6 +84,8 @@ public class Sound_Front extends Activity{
     public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
         float getx=motionEvent.getX();
         float gety=motionEvent.getY();
+        float nowx[]=graphicView.getBxpoint();
+        float nowy[]=graphicView.getBypoint();
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN://押した時
@@ -117,6 +119,23 @@ public class Sound_Front extends Activity{
                     int requestCode=RESULT;
                     startActivityForResult(intent2,requestCode);
                 }
+                else if(getx<600 && gety<950){
+                    graphicView.setFxpoint(0,getx-10);
+                    graphicView.setFypoint(0,gety-40);
+                }
+                else if(getx>600 && gety<950){
+                    graphicView.setFxpoint(1,getx-10);
+                    graphicView.setFypoint(1,gety-40);
+                }
+                else if(getx<600 && gety>950){
+                    graphicView.setFxpoint(2,getx-10);
+                    graphicView.setFypoint(2,gety-40);
+                }
+                else if(getx>600 && gety>950){
+                    graphicView.setFxpoint(3,getx-10);
+                    graphicView.setFypoint(3,gety-40);
+                }
+
 
                 break;
             case MotionEvent.ACTION_MOVE:

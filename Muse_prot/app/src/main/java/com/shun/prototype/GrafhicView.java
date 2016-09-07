@@ -49,8 +49,11 @@ public class GrafhicView extends View {
     }
     */
 
-    private float xpoint[]={-1,-1,-1,-1,-1};
-    private float ypoint[]={-1,-1,-1,-1,-1};
+    private float bxpoint[]={-1,-1,-1,-1,-1};
+    private float bypoint[]={-1,-1,-1,-1,-1};
+
+    private float fxpoint[]={-1,-1,-1,-1};
+    private float fypoint[]={-1,-1,-1,-1};
 
     private boolean scene;
 
@@ -101,17 +104,30 @@ public class GrafhicView extends View {
     //半径の最大値
     private int overR = sqrt(x  * x + y * y);
 
-    public float[] getXpoint(){
-        return xpoint;
+    public float[] getBxpoint(){
+        return bxpoint;
     }
-    public float[] getYpoint(){
-        return ypoint;
+    public float[] getBypoint(){
+        return bypoint;
     }
-    public void setXpoint(int i,float x){
-        xpoint[i]=x;
+    public void setBxpoint(int i,float x){
+        bxpoint[i]=x;
     }
-    public void setYpoint(int i,float y){
-        ypoint[i]=y;
+    public void setBypoint(int i,float y){
+        bypoint[i]=y;
+    }
+
+    public float[] getFxpoint(){
+        return fxpoint;
+    }
+    public float[] getFypoint(){
+        return fypoint;
+    }
+    public void setFxpoint(int i,float x){
+        fxpoint[i]=x;
+    }
+    public void setFypoint(int i,float y){
+        fypoint[i]=y;
     }
 
     public void setScene(boolean i){
@@ -255,6 +271,18 @@ public class GrafhicView extends View {
                     //}
                     canvas.drawBitmap(bmpo,0,0,paint);
                     canvas.drawBitmap(bmpb,1115,0,paint);
+                    canvas.drawBitmap(bmp1,460,770,paint);
+                    canvas.drawBitmap(bmp2,660,770,paint);
+                    canvas.drawBitmap(bmp3,460,970,paint);
+                    canvas.drawBitmap(bmp4,660,970,paint);
+                    if(fxpoint[0]>0 && fypoint[0]>0)
+                        canvas.drawBitmap(bmp1,fxpoint[0],fypoint[0],paint);
+                    if(fxpoint[1]>0 && fypoint[1]>0)
+                        canvas.drawBitmap(bmp2,fxpoint[1],fypoint[1],paint);
+                    if(fxpoint[2]>0 && fypoint[2]>0)
+                        canvas.drawBitmap(bmp3,fxpoint[2],fypoint[2],paint);
+                    if(fxpoint[3]>0 && fypoint[3]>0)
+                        canvas.drawBitmap(bmp4,fxpoint[3],fypoint[3],paint);
                 }
                 else{
                     //if (xpoint > 0 && ypoint > 0)   canvas.drawBitmap(bmp, xpoint, ypoint, paint);
@@ -266,16 +294,16 @@ public class GrafhicView extends View {
                     canvas.drawBitmap(bmp4,0,700,paint);
                     canvas.drawBitmap(bmp5,0,800,paint);
                     canvas.drawBitmap(bmpa,0,900,paint);
-                    if(xpoint[0]>0 && ypoint[0]>0)
-                        canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
-                    if(xpoint[1]>0 && ypoint[1]>0)
-                        canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
-                    if(xpoint[2]>0 && ypoint[2]>0)
-                        canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
-                    if(xpoint[3]>0 && ypoint[3]>0)
-                        canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
-                    if(xpoint[4]>0 && ypoint[4]>0)
-                        canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+                    if(bxpoint[0]>0 && bypoint[0]>0)
+                        canvas.drawBitmap(bmp1,bxpoint[0],bypoint[0],paint);
+                    if(bxpoint[1]>0 && bypoint[1]>0)
+                        canvas.drawBitmap(bmp2,bxpoint[1],bypoint[1],paint);
+                    if(bxpoint[2]>0 && bypoint[2]>0)
+                        canvas.drawBitmap(bmp3,bxpoint[2],bypoint[2],paint);
+                    if(bxpoint[3]>0 && bypoint[3]>0)
+                        canvas.drawBitmap(bmp4,bxpoint[3],bypoint[3],paint);
+                    if(bxpoint[4]>0 && bypoint[4]>0)
+                        canvas.drawBitmap(bmp5,bxpoint[4],bypoint[4],paint);
                 }
             }
         }

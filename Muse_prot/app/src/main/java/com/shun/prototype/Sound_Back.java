@@ -94,8 +94,8 @@ public class Sound_Back extends Activity {
     public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
         float getx=motionEvent.getX();
         float gety=motionEvent.getY();
-        float nowx[]=graphicView.getXpoint();
-        float nowy[]=graphicView.getYpoint();
+        float nowx[]=graphicView.getBxpoint();
+        float nowy[]=graphicView.getBypoint();
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN://押した時
@@ -135,24 +135,24 @@ public class Sound_Back extends Activity {
                 }
 
                 else if(getx>nowx[0]+10 && getx<nowx[0]+80 && gety>nowy[0]+40 && gety<nowy[0]+110){
-                    graphicView.setXpoint(0,-1);
-                    graphicView.setYpoint(0,-1);
+                    graphicView.setBxpoint(0,-1);
+                    graphicView.setBypoint(0,-1);
                 }
                 else if(getx>nowx[1]+10 && getx<nowx[1]+80 && gety>nowy[1]+40 && gety<nowy[1]+110){
-                    graphicView.setXpoint(1,-1);
-                    graphicView.setYpoint(1,-1);
+                    graphicView.setBxpoint(1,-1);
+                    graphicView.setBypoint(1,-1);
                 }
                 else if(getx>nowx[2]+10 && getx<nowx[2]+80 && gety>nowy[2]+40 && gety<nowy[2]+110){
-                    graphicView.setXpoint(2,-1);
-                    graphicView.setYpoint(2,-1);
+                    graphicView.setBxpoint(2,-1);
+                    graphicView.setBypoint(2,-1);
                 }
                 else if(getx>nowx[3]+10 && getx<nowx[3]+80 && gety>nowy[3]+40 && gety<nowy[3]+110){
-                    graphicView.setXpoint(3,-1);
-                    graphicView.setYpoint(3,-1);
+                    graphicView.setBxpoint(3,-1);
+                    graphicView.setBypoint(3,-1);
                 }
                 else if(getx>nowx[4]+10 && getx<nowx[4]+80 && gety>nowy[4]+40 && gety<nowy[4]+110){
-                    graphicView.setXpoint(4,-1);
-                    graphicView.setYpoint(4,-1);
+                    graphicView.setBxpoint(4,-1);
+                    graphicView.setBypoint(4,-1);
                 }
 
                 else if(getx<60 && gety>430 && gety<929){
@@ -161,14 +161,14 @@ public class Sound_Back extends Activity {
 
                 else if(getx<60 && gety>930 && gety<1010){
                     for(int i=0;i<5;i++) {
-                        graphicView.setXpoint(i, -1);
-                        graphicView.setYpoint(i, -1);
+                        graphicView.setBxpoint(i, -1);
+                        graphicView.setBypoint(i, -1);
                     }
                 }
 
                 else{
-                    graphicView.setXpoint(edit,getx-10);
-                    graphicView.setYpoint(edit,gety-40);
+                    graphicView.setBxpoint(edit,getx-10);
+                    graphicView.setBypoint(edit,gety-40);
                 }
 
                 break;
