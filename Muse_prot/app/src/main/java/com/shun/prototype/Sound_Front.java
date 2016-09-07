@@ -133,20 +133,32 @@ public class Sound_Front extends Activity{
                     startActivityForResult(intent2,requestCode);
                 }
                 else if(getx<600 && gety<950){
-                    graphicView.setFxpoint(0,getx-20);
-                    graphicView.setFypoint(0,gety-60);
+                    if( graphicView.getFlagPoint(0) == 0 ) {
+                        graphicView.setFxpoint(0, getx - 10);
+                        graphicView.setFypoint(0, gety - 40);
+                        graphicView.setFlagPoint(0, 1);
+                    }
                 }
                 else if(getx>600 && gety<950){
-                    graphicView.setFxpoint(1,getx-20);
-                    graphicView.setFypoint(1,gety-60);
+                    if( graphicView.getFlagPoint(1) == 0 ) {
+                        graphicView.setFxpoint(1, getx - 10);
+                        graphicView.setFypoint(1, gety - 40);
+                        graphicView.setFlagPoint(1, 1);
+                    }
                 }
                 else if(getx<600 && gety>950){
-                    graphicView.setFxpoint(2,getx-20);
-                    graphicView.setFypoint(2,gety-60);
+                    if( graphicView.getFlagPoint(2) == 0 ) {
+                        graphicView.setFxpoint(2, getx - 10);
+                        graphicView.setFypoint(2, gety - 40);
+                        graphicView.setFlagPoint(2, 1);
+                    }
                 }
                 else if(getx>600 && gety>950){
-                    graphicView.setFxpoint(3,getx-20);
-                    graphicView.setFypoint(3,gety-60);
+                    if( graphicView.getFlagPoint(3) == 0 ) {
+                        graphicView.setFxpoint(3, getx - 10);
+                        graphicView.setFypoint(3, gety - 40);
+                        graphicView.setFlagPoint(3, 1);
+                    }
                 }
                 break;
 
