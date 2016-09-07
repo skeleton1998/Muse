@@ -96,7 +96,7 @@ public class Sound_Front extends Activity{
                 Log.d("", "eventDuration2: " +eventDuration2+" msec");
                 Log.d("", "Pressure: " + motionEvent.getPressure());
 
-                if(getx<100 && gety<100) {//座標判定
+                if(getx<60 && gety<120) {//座標判定
                     Intent intent1 = new Intent(getApplication(), Option.class);
                     intent1.putExtra("S1", sound[0]);//各データの転送
                     intent1.putExtra("S2", sound[1]);
@@ -107,7 +107,7 @@ public class Sound_Front extends Activity{
                     startActivityForResult(intent1, requestCode);
                 }
 
-                if(getx>700 && gety<100){
+                if(getx>1090 && gety<120){
                     Intent intent2 = new Intent(getApplication(), Sound_Back.class);
                     intent2.putExtra("S1",sound[0]);//各データの転送
                     intent2.putExtra("S2",sound[1]);

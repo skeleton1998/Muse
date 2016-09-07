@@ -94,8 +94,8 @@ public class Sound_Back extends Activity {
     public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
         float getx=motionEvent.getX();
         float gety=motionEvent.getY();
-        int nowx[]=graphicView.getXpoint();
-        int nowy[]=graphicView.getYpoint();
+        float nowx[]=graphicView.getXpoint();
+        float nowy[]=graphicView.getYpoint();
 
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN://押した時
@@ -107,8 +107,12 @@ public class Sound_Back extends Activity {
                 long eventDuration2 = motionEvent.getEventTime() - motionEvent.getDownTime();
                 Log.d("", "eventDuration2: " +eventDuration2+" msec");
                 Log.d("", "Pressure: " + motionEvent.getPressure());
+                Log.d("", "edit="+edit);
+                Log.d("","getx   ="+getx+",gety   ="+gety);
+                Log.d("","nowx[0]="+nowx[0]+",nowy[0]="+nowy[0]);
 
-                if(getx<100 && gety<100) {//座標判定
+
+                if(getx<60 && gety<120) {//座標判定
                     Intent intent1 = new Intent(getApplication(), Option.class);
                     intent1.putExtra("S1", sound[0]);//各データの転送
                     intent1.putExtra("S2", sound[1]);
@@ -119,7 +123,7 @@ public class Sound_Back extends Activity {
                     startActivityForResult(intent1, requestCode);
                 }
 
-                else if(getx>700 && gety<100){
+                else if(getx>1090 && gety<120){
                     Intent intent2 = new Intent();
                     intent2.putExtra("RES_S1",sound[0]);//データを返す
                     intent2.putExtra("RES_S2",sound[1]);
@@ -130,33 +134,32 @@ public class Sound_Back extends Activity {
                     finish();
                 }
 
-                else if(getx>nowx[0] && getx<nowx[0]+60 && gety>nowy[0] && gety<nowy[0]+60){
+                else if(getx>nowx[0]+10 && getx<nowx[0]+80 && gety>nowy[0]+40 && gety<nowy[0]+110){
                     graphicView.setXpoint(0,-1);
                     graphicView.setYpoint(0,-1);
                 }
-                else if(getx>nowx[1] && getx<nowx[1]+60 && gety>nowy[1] && gety<nowy[1]+60){
+                else if(getx>nowx[1]+10 && getx<nowx[1]+80 && gety>nowy[1]+40 && gety<nowy[1]+110){
                     graphicView.setXpoint(1,-1);
                     graphicView.setYpoint(1,-1);
                 }
-                else if(getx>nowx[2] && getx<nowx[2]+60 && gety>nowy[2] && gety<nowy[2]+60){
+                else if(getx>nowx[2]+10 && getx<nowx[2]+80 && gety>nowy[2]+40 && gety<nowy[2]+110){
                     graphicView.setXpoint(2,-1);
                     graphicView.setYpoint(2,-1);
                 }
-                else if(getx>nowx[3] && getx<nowx[3]+60 && gety>nowy[3] && gety<nowy[3]+60){
+                else if(getx>nowx[3]+10 && getx<nowx[3]+80 && gety>nowy[3]+40 && gety<nowy[3]+110){
                     graphicView.setXpoint(3,-1);
                     graphicView.setYpoint(3,-1);
                 }
-                else if(getx>nowx[4] && getx<nowx[4]+60 && gety>nowy[4] && gety<nowy[4]+60){
+                else if(getx>nowx[4]+10 && getx<nowx[4]+80 && gety>nowy[4]+40 && gety<nowy[4]+110){
                     graphicView.setXpoint(4,-1);
                     graphicView.setYpoint(4,-1);
                 }
 
-                else if(getx<60 && gety>400 && gety<780){
-                    edit=((int)gety-400)/80;
-                    Log.d("", "edit="+edit);
+                else if(getx<60 && gety>430 && gety<929){
+                    edit=((int)gety-430)/100;
                 }
 
-                else if(getx<60 && gety>800 && gety<880){
+                else if(getx<60 && gety>930 && gety<1010){
                     for(int i=0;i<5;i++) {
                         graphicView.setXpoint(i, -1);
                         graphicView.setYpoint(i, -1);
@@ -164,8 +167,8 @@ public class Sound_Back extends Activity {
                 }
 
                 else{
-                    graphicView.setXpoint(edit,(int)getx);
-                    graphicView.setYpoint(edit,(int)gety);
+                    graphicView.setXpoint(edit,getx-10);
+                    graphicView.setYpoint(edit,gety-40);
                 }
 
                 break;

@@ -49,8 +49,8 @@ public class GrafhicView extends View {
     }
     */
 
-    private int xpoint[]={-1,-1,-1,-1,-1};
-    private int ypoint[]={-1,-1,-1,-1,-1};
+    private float xpoint[]={-1,-1,-1,-1,-1};
+    private float ypoint[]={-1,-1,-1,-1,-1};
 
     private boolean scene;
 
@@ -59,7 +59,7 @@ public class GrafhicView extends View {
     private static long startTime = System.currentTimeMillis();
     ////関連設置系
     private static int waveSpeed = 300;  //波の速さ(px/s)
-    private static int bpm = 80;    // bpm(beat / miniutes)
+    private static int bpm = 40;    // bpm(beat / miniutes)
 
 
     private ScheduledExecutorService ses = null;
@@ -101,16 +101,16 @@ public class GrafhicView extends View {
     //半径の最大値
     private int overR = sqrt(x  * x + y * y);
 
-    public int[] getXpoint(){
+    public float[] getXpoint(){
         return xpoint;
     }
-    public int[] getYpoint(){
+    public float[] getYpoint(){
         return ypoint;
     }
-    public void setXpoint(int i,int x){
+    public void setXpoint(int i,float x){
         xpoint[i]=x;
     }
-    public void setYpoint(int i,int y){
+    public void setYpoint(int i,float y){
         ypoint[i]=y;
     }
 
@@ -141,9 +141,9 @@ public class GrafhicView extends View {
         public void run() {
 
             //時間更新
-            if((System.currentTimeMillis() - startTime) % (1000/waveSpeed) <= 3){
-                r++;
-            }
+            //if((System.currentTimeMillis() - startTime) % (1000/waveSpeed) <=3){
+                r+=8;
+            //}
 
             // 画面を更新
             postInvalidate();
@@ -167,7 +167,7 @@ public class GrafhicView extends View {
 
         // 一定時間ごとにRunnableの処理を実行
         //   => scheduleAtFixedRate(Runnableオブジェクト , 最初の実行時間 , 実行の周期 , 値の単位(列挙型TimeUnitの値) )
-        ses.scheduleAtFixedRate(task, 0L, 5L, TimeUnit.MILLISECONDS);
+        ses.scheduleAtFixedRate(task, 0L, 24L, TimeUnit.MILLISECONDS);
     }
 
     public void onPause(){
@@ -194,6 +194,9 @@ public class GrafhicView extends View {
         Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
         Bitmap bmp5= BitmapFactory.decodeResource(res,R.drawable.test5);
         Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
+        Bitmap bmpo= BitmapFactory.decodeResource(res,R.drawable.testo);
+        Bitmap bmpb= BitmapFactory.decodeResource(res,R.drawable.testb);
+        Bitmap bmpf= BitmapFactory.decodeResource(res,R.drawable.testf);
 
 
         //Paintオブジェクトの生成
@@ -250,15 +253,19 @@ public class GrafhicView extends View {
                     //for(int i=0;i<4;i++){
                     //    if(xpoint > 0 && ypoint > 0)    canvas.drawBitmap(bmp ,instX[i],instY[i], paint);
                     //}
+                    canvas.drawBitmap(bmpo,0,0,paint);
+                    canvas.drawBitmap(bmpb,1115,0,paint);
                 }
                 else{
                     //if (xpoint > 0 && ypoint > 0)   canvas.drawBitmap(bmp, xpoint, ypoint, paint);
+                    canvas.drawBitmap(bmpo,0,0,paint);
+                    canvas.drawBitmap(bmpf,1115,0,paint);
                     canvas.drawBitmap(bmp1,0,400,paint);
-                    canvas.drawBitmap(bmp2,0,480,paint);
-                    canvas.drawBitmap(bmp3,0,560,paint);
-                    canvas.drawBitmap(bmp4,0,640,paint);
-                    canvas.drawBitmap(bmp5,0,720,paint);
-                    canvas.drawBitmap(bmpa,0,800,paint);
+                    canvas.drawBitmap(bmp2,0,500,paint);
+                    canvas.drawBitmap(bmp3,0,600,paint);
+                    canvas.drawBitmap(bmp4,0,700,paint);
+                    canvas.drawBitmap(bmp5,0,800,paint);
+                    canvas.drawBitmap(bmpa,0,900,paint);
                     if(xpoint[0]>0 && ypoint[0]>0)
                         canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
                     if(xpoint[1]>0 && ypoint[1]>0)
