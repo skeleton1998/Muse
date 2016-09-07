@@ -14,6 +14,10 @@ public class Sound_Front extends Activity{
     int sound[]={0,0,0,0};//データ保存用変数
     int beat=100;
 
+    float beforex[]={-1,-1,-1,-1};
+    float beforey[]={-1,-1,-1,-1};
+    int record=0;
+
     private GrafhicView graphicView;
 
     @Override
@@ -91,12 +95,21 @@ public class Sound_Front extends Activity{
             case MotionEvent.ACTION_DOWN://押した時
                 Log.d("", "ACTION_DOWN");
                 Log.d("", "EventLocation X:" + getx + ",Y:" + gety);
+                for(int i=0;i<4;i++){
+                    beforex[i]=-1;
+                    beforey[i]=-1;
+                }
+                record=0;
                 break;
+
             case MotionEvent.ACTION_UP://離した時
                 Log.d("", "ACTION_UP");
                 long eventDuration2 = motionEvent.getEventTime() - motionEvent.getDownTime();
                 Log.d("", "eventDuration2: " +eventDuration2+" msec");
                 Log.d("", "Pressure: " + motionEvent.getPressure());
+
+                if(eventDuration2>500)
+                    break;
 
                 if(getx<60 && gety<120) {//座標判定
                     Intent intent1 = new Intent(getApplication(), Option.class);
@@ -135,12 +148,44 @@ public class Sound_Front extends Activity{
                     graphicView.setFxpoint(3,getx-20);
                     graphicView.setFypoint(3,gety-60);
                 }
-
-
                 break;
+
             case MotionEvent.ACTION_MOVE:
                 Log.d("", "ACTION_MOVE");
+                Log.d("", " X:" + getx + ", Y:" + gety);
+                Log.d("", "beat:" + beat);
+                beforex[3]=beforex[2];
+                beforex[2]=beforex[1];
+                beforex[1]=beforex[0];
+                beforex[0]=getx;
+
+                beforey[3]=beforey[2];
+                beforey[2]=beforey[1];
+                beforey[1]=beforey[0];
+                beforey[0]=gety;
+
+                Log.d("", "bX:" + beforex[1] + ",bY:" + beforey[1]);
+                Log.d("", "bX:" + beforex[3] + ",bY:" + beforey[3]);
+                if(record==0 && beforex[3]!=-1) {
+                    if (getx > beforex[1] && beforex[1] > beforex[3]) {
+                        Log.d("", "spinright");
+                        record = 1;
+                    } else {
+                        Log.d("", "spinleft");
+                        record = 2;
+                    }
+                }
+                else if(record==1){
+                    Log.d("", "spinright");
+                    beat++;
+                }
+                else{
+                    Log.d("", "spinleft");
+                    beat--;
+                }
+
                 break;
+
             case MotionEvent.ACTION_CANCEL:
                 Log.d("", "ACTION_CANCEL");
                 break;
