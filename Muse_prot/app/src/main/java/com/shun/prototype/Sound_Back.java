@@ -134,23 +134,23 @@ public class Sound_Back extends Activity {
                     finish();
                 }
 
-                else if(getx>nowx[0]+10 && getx<nowx[0]+80 && gety>nowy[0]+40 && gety<nowy[0]+110){
+                else if(getx>nowx[0]+20 && getx<nowx[0]+90 && gety>nowy[0]+60 && gety<nowy[0]+130){
                     graphicView.setBxpoint(0,-1);
                     graphicView.setBypoint(0,-1);
                 }
-                else if(getx>nowx[1]+10 && getx<nowx[1]+80 && gety>nowy[1]+40 && gety<nowy[1]+110){
+                else if(getx>nowx[1]+20 && getx<nowx[1]+90 && gety>nowy[1]+60 && gety<nowy[1]+130){
                     graphicView.setBxpoint(1,-1);
                     graphicView.setBypoint(1,-1);
                 }
-                else if(getx>nowx[2]+10 && getx<nowx[2]+80 && gety>nowy[2]+40 && gety<nowy[2]+110){
+                else if(getx>nowx[2]+20 && getx<nowx[2]+90 && gety>nowy[2]+60 && gety<nowy[2]+130){
                     graphicView.setBxpoint(2,-1);
                     graphicView.setBypoint(2,-1);
                 }
-                else if(getx>nowx[3]+10 && getx<nowx[3]+80 && gety>nowy[3]+40 && gety<nowy[3]+110){
+                else if(getx>nowx[3]+20 && getx<nowx[3]+90 && gety>nowy[3]+60 && gety<nowy[3]+130){
                     graphicView.setBxpoint(3,-1);
                     graphicView.setBypoint(3,-1);
                 }
-                else if(getx>nowx[4]+10 && getx<nowx[4]+80 && gety>nowy[4]+40 && gety<nowy[4]+110){
+                else if(getx>nowx[4]+20 && getx<nowx[4]+90 && gety>nowy[4]+60 && gety<nowy[4]+130){
                     graphicView.setBxpoint(4,-1);
                     graphicView.setBypoint(4,-1);
                 }
@@ -167,8 +167,8 @@ public class Sound_Back extends Activity {
                 }
 
                 else{
-                    graphicView.setBxpoint(edit,getx-10);
-                    graphicView.setBypoint(edit,gety-40);
+                    graphicView.setBxpoint(edit,getx-20);
+                    graphicView.setBypoint(edit,gety-60);
                 }
 
                 break;

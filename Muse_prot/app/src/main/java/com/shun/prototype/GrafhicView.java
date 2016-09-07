@@ -49,8 +49,8 @@ public class GrafhicView extends View {
     }
     */
 
-    private float bxpoint[]={-1,-1,-1,-1,-1};
-    private float bypoint[]={-1,-1,-1,-1,-1};
+    private static float bxpoint[]={-1,-1,-1,-1,-1};
+    private static float bypoint[]={-1,-1,-1,-1,-1};
 
     private float fxpoint[]={-1,-1,-1,-1};
     private float fypoint[]={-1,-1,-1,-1};

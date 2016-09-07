@@ -109,7 +109,7 @@ public class Sound_Front extends Activity{
                     startActivityForResult(intent1, requestCode);
                 }
 
-                if(getx>1090 && gety<120){
+                else if(getx>1090 && gety<120){
                     Intent intent2 = new Intent(getApplication(), Sound_Back.class);
                     intent2.putExtra("S1",sound[0]);//各データの転送
                     intent2.putExtra("S2",sound[1]);
@@ -120,20 +120,20 @@ public class Sound_Front extends Activity{
                     startActivityForResult(intent2,requestCode);
                 }
                 else if(getx<600 && gety<950){
-                    graphicView.setFxpoint(0,getx-10);
-                    graphicView.setFypoint(0,gety-40);
+                    graphicView.setFxpoint(0,getx-20);
+                    graphicView.setFypoint(0,gety-60);
                 }
                 else if(getx>600 && gety<950){
-                    graphicView.setFxpoint(1,getx-10);
-                    graphicView.setFypoint(1,gety-40);
+                    graphicView.setFxpoint(1,getx-20);
+                    graphicView.setFypoint(1,gety-60);
                 }
                 else if(getx<600 && gety>950){
-                    graphicView.setFxpoint(2,getx-10);
-                    graphicView.setFypoint(2,gety-40);
+                    graphicView.setFxpoint(2,getx-20);
+                    graphicView.setFypoint(2,gety-60);
                 }
                 else if(getx>600 && gety>950){
-                    graphicView.setFxpoint(3,getx-10);
-                    graphicView.setFypoint(3,gety-40);
+                    graphicView.setFxpoint(3,getx-20);
+                    graphicView.setFypoint(3,gety-60);
                 }
 
 
