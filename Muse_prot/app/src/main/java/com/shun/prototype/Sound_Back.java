@@ -92,9 +92,9 @@ public class Sound_Back extends Activity {
 
     @Override
     public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
-        float getx=motionEvent.getX();
+        float getx=motionEvent.getX();//タッチ座標取得
         float gety=motionEvent.getY();
-        float nowx[]=graphicView.getBxpoint();
+        float nowx[]=graphicView.getBxpoint();//画像がおいてある場所取得
         float nowy[]=graphicView.getBypoint();
 
         switch (motionEvent.getAction()) {
@@ -105,7 +105,7 @@ public class Sound_Back extends Activity {
             case MotionEvent.ACTION_UP://離した時
                 Log.d("", "ACTION_UP");
                 long eventDuration2 = motionEvent.getEventTime() - motionEvent.getDownTime();
-                Log.d("", "eventDuration2: " +eventDuration2+" msec");
+                Log.d("", "eventDuration2: " +eventDuration2+" msec");//デバッグ用出力
                 Log.d("", "Pressure: " + motionEvent.getPressure());
                 Log.d("", "edit="+edit);
                 Log.d("","getx   ="+getx+",gety   ="+gety);
@@ -120,7 +120,7 @@ public class Sound_Back extends Activity {
                     intent1.putExtra("S4", sound[3]);
                     intent1.putExtra("BEAT", beat);
                     int requestCode = RESULT;
-                    startActivityForResult(intent1, requestCode);
+                    startActivityForResult(intent1, requestCode);//オプションに飛ぶ
                 }
 
                 else if(getx>1090 && gety<120){
@@ -131,43 +131,43 @@ public class Sound_Back extends Activity {
                     intent2.putExtra("RES_S4",sound[3]);
                     intent2.putExtra("RES_BEAT",beat);
                     setResult(RESULT_OK,intent2);
-                    finish();
+                    finish();//表に戻る
                 }
 
                 else if(getx>nowx[0]+20 && getx<nowx[0]+90 && gety>nowy[0]+60 && gety<nowy[0]+130){
-                    graphicView.setBxpoint(0,-1);
+                    graphicView.setBxpoint(0,-1);//画像1の消去
                     graphicView.setBypoint(0,-1);
                 }
                 else if(getx>nowx[1]+20 && getx<nowx[1]+90 && gety>nowy[1]+60 && gety<nowy[1]+130){
-                    graphicView.setBxpoint(1,-1);
+                    graphicView.setBxpoint(1,-1);//画像2の消去
                     graphicView.setBypoint(1,-1);
                 }
                 else if(getx>nowx[2]+20 && getx<nowx[2]+90 && gety>nowy[2]+60 && gety<nowy[2]+130){
-                    graphicView.setBxpoint(2,-1);
+                    graphicView.setBxpoint(2,-1);//画像3の消去
                     graphicView.setBypoint(2,-1);
                 }
                 else if(getx>nowx[3]+20 && getx<nowx[3]+90 && gety>nowy[3]+60 && gety<nowy[3]+130){
-                    graphicView.setBxpoint(3,-1);
+                    graphicView.setBxpoint(3,-1);//画像4の消去
                     graphicView.setBypoint(3,-1);
                 }
                 else if(getx>nowx[4]+20 && getx<nowx[4]+90 && gety>nowy[4]+60 && gety<nowy[4]+130){
-                    graphicView.setBxpoint(4,-1);
+                    graphicView.setBxpoint(4,-1);//画像5の消去
                     graphicView.setBypoint(4,-1);
                 }
 
                 else if(getx<60 && gety>430 && gety<929){
-                    edit=((int)gety-430)/100;
+                    edit=((int)gety-430)/100;//編集する画像の選択
                 }
 
                 else if(getx<60 && gety>930 && gety<1010){
-                    for(int i=0;i<5;i++) {
+                    for(int i=0;i<5;i++) {//全画像消去
                         graphicView.setBxpoint(i, -1);
                         graphicView.setBypoint(i, -1);
                     }
                 }
 
                 else{
-                    graphicView.setBxpoint(edit,getx-20);
+                    graphicView.setBxpoint(edit,getx-20);//タッチ位置に画像配置
                     graphicView.setBypoint(edit,gety-60);
                 }
 

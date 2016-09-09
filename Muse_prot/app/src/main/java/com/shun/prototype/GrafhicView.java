@@ -34,7 +34,6 @@ public class GrafhicView extends View {
     int terminal_width = disp.getWidth();   // monitor width
     int terminal_height = disp.getHeight(); // monitor height
 
-
     //画面の位置情報変数
     private int r = 0; //半径
     private int x = terminal_width/2; //音生成中心の座標 TODO : 画面大きさから取得
@@ -62,7 +61,7 @@ public class GrafhicView extends View {
     private static long startTime = System.currentTimeMillis();
     ////関連設置系
     private static int waveSpeed = 300;  //波の速さ(px/s)
-    private static int bpm = 40;    // bpm(beat / miniutes)
+    private static int bpm=40;    // bpm(beat / miniutes)
 
 
     private ScheduledExecutorService ses = null;
@@ -213,7 +212,7 @@ public class GrafhicView extends View {
         //canvas.drawColor( Color.rgb( colorR , colorG, colorB ) );
         ////白
         canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
-        Resources res=getResources();
+        Resources res=getResources();//画像読み込み
         Bitmap bmp1= BitmapFactory.decodeResource(res,R.drawable.test1);
         Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
         Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
@@ -286,7 +285,7 @@ public class GrafhicView extends View {
                     canvas.drawBitmap(bmp2,660,770,paint);
                     canvas.drawBitmap(bmp3,460,970,paint);
                     canvas.drawBitmap(bmp4,660,970,paint);
-                    if(fxpoint[0]>0 && fypoint[0]>0)
+                    if(fxpoint[0]>0 && fypoint[0]>0)//画像配置
                         canvas.drawBitmap(bmp1,fxpoint[0],fypoint[0],paint);
                     if(fxpoint[1]>0 && fypoint[1]>0)
                         canvas.drawBitmap(bmp2,fxpoint[1],fypoint[1],paint);
@@ -305,7 +304,7 @@ public class GrafhicView extends View {
                     canvas.drawBitmap(bmp4,0,700,paint);
                     canvas.drawBitmap(bmp5,0,800,paint);
                     canvas.drawBitmap(bmpa,0,900,paint);
-                    if(bxpoint[0]>0 && bypoint[0]>0)
+                    if(bxpoint[0]>0 && bypoint[0]>0)//画像配置
                         canvas.drawBitmap(bmp1,bxpoint[0],bypoint[0],paint);
                     if(bxpoint[1]>0 && bypoint[1]>0)
                         canvas.drawBitmap(bmp2,bxpoint[1],bypoint[1],paint);
