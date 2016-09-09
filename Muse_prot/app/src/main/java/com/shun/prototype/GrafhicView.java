@@ -92,6 +92,7 @@ public class GrafhicView extends View {
     static private int graTopcolorR = 148,
             graTopcolorG = 213,
             graTopcolorB = 225;
+    static private int graTopcolorEfeR = 0,graTopcolorEfeG = 0, graTopcolorEfeB = 0;
 
 
 
@@ -104,6 +105,7 @@ public class GrafhicView extends View {
     private int overR = sqrt(x  * x + y * y);
 
     int[] hoger = {0,0,0,0};
+    private int[] hogecollisionR = {-1,-1,-1,-1};
 
     public void setFlagPoint(int i,int r) { hoger[i] = r; }
     public int getFlagPoint(int i) { return hoger[i]; }
@@ -172,11 +174,18 @@ public class GrafhicView extends View {
                 r+=8;
             //}
 
+            //タップで生成された波の処理
             for(int i=0;i<4;i++){
-                if(hoger[i] > 0)    hoger[i] += 8;
+                if(hoger[i] == 1){
+                    //中心とタップした波の距離計算
+                    float num = (bxpoint[i]-x) * (bxpoint[i]-x) + (bypoint[i]-y) * (bypoint[i]-y);
+                    int dr = sqrt( (int) num );
+                    //衝突位置計算
+                    hogecollisionR[i] = (dr - (r % d)) % d;
+                }
+                if(hoger[i] > 0)    hoger[i] += 10;
                 if(hoger[i] > overR * 2)    hoger[i] = 0;
             }
-            d = (waveSpeed * 60) / bpm;
 
             // 画面を更新
             postInvalidate();
@@ -280,8 +289,16 @@ public class GrafhicView extends View {
                //if(xpoint[4]>0 && ypoint[4]>0)
                //    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
                for(int i = 0; i < 4 ; i++){
-                    if(hoger[i] > 0)    canvas.drawCircle(fxpoint[i], fypoint[i], hoger[i] + j * graWidth, paint);
-                }
+                   if(hoger[i] > 0){
+                       if(hoger[i] >= hogecollisionR[i] && hoger[i] < hogecollisionR[i] + 30){
+                           paint.setColor(  Color.rgb( graTopcolorEfeR - colorGap,  graTopcolorEfeG - colorGap,  graTopcolorEfeB - colorGap) );
+                       }
+                       canvas.drawCircle(fxpoint[i],fypoint[i], hoger[i] + j * graWidth, paint);
+                       if(hoger[i] >= hogecollisionR[i] && hoger[i] < hogecollisionR[i] + 30){
+                           paint.setColor(  Color.rgb( graTopcolorR - colorGap,  graTopcolorG - colorGap,  graTopcolorB - colorGap) );
+                       }
+                   }
+               }
 
                if( this.scene ){    //レイヤー1(表)
                     //for(int i=0;i<4;i++){
