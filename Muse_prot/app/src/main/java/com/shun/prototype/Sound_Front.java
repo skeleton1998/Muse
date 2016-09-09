@@ -30,6 +30,8 @@ public class Sound_Front extends Activity{
 	//int inst[] = { 0, 0, 0, 0 };
 	int vel[] = { 0, 0, 0, 0 };
 
+    static final int maxLen = (int)Math.sqrt(600*600+950*950);//ちゃんと画面サイズ捕る : TODO
+
     private GrafhicView graphicView;
     private MediaPlayer mediaPlayer = null;
     private MidiFileWriter mfw;
@@ -117,7 +119,6 @@ public class Sound_Front extends Activity{
     private void createMidiFile()
     {
 		//音の大きさ更新
-		finalfstatic int maxLen = (int)Math.sqrt(600*600+950*950);//ちゃんと画面サイズ捕る : TODO
 		for( int i = 0; i < dist.length; i++ )
 		{
 			//値溢れない処理のみ : TODO
