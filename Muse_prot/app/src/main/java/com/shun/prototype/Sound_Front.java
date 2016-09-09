@@ -68,6 +68,7 @@ public class Sound_Front extends Activity{
         //GraphicViewのオブジェクト生成
         graphicView = new GrafhicView(this);
         setContentView(graphicView);
+        graphicView.setBpm(beat/2);
         graphicView.setScene(true);
         graphicView.onResume();
 
@@ -81,6 +82,7 @@ public class Sound_Front extends Activity{
             sound[2]=intent.getIntExtra("RES_S3",0);
             sound[3]=intent.getIntExtra("RES_S4",0);
             beat=intent.getIntExtra("RES_BEAT",0);
+            graphicView.setBpm(beat/2);
         }
     }
 
@@ -196,7 +198,7 @@ public class Sound_Front extends Activity{
                     Log.d("", "spinleft");
                     beat--;//bpm減算
                 }
-                //graphicView.setBpm(beat/2);
+                graphicView.setBpm(beat/2);
 
                 break;
 

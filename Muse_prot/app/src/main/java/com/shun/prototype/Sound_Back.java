@@ -63,6 +63,7 @@ public class Sound_Back extends Activity {
         //GraphicViewのオブジェクト生成
         graphicView = new GrafhicView(this);
         setContentView(graphicView);
+        graphicView.setBpm(beat/2);
         graphicView.setScene(false);
         graphicView.onResume();
 

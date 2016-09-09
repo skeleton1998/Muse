@@ -61,7 +61,7 @@ public class GrafhicView extends View {
     private static long startTime = System.currentTimeMillis();
     ////関連設置系
     private static int waveSpeed = 300;  //波の速さ(px/s)
-    private static int bpm=40;    // bpm(beat / miniutes)
+    private static int bpm=50;    // bpm(beat / miniutes)
 
 
     private ScheduledExecutorService ses = null;
@@ -141,6 +141,13 @@ public class GrafhicView extends View {
         return this.scene;
     }
 
+    public void setBpm(int b){
+        bpm=b;
+    }
+    public int getBpm(){
+        return bpm;
+    }
+
     //平方根計算メソッド(めのこ平方)
     private int sqrt(int num){
         int odd,rood,sum;
@@ -169,6 +176,7 @@ public class GrafhicView extends View {
                 if(hoger[i] > 0)    hoger[i] += 8;
                 if(hoger[i] > overR * 2)    hoger[i] = 0;
             }
+            d = (waveSpeed * 60) / bpm;
 
             // 画面を更新
             postInvalidate();
