@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
+import android.media.MediaPlayer;
+
+import java.io.FileInputStream;
 
 public class Sound_Front extends Activity{
     static final int RESULT = 1000;
@@ -21,6 +24,9 @@ public class Sound_Front extends Activity{
     double dist[]={0,0,0,0};
 
     private GrafhicView graphicView;
+
+    private MediaPlayer mediaPlayer = null;
+    private MidiFileWriter mfw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +79,9 @@ public class Sound_Front extends Activity{
         graphicView.setBpm(beat/2);
         graphicView.setScene(true);
         graphicView.onResume();
+
+        mfw = new MidiFileWriter(getBaseContext());
+        mfw.createSong( 120 );
 
     }
 
@@ -218,6 +227,29 @@ public class Sound_Front extends Activity{
             case MotionEvent.ACTION_CANCEL:
                 Log.d("", "ACTION_CANCEL");
                 break;
+        }
+
+        // 再生してなかったら
+        if (mediaPlayer == null)
+        {
+            // midファイルの作成
+            //mfw.createMidiFile();
+            // メディアプレイヤーの作成
+            FileInputStream fis;
+            mediaPlayer = new MediaPlayer();
+            try {
+                fis = new FileInputStream("/data/data/com.shun.prototype/temp.mid");
+                if (fis != null){
+                    mediaPlayer.setDataSource(fis.getFD());
+                }
+                mediaPlayer.prepare();
+            }
+			catch( Exception e )
+			{
+                e.printStackTrace();
+            }
+            // ループ再生の設定
+            mediaPlayer.setLooping(true);
         }
 
         return false;
