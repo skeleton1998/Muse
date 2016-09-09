@@ -24,6 +24,12 @@ public class Sound_Front extends Activity{
 
     double dist[]={0,0,0,0};
 
+	// midi用変数
+	int bpm = 120;
+	int inst[] = { 24, 0, 40, 56 };
+	//int inst[] = { 0, 0, 0, 0 };
+	int vel[] = { 0, 0, 0, 0 };
+
     private GrafhicView graphicView;
     private MediaPlayer mediaPlayer = null;
     private MidiFileWriter mfw;
@@ -74,21 +80,30 @@ public class Sound_Front extends Activity{
             }
         });*/
 
-        mfw = new MidiFileWriter(getBaseContext());//midi作成のやつ(?)
-        mfw.createSong( 120 );
-        createMidiFile();//ファイル作るやつ
+        //midi作成
+        mfw = new MidiFileWriter(getBaseContext());
+        //mfw.createSong( 120 );
+        //this.createMidiFile();//ファイル作るやつ
+
         mediaPlayer = new MediaPlayer();
-        try {//読み込み
+        //読み込み
+        try
+        {
             fis = new FileInputStream("/data/data/com.shun.prototype/files/temp.mid");
-            if (fis != null) {
+            if (fis != null)
+            {
                 mediaPlayer.setDataSource(fis.getFD());
             }
-            mediaPlayer.prepare();//ファイルセット
+			//ファイルセット
+            mediaPlayer.prepare();
             Log.d("","midi complete");
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+		// ループ再生の設定
+		mediaPlayer.setLooping(true);
 
         //GraphicViewのオブジェクト生成
         graphicView = new GrafhicView(this);
@@ -98,27 +113,43 @@ public class Sound_Front extends Activity{
         graphicView.onResume();
     }
 
-
+	// midiファイル作るメソッド
     private void createMidiFile()
     {
+		//音の大きさ更新
+		finalfstatic int maxLen = (int)Math.sqrt(600*600+950*950);//ちゃんと画面サイズ捕る : TODO
+		for( int i = 0; i < dist.length; i++ )
+		{
+			//値溢れない処理のみ : TODO
+			vel[i] = (int)( dist[i] * 127 / maxLen );
+		}
+
+		// 楽器の更新 : TODO
+
         MidiFileWriter midFile = new MidiFileWriter(getBaseContext());
         try {
-            // MIDIファイル作成
-            midFile.CreateMidiFile("temp", 2, 480);
+			// MIDIファイル作成
+			midFile.CreateMidiFile("temp", 5, 480);
 
-            // トラックデータ作成
-            // テンポ設定
-            midFile.setTempo(120);
-            // 音色設定:ピアノ
-            midFile.setProgramChange((byte)0x00, (byte)0x00);
-            midFile.closeTrackData();
+			// トラックデータ作成
+			// テンポ設定
+			midFile.setTempo(bpm);
 
-            // トラックデータ作成
-            // カエルの歌
-            midFile.FrogSong((byte)0x00, (byte)0x7F);
-            midFile.closeTrackData();
+			// 音色設定
+			midFile.setProgramChange((byte) 0x00, (byte) inst[0]);
+			midFile.setProgramChange((byte) 0x01, (byte) inst[1]);
+			midFile.setProgramChange((byte) 0x02, (byte) inst[2]);
+			midFile.setProgramChange((byte) 0x03, (byte) inst[3]);
+			midFile.closeTrackData();
 
-        } catch (Exception e) {
+			// トラックデータ作成
+			midFile.FrogSong((byte) 0x00, (byte) vel[0]);
+			midFile.FrogSong((byte) 0x01, (byte) vel[1]);
+			midFile.FrogSong((byte) 0x02, (byte) vel[2]);
+			midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+		}
+		catch( Exception e )
+		{
             e.printStackTrace();
         }
     }
@@ -184,43 +215,154 @@ public class Sound_Front extends Activity{
                     int requestCode=RESULT;
                     startActivityForResult(intent2,requestCode);//裏に飛ぶ
                 }
-                else if(getx<600 && gety<950){
-                    if( graphicView.getFlagPoint(0) == 0 ) {//エリア1に画像配置
+				// エリア1( 左上 )
+                else if(getx<600 && gety<950)
+				{
+                    if( graphicView.getFlagPoint(0) == 0 )
+					{
+						// エフェクト
                         graphicView.setFxpoint(0, getx - 10);
                         graphicView.setFypoint(0, gety - 40);
                         graphicView.setFlagPoint(0, 1);
+
+						//距離
                         dist[0]=Math.sqrt((getx-600)*(getx-600)+(gety-950)*(gety-950));
                         Log.d("", "dist[0]="+dist[0]);
-                        if (!mediaPlayer.isPlaying()) {// MediaPlayer再生
+
+						// MediaPlayer再生中
+						if ( mediaPlayer.isPlaying() )
+						{
+							//停止
+							mediaPlayer.pause();
+
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
+						// MediaPlayer停止中
+						else if ( !mediaPlayer.isPlaying() )
+						{
+							// midi作成
+							this.createMidiFile();
+
+							//再生
                             mediaPlayer.start();
                         }
+                	}
                 }
-                }
-                else if(getx>600 && gety<950){
-                    if( graphicView.getFlagPoint(1) == 0 ) {//エリア2に画像配置
+				// エリア2( 右上 )
+                else if(getx>600 && gety<950)
+				{
+                    if( graphicView.getFlagPoint(1) == 0 )
+					{
+						// 画像配置
                         graphicView.setFxpoint(1, getx - 10);
                         graphicView.setFypoint(1, gety - 40);
                         graphicView.setFlagPoint(1, 1);
+
+						//距離
                         dist[1]=Math.sqrt((600-getx)*(600-getx)+(gety-950)*(gety-950));
                         Log.d("", "dist[1]="+dist[1]);
+
+						// MediaPlayer再生中
+						if ( mediaPlayer.isPlaying() )
+						{
+							//停止
+							mediaPlayer.pause();
+
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
+						// MediaPlayer停止中
+						else if ( !mediaPlayer.isPlaying() )
+						{
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
                     }
                 }
-                else if(getx<600 && gety>950){
-                    if( graphicView.getFlagPoint(2) == 0 ) {//エリア3に画像配置
+				// エリア3( 左下 )
+                else if(getx<600 && gety>950)
+				{
+					// 画像配置
+                    if( graphicView.getFlagPoint(2) == 0 )
+					{
+						// エフェクト
                         graphicView.setFxpoint(2, getx - 10);
                         graphicView.setFypoint(2, gety - 40);
                         graphicView.setFlagPoint(2, 1);
-                        dist[2]=Math.sqrt((getx-600)*(getx-600)+(950-gety)*(950-gety));
+
+						// 距離
+						dist[2]=Math.sqrt((getx-600)*(getx-600)+(950-gety)*(950-gety));
                         Log.d("", "dist[2]="+dist[2]);
+
+						// MediaPlayer再生中
+						if ( mediaPlayer.isPlaying() )
+						{
+							//停止
+							mediaPlayer.pause();
+
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
+						// MediaPlayer停止中
+						else if ( !mediaPlayer.isPlaying() )
+						{
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
                     }
                 }
-                else if(getx>600 && gety>950){
-                    if( graphicView.getFlagPoint(3) == 0 ) {//エリア4に画像配置
+				// エリア4( 右下 )
+                else if(getx>600 && gety>950)
+				{
+					// 画像配置
+                    if( graphicView.getFlagPoint(3) == 0 )
+					{
+						// エフェクト
                         graphicView.setFxpoint(3, getx - 10);
                         graphicView.setFypoint(3, gety - 40);
                         graphicView.setFlagPoint(3, 1);
+
+						// 距離
                         dist[3]=Math.sqrt((600-getx)*(600-getx)+(950-gety)*(950-gety));
                         Log.d("", "dist[3]="+dist[3]);
+
+						// MediaPlayer再生中
+						if ( mediaPlayer.isPlaying() )
+						{
+							//停止
+							mediaPlayer.pause();
+
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
+						// MediaPlayer停止中
+						else if ( !mediaPlayer.isPlaying() )
+						{
+							// midi作成
+							this.createMidiFile();
+
+							//再生
+							mediaPlayer.start();
+						}
                     }
                 }
                 break;
