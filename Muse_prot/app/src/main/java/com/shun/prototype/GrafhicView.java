@@ -186,6 +186,7 @@ public class GrafhicView extends View {
                 if(hoger[i] > 0)    hoger[i] += 10;
                 if(hoger[i] > overR * 2)    hoger[i] = 0;
             }
+            d = (waveSpeed * 60) / bpm;
 
             // 画面を更新
             postInvalidate();

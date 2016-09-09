@@ -3,14 +3,15 @@ package com.shun.prototype;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
-import android.media.MediaPlayer;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 public class Sound_Front extends Activity{
     static final int RESULT = 1000;
@@ -24,21 +25,21 @@ public class Sound_Front extends Activity{
     double dist[]={0,0,0,0};
 
     private GrafhicView graphicView;
-
     private MediaPlayer mediaPlayer = null;
     private MidiFileWriter mfw;
+    private FileInputStream fis = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_soundfront);
 
-        Intent intent=getIntent();
-        sound[0]=intent.getIntExtra("S1",0);//データ受け取り
-        sound[1]=intent.getIntExtra("S2",0);
-        sound[2]=intent.getIntExtra("S3",0);
-        sound[3]=intent.getIntExtra("S4",0);
-        beat=intent.getIntExtra("BEAT",0);
+        Intent intent = getIntent();
+        sound[0] = intent.getIntExtra("S1", 0);//データ受け取り
+        sound[1] = intent.getIntExtra("S2", 0);
+        sound[2] = intent.getIntExtra("S3", 0);
+        sound[3] = intent.getIntExtra("S4", 0);
+        beat = intent.getIntExtra("BEAT", 0);
 
         /*Button sendbutton1 = (Button) findViewById(R.id.send_button1);
         sendbutton1.setOnClickListener(new View.OnClickListener() {
@@ -73,16 +74,53 @@ public class Sound_Front extends Activity{
             }
         });*/
 
+        mfw = new MidiFileWriter(getBaseContext());//midi作成のやつ(?)
+        mfw.createSong( 120 );
+        createMidiFile();//ファイル作るやつ
+        mediaPlayer = new MediaPlayer();
+        try {//読み込み
+            fis = new FileInputStream("/data/data/com.shun.prototype/files/temp.mid");
+            if (fis != null) {
+                mediaPlayer.setDataSource(fis.getFD());
+            }
+            mediaPlayer.prepare();//ファイルセット
+            Log.d("","midi complete");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
         //GraphicViewのオブジェクト生成
         graphicView = new GrafhicView(this);
         setContentView(graphicView);
         graphicView.setBpm(beat/2);
         graphicView.setScene(true);
         graphicView.onResume();
+    }
 
-        mfw = new MidiFileWriter(getBaseContext());
-        mfw.createSong( 120 );
 
+    private void createMidiFile()
+    {
+        MidiFileWriter midFile = new MidiFileWriter(getBaseContext());
+        try {
+            // MIDIファイル作成
+            midFile.CreateMidiFile("temp", 2, 480);
+
+            // トラックデータ作成
+            // テンポ設定
+            midFile.setTempo(120);
+            // 音色設定:ピアノ
+            midFile.setProgramChange((byte)0x00, (byte)0x00);
+            midFile.closeTrackData();
+
+            // トラックデータ作成
+            // カエルの歌
+            midFile.FrogSong((byte)0x00, (byte)0x7F);
+            midFile.closeTrackData();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void onActivityResult(int requestCode,int resultCode,Intent intent){
@@ -153,7 +191,10 @@ public class Sound_Front extends Activity{
                         graphicView.setFlagPoint(0, 1);
                         dist[0]=Math.sqrt((getx-600)*(getx-600)+(gety-950)*(gety-950));
                         Log.d("", "dist[0]="+dist[0]);
-                    }
+                        if (!mediaPlayer.isPlaying()) {// MediaPlayer再生
+                            mediaPlayer.start();
+                        }
+                }
                 }
                 else if(getx>600 && gety<950){
                     if( graphicView.getFlagPoint(1) == 0 ) {//エリア2に画像配置
@@ -227,29 +268,6 @@ public class Sound_Front extends Activity{
             case MotionEvent.ACTION_CANCEL:
                 Log.d("", "ACTION_CANCEL");
                 break;
-        }
-
-        // 再生してなかったら
-        if (mediaPlayer == null)
-        {
-            // midファイルの作成
-            //mfw.createMidiFile();
-            // メディアプレイヤーの作成
-            FileInputStream fis;
-            mediaPlayer = new MediaPlayer();
-            try {
-                fis = new FileInputStream("/data/data/com.shun.prototype/temp.mid");
-                if (fis != null){
-                    mediaPlayer.setDataSource(fis.getFD());
-                }
-                mediaPlayer.prepare();
-            }
-			catch( Exception e )
-			{
-                e.printStackTrace();
-            }
-            // ループ再生の設定
-            mediaPlayer.setLooping(true);
         }
 
         return false;

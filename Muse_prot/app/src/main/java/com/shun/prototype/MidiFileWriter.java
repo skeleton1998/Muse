@@ -7,7 +7,7 @@ import android.content.Context;
 public class MidiFileWriter
 {
     private String FILE_ID = ".mid";
-    
+
     //　MThd　データ
     private byte[] HEADER_TAG = {0x4d,0x54,0x68,0x64};
     private byte[] HEADER_DATA_LEN = {0x00,0x00,0x00,0x06};
@@ -16,12 +16,12 @@ public class MidiFileWriter
     // MTrk データ
     private byte[] TRACK_TAG = {0x4d,0x54,0x72,0x6b};
     private byte[] TRACK_END = {0x00,(byte)0xff,0x2f,0x00};
- 
+
     private FileOutputStream fos = null;
     private Context context = null;
     private ArrayList<TrackData> TrackDataList = new ArrayList<TrackData>();
     private int quarterNoteDeltaTime;
- 
+
     // コンストラクタ
     public MidiFileWriter(Context contxt)
     {
@@ -36,21 +36,21 @@ public class MidiFileWriter
 
         // トラックデータ作成
         // テンポ設定
-        this.setTempo(tempo);  
-        
+        this.setTempo(tempo);
+
         // 音色設定:ピアノ
         this.setProgramChange((byte)0x00, (byte)0x00);
         this.closeTrackData();
-        
+
         // トラックデータ作成
         this.FrogSong( (byte)0x00, (byte)0x7F );
-          
+
         // MIDIファイル作成完了
         this.Release();
     }
 
     //カエルの歌
-    private void FrogSong( byte ch, byte vel )
+    protected void FrogSong( byte ch, byte vel )
     {
         try
         {
@@ -85,21 +85,21 @@ public class MidiFileWriter
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-               
+
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-               
+
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-               
+
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
@@ -123,14 +123,14 @@ public class MidiFileWriter
             this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.closeTrackData();         
+            this.closeTrackData();
         }
         catch( Exception e )
         {
             e.printStackTrace();
         }
     }
- 
+
     // midiファイル作成
     public boolean CreateMidiFile( String fileName, int trackNo, int dTime )
     {
@@ -150,13 +150,13 @@ public class MidiFileWriter
             this.fos.write(HEADER_DATA_LEN);
             // データフォーマット
             this.fos.write(MIDI_FORMAT);
-               
+
             // トラック数
             byte b = (byte)( ( trackNo & 0x0000ff00 ) >> 8 );
             this.fos.write(b);
             b = (byte)( trackNo & 0x000000ff );
             this.fos.write(b);
-                 
+
             // デルタタイム
             b = (byte)( ( dTime & 0x0000ff00 ) >> 8 );
             this.fos.write(b);
@@ -171,8 +171,8 @@ public class MidiFileWriter
             this.Release();
             return false;
         }
-      
-      return true;
+
+        return true;
     }
 
     // テンポを設定
@@ -189,7 +189,7 @@ public class MidiFileWriter
         trackData.data[4] = (byte)( tempoL /256 /256 );
         trackData.data[5] = (byte)( tempoL /256 /256 );
         trackData.data[6] = (byte)( tempoL /256 /256 );
-        
+
         TrackDataList.add(trackData);
     }
 
@@ -202,7 +202,7 @@ public class MidiFileWriter
         trackData.data[0] = (byte)0x00;
         trackData.data[1] = (byte)(0xc0 | ch);
         trackData.data[2] = (byte)no;
-        
+
         TrackDataList.add(trackData);
     }
 
@@ -211,11 +211,11 @@ public class MidiFileWriter
     {
         // エラー処理
         if (length <= 0) return;
-      
+
         TrackData trackData = new TrackData();
         trackData.length = length;
         trackData.data = new byte[length];
-        
+
 
         for(int i = 0; i < length; i++) trackData.data[i] = data[i];
 
@@ -228,19 +228,19 @@ public class MidiFileWriter
         byte[] dltime = deltaTime(deltaTime);
         int dataLen = dltime.length + 3;
         byte data[] = new byte[dataLen];
-        
+
         for(int i = 0; i < dltime.length; i++)
         {
-         data[i] = dltime[i];
+            data[i] = dltime[i];
         }
-        
+
         data[dltime.length + 0] = (byte)(0x90 | chNo);
         data[dltime.length + 1] = (byte)NoteTone;
         data[dltime.length + 2] = (byte)velocity;
-        
+
         addTrackData(data, dataLen);
     }
- 
+
 
     // Trackデータクローズ
     public void closeTrackData()
@@ -252,12 +252,12 @@ public class MidiFileWriter
         {
             dataLen += TrackDataList.get(i).length;
         }
-  
+
         try
         {
             // Trackヘッダ
             fos.write( TRACK_TAG );
-            
+
             // データサイズ
             byte work = (byte)((dataLen & 0xff000000) >> 24);
             fos.write(work);
@@ -275,8 +275,8 @@ public class MidiFileWriter
                 {
                     fos.write(TrackDataList.get(i).data[c]);
                 }
-            }   
-   
+            }
+
             // Track終端
             fos.write(TRACK_END);
         }
@@ -288,13 +288,13 @@ public class MidiFileWriter
         // トラックデータ消去
         clearTrackData();
     }
- 
+
     // MIDIファイル作成完了
     public void Release()
     {
         // FOS エラー処理
         if (fos != null) return;
-        
+
         // ファイルクローズ
         try
         {
@@ -325,15 +325,15 @@ public class MidiFileWriter
     private byte[] deltaTime(int deltaTime)
     {
         int size = 1;
-        
+
         if( deltaTime >= 0x00200000 ) size = 4;
         else if( deltaTime >= 0x00004000 ) size = 3;
         else if( deltaTime >= 0x00000080 ) size = 2;
-  
+
         byte[] dltTime = new byte[size];
         // エラー処理
         if( dltTime == null ) return null;
-  
+
         // 生成
         int workDeltaTime = deltaTime;
         for( int i = ( size - 1 ); i >= 0; i-- )
@@ -343,7 +343,7 @@ public class MidiFileWriter
             workDeltaTime -= work;
             workDeltaTime >>= 7;
         }
-  
+
         dltTime[(size-1)] = (byte)(dltTime[(size-1)] & 0x7f);
         return dltTime;
     }
@@ -370,7 +370,7 @@ public class MidiFileWriter
         public final static double Note_160 = 0.25; // 16分音符
     }
 
-   // NOTE TONE  
+    // NOTE TONE
     public class NoteTone
     {
         public final static int C0 = 12;
@@ -385,7 +385,7 @@ public class MidiFileWriter
         public final static int A0 = 21;
         public final static int AA0 = 22;
         public final static int B0 = 23;
-          
+
         public final static int C1 = 24;
         public final static int CC1 = 25;
         public final static int D1 = 26;
@@ -434,7 +434,7 @@ public class MidiFileWriter
         public final static int A4 = 69;
         public final static int AA4 = 70;
         public final static int B4 = 71;
-        
+
         public final static int C5 = 72;
         public final static int CC5 = 73;
         public final static int D5 = 74;
