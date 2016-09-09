@@ -28,27 +28,6 @@ public class MidiFileWriter
         this.context = contxt;
     }
 
-    // 曲作成
-    public void createSong( int tempo )
-    {
-        // MIDIファイル作成
-        this.CreateMidiFile( "temp", 2, 480 );
-
-        // トラックデータ作成
-        // テンポ設定
-        this.setTempo(tempo);
-
-        // 音色設定:ピアノ
-        this.setProgramChange((byte)0x00, (byte)0x00);
-        this.closeTrackData();
-
-        // トラックデータ作成
-        this.FrogSong( (byte)0x00, (byte)0x7F );
-
-        // MIDIファイル作成完了
-        this.Release();
-    }
-
     //カエルの歌
     protected void FrogSong( byte ch, byte vel )
     {
@@ -225,7 +204,7 @@ public class MidiFileWriter
     // NOTE ON
     public void addNoteOn( byte chNo, int deltaTime, byte NoteTone, byte velocity )
     {
-        byte[] dltime = deltaTime(deltaTime);
+        byte[] dltime = this.deltaTime(deltaTime);
         int dataLen = dltime.length + 3;
         byte data[] = new byte[dataLen];
 
