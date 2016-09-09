@@ -18,6 +18,8 @@ public class Sound_Front extends Activity{
     float beforey[]={-1,-1,-1,-1};
     int record=0;
 
+    double dist[]={0,0,0,0};
+
     private GrafhicView graphicView;
 
     @Override
@@ -82,7 +84,8 @@ public class Sound_Front extends Activity{
             sound[2]=intent.getIntExtra("RES_S3",0);
             sound[3]=intent.getIntExtra("RES_S4",0);
             beat=intent.getIntExtra("RES_BEAT",0);
-            graphicView.setBpm(beat/2);
+            if(beat>1)
+                graphicView.setBpm(beat/2);
         }
     }
 
@@ -139,6 +142,8 @@ public class Sound_Front extends Activity{
                         graphicView.setFxpoint(0, getx - 10);
                         graphicView.setFypoint(0, gety - 40);
                         graphicView.setFlagPoint(0, 1);
+                        dist[0]=Math.sqrt((getx-600)*(getx-600)+(gety-950)*(gety-950));
+                        Log.d("", "dist[0]="+dist[0]);
                     }
                 }
                 else if(getx>600 && gety<950){
@@ -146,6 +151,8 @@ public class Sound_Front extends Activity{
                         graphicView.setFxpoint(1, getx - 10);
                         graphicView.setFypoint(1, gety - 40);
                         graphicView.setFlagPoint(1, 1);
+                        dist[1]=Math.sqrt((600-getx)*(600-getx)+(gety-950)*(gety-950));
+                        Log.d("", "dist[1]="+dist[1]);
                     }
                 }
                 else if(getx<600 && gety>950){
@@ -153,6 +160,8 @@ public class Sound_Front extends Activity{
                         graphicView.setFxpoint(2, getx - 10);
                         graphicView.setFypoint(2, gety - 40);
                         graphicView.setFlagPoint(2, 1);
+                        dist[2]=Math.sqrt((getx-600)*(getx-600)+(950-gety)*(950-gety));
+                        Log.d("", "dist[2]="+dist[2]);
                     }
                 }
                 else if(getx>600 && gety>950){
@@ -160,6 +169,8 @@ public class Sound_Front extends Activity{
                         graphicView.setFxpoint(3, getx - 10);
                         graphicView.setFypoint(3, gety - 40);
                         graphicView.setFlagPoint(3, 1);
+                        dist[3]=Math.sqrt((600-getx)*(600-getx)+(950-gety)*(950-gety));
+                        Log.d("", "dist[3]="+dist[3]);
                     }
                 }
                 break;
@@ -198,7 +209,9 @@ public class Sound_Front extends Activity{
                     Log.d("", "spinleft");
                     beat--;//bpm減算
                 }
-                graphicView.setBpm(beat/2);
+
+                if(beat>1)
+                    graphicView.setBpm(beat/2);
 
                 break;
 
