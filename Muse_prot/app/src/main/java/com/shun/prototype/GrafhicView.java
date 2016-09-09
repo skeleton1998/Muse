@@ -34,7 +34,6 @@ public class GrafhicView extends View {
     int terminal_width = disp.getWidth();   // monitor width
     int terminal_height = disp.getHeight(); // monitor height
 
-
     //画面の位置情報変数
     private int r = 0; //半径
     private int x = terminal_width/2; //音生成中心の座標 TODO : 画面大きさから取得
@@ -49,8 +48,11 @@ public class GrafhicView extends View {
     }
     */
 
-    private int xpoint[]={-1,-1,-1,-1,-1};
-    private int ypoint[]={-1,-1,-1,-1,-1};
+    private static float bxpoint[]={-1,-1,-1,-1,-1};
+    private static float bypoint[]={-1,-1,-1,-1,-1};
+
+    private float fxpoint[]={-1,-1,-1,-1};
+    private float fypoint[]={-1,-1,-1,-1};
 
     private boolean scene;
 
@@ -59,7 +61,7 @@ public class GrafhicView extends View {
     private static long startTime = System.currentTimeMillis();
     ////関連設置系
     private static int waveSpeed = 300;  //波の速さ(px/s)
-    private static int bpm = 80;    // bpm(beat / miniutes)
+    private static int bpm=50;    // bpm(beat / miniutes)
 
 
     private ScheduledExecutorService ses = null;
@@ -101,17 +103,35 @@ public class GrafhicView extends View {
     //半径の最大値
     private int overR = sqrt(x  * x + y * y);
 
-    public int[] getXpoint(){
-        return xpoint;
+    int[] hoger = {0,0,0,0};
+
+    public void setFlagPoint(int i,int r) { hoger[i] = r; }
+    public int getFlagPoint(int i) { return hoger[i]; }
+
+    public float[] getBxpoint(){
+        return bxpoint;
     }
-    public int[] getYpoint(){
-        return ypoint;
+    public float[] getBypoint(){
+        return bypoint;
     }
-    public void setXpoint(int i,int x){
-        xpoint[i]=x;
+    public void setBxpoint(int i,float x){
+        bxpoint[i]=x;
     }
-    public void setYpoint(int i,int y){
-        ypoint[i]=y;
+    public void setBypoint(int i,float y){
+        bypoint[i]=y;
+    }
+
+    public float[] getFxpoint(){
+        return fxpoint;
+    }
+    public float[] getFypoint(){
+        return fypoint;
+    }
+    public void setFxpoint(int i,float x){
+        fxpoint[i]=x;
+    }
+    public void setFypoint(int i,float y){
+        fypoint[i]=y;
     }
 
     public void setScene(boolean i){
@@ -119,6 +139,13 @@ public class GrafhicView extends View {
     }
     public boolean getScene(){
         return this.scene;
+    }
+
+    public void setBpm(int b){
+        bpm=b;
+    }
+    public int getBpm(){
+        return bpm;
     }
 
     //平方根計算メソッド(めのこ平方)
@@ -141,9 +168,15 @@ public class GrafhicView extends View {
         public void run() {
 
             //時間更新
-            if((System.currentTimeMillis() - startTime) % (1000/waveSpeed) <= 3){
-                r++;
+            //if((System.currentTimeMillis() - startTime) % (1000/waveSpeed) <=3){
+                r+=8;
+            //}
+
+            for(int i=0;i<4;i++){
+                if(hoger[i] > 0)    hoger[i] += 8;
+                if(hoger[i] > overR * 2)    hoger[i] = 0;
             }
+            d = (waveSpeed * 60) / bpm;
 
             // 画面を更新
             postInvalidate();
@@ -167,7 +200,7 @@ public class GrafhicView extends View {
 
         // 一定時間ごとにRunnableの処理を実行
         //   => scheduleAtFixedRate(Runnableオブジェクト , 最初の実行時間 , 実行の周期 , 値の単位(列挙型TimeUnitの値) )
-        ses.scheduleAtFixedRate(task, 0L, 5L, TimeUnit.MILLISECONDS);
+        ses.scheduleAtFixedRate(task, 0L, 24L, TimeUnit.MILLISECONDS);
     }
 
     public void onPause(){
@@ -187,13 +220,16 @@ public class GrafhicView extends View {
         //canvas.drawColor( Color.rgb( colorR , colorG, colorB ) );
         ////白
         canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
-        Resources res=getResources();
+        Resources res=getResources();//画像読み込み
         Bitmap bmp1= BitmapFactory.decodeResource(res,R.drawable.test1);
         Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
         Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
         Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
         Bitmap bmp5= BitmapFactory.decodeResource(res,R.drawable.test5);
         Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
+        Bitmap bmpo= BitmapFactory.decodeResource(res,R.drawable.testo);
+        Bitmap bmpb= BitmapFactory.decodeResource(res,R.drawable.testb);
+        Bitmap bmpf= BitmapFactory.decodeResource(res,R.drawable.testf);
 
 
         //Paintオブジェクトの生成
@@ -210,67 +246,83 @@ public class GrafhicView extends View {
         //円
         int colorGap; //グラデーションの色の差の値
 
-        //波の数ループ
-        for( int i = 0; i <= r / d; i++ )
-        {
-            //グラデーション
-            for (int j = -graLevel; j <= graLevel;j ++ )
-            {
-                //値計算
-                colorGap = j * graWidth;
-                if( colorGap < 0 ) colorGap *= -1;
+        //グラデーション
+           for (int j = -graLevel; j <= graLevel;j ++ )
+           {
+               //値計算
+               colorGap = j * graWidth;
+               if( colorGap < 0 ) colorGap *= -1;
+               //色計算
+               //黒
+               ////paint.setColor(  Color.rgb( graTopcolorR + colorGap ,  graTopcolorG + colorGap,  graTopcolorB + colorGap));
+               //白
+               paint.setColor(  Color.rgb( colorR - colorGap,  colorG - colorGap,  colorB - colorGap) );
+               // 表示
+               //// 円で表示させてる(ざまく
+               //波の数ループ
+               for( int i = 0; i <= r / d; i++ ) {
+                   canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
+               }
+               //canvas.drawBitmap(bmp1,0,400,paint);
+               //canvas.drawBitmap(bmp2,0,480,paint);
+               //canvas.drawBitmap(bmp3,0,560,paint);
+               //canvas.drawBitmap(bmp4,0,640,paint);
+               //canvas.drawBitmap(bmp5,0,720,paint);
+               //canvas.drawBitmap(bmpa,0,800,paint);
+               //if(xpoint[0]>0 && ypoint[0]>0)
+               //    canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
+               //if(xpoint[1]>0 && ypoint[1]>0)
+               //    canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
+               //if(xpoint[2]>0 && ypoint[2]>0)
+               //    canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
+               //if(xpoint[3]>0 && ypoint[3]>0)
+               //    canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
+               //if(xpoint[4]>0 && ypoint[4]>0)
+               //    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
+               for(int i = 0; i < 4 ; i++){
+                    if(hoger[i] > 0)    canvas.drawCircle(fxpoint[i], fypoint[i], hoger[i] + j * graWidth, paint);
+                }
 
-                //色計算
-                //黒
-                ////paint.setColor(  Color.rgb( graTopcolorR + colorGap ,  graTopcolorG + colorGap,  graTopcolorB + colorGap));
-                //白
-                paint.setColor(  Color.rgb( colorR - colorGap,  colorG - colorGap,  colorB - colorGap) );
-
-                // 表示
-                //// 円で表示させてる(ざまく
-                canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
-                //canvas.drawBitmap(bmp1,0,400,paint);
-                //canvas.drawBitmap(bmp2,0,480,paint);
-                //canvas.drawBitmap(bmp3,0,560,paint);
-                //canvas.drawBitmap(bmp4,0,640,paint);
-                //canvas.drawBitmap(bmp5,0,720,paint);
-                //canvas.drawBitmap(bmpa,0,800,paint);
-                //if(xpoint[0]>0 && ypoint[0]>0)
-                //    canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
-                //if(xpoint[1]>0 && ypoint[1]>0)
-                //    canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
-                //if(xpoint[2]>0 && ypoint[2]>0)
-                //    canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
-                //if(xpoint[3]>0 && ypoint[3]>0)
-                //    canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
-                //if(xpoint[4]>0 && ypoint[4]>0)
-                //    canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
-
-                if( this.scene ){    //レイヤー1(表)
+               if( this.scene ){    //レイヤー1(表)
                     //for(int i=0;i<4;i++){
                     //    if(xpoint > 0 && ypoint > 0)    canvas.drawBitmap(bmp ,instX[i],instY[i], paint);
                     //}
-                }
-                else{
+                    canvas.drawBitmap(bmpo,0,0,paint);
+                    canvas.drawBitmap(bmpb,1115,0,paint);
+                    canvas.drawBitmap(bmp1,460,770,paint);
+                    canvas.drawBitmap(bmp2,660,770,paint);
+                    canvas.drawBitmap(bmp3,460,970,paint);
+                    canvas.drawBitmap(bmp4,660,970,paint);
+                    if(fxpoint[0]>0 && fypoint[0]>0)//画像配置
+                        canvas.drawBitmap(bmp1,fxpoint[0],fypoint[0],paint);
+                    if(fxpoint[1]>0 && fypoint[1]>0)
+                        canvas.drawBitmap(bmp2,fxpoint[1],fypoint[1],paint);
+                    if(fxpoint[2]>0 && fypoint[2]>0)
+                        canvas.drawBitmap(bmp3,fxpoint[2],fypoint[2],paint);
+                    if(fxpoint[3]>0 && fypoint[3]>0)
+                        canvas.drawBitmap(bmp4,fxpoint[3],fypoint[3],paint);
+               }
+               else{
                     //if (xpoint > 0 && ypoint > 0)   canvas.drawBitmap(bmp, xpoint, ypoint, paint);
+                    canvas.drawBitmap(bmpo,0,0,paint);
+                    canvas.drawBitmap(bmpf,1115,0,paint);
                     canvas.drawBitmap(bmp1,0,400,paint);
-                    canvas.drawBitmap(bmp2,0,480,paint);
-                    canvas.drawBitmap(bmp3,0,560,paint);
-                    canvas.drawBitmap(bmp4,0,640,paint);
-                    canvas.drawBitmap(bmp5,0,720,paint);
-                    canvas.drawBitmap(bmpa,0,800,paint);
-                    if(xpoint[0]>0 && ypoint[0]>0)
-                        canvas.drawBitmap(bmp1,xpoint[0],ypoint[0],paint);
-                    if(xpoint[1]>0 && ypoint[1]>0)
-                        canvas.drawBitmap(bmp2,xpoint[1],ypoint[1],paint);
-                    if(xpoint[2]>0 && ypoint[2]>0)
-                        canvas.drawBitmap(bmp3,xpoint[2],ypoint[2],paint);
-                    if(xpoint[3]>0 && ypoint[3]>0)
-                        canvas.drawBitmap(bmp4,xpoint[3],ypoint[3],paint);
-                    if(xpoint[4]>0 && ypoint[4]>0)
-                        canvas.drawBitmap(bmp5,xpoint[4],ypoint[4],paint);
-                }
+                    canvas.drawBitmap(bmp2,0,500,paint);
+                    canvas.drawBitmap(bmp3,0,600,paint);
+                    canvas.drawBitmap(bmp4,0,700,paint);
+                    canvas.drawBitmap(bmp5,0,800,paint);
+                    canvas.drawBitmap(bmpa,0,900,paint);
+                    if(bxpoint[0]>0 && bypoint[0]>0)//画像配置
+                        canvas.drawBitmap(bmp1,bxpoint[0],bypoint[0],paint);
+                    if(bxpoint[1]>0 && bypoint[1]>0)
+                        canvas.drawBitmap(bmp2,bxpoint[1],bypoint[1],paint);
+                    if(bxpoint[2]>0 && bypoint[2]>0)
+                        canvas.drawBitmap(bmp3,bxpoint[2],bypoint[2],paint);
+                    if(bxpoint[3]>0 && bypoint[3]>0)
+                        canvas.drawBitmap(bmp4,bxpoint[3],bypoint[3],paint);
+                    if(bxpoint[4]>0 && bypoint[4]>0)
+                        canvas.drawBitmap(bmp5,bxpoint[4],bypoint[4],paint);
+               }
             }
         }
     }
-}
