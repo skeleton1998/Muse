@@ -247,24 +247,24 @@ public class Sound_Front extends Activity{
                 Log.d("", "eventDuration2: " +eventDuration2+" msec");
                 Log.d("", "Pressure: " + motionEvent.getPressure());
 
-                // テンポ処理
-                if( beattemp != 0 )
-                {
-                    beat+=beattemp;
+				// テンポ処理
+				if( beattemp != 0 )
+				{
+					beat+=beattemp;
 
-                    if( beat < 1 ) beat = 1;
-                    else if( beat > 256 ) beat = 255;
+					if( beat < 1 ) beat = 1;
+					else if( beat > 256 ) beat = 255;
 
-                    // テンポセット
-                    graphicView.setBpm(beat / 2);
-                }
+					// テンポセット
+					graphicView.setBpm(beat / 2);
+				}
 
-                // テンポが変わった時
-                if( beat != bpm )
-                {
-                    // MediaPlayer処理
-                    this.changeMidiFile();
-                }
+				// テンポが変わった時
+				if( beat != bpm )
+				{
+					// MediaPlayer処理
+					this.changeMidiFile();
+				}
 
                 //タッチ時間が長かった場合以降のイベントスキップ
                 if( eventDuration2 > 300 ) break;
