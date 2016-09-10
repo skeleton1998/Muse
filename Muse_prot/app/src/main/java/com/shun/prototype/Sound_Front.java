@@ -29,6 +29,7 @@ public class Sound_Front extends Activity{
 	int inst[] = { 24, 0, 40, 56 };
 	//int inst[] = { 0, 0, 0, 0 };
 	int vel[] = { 0, 0, 0, 0 };
+    int beattemp;
 
     static final int maxLen = (int)Math.sqrt(600*600+950*950);//ちゃんと画面サイズ捕る : TODO
 
@@ -119,13 +120,21 @@ public class Sound_Front extends Activity{
     private void createMidiFile()
     {
 		//音の大きさ更新
-		for( int i = 0; i < dist.length; i++ )
+        for( int i = 0; i < vel.length; i++ )
 		{
 			//値溢れない処理のみ : TODO
 			vel[i] = (int)( dist[i] * 127 / maxLen );
 		}
 
 		// 楽器の更新 : TODO
+        for( int i = 0; i < inst.length; i++ )
+        {
+        // いい感じに楽器変える : TODO
+        	//inst[i] = ;
+        }
+        // テンポの更新 : TODO
+        bpm = beat;
+
 
         MidiFileWriter midFile = new MidiFileWriter(getBaseContext());
         try {
@@ -155,6 +164,8 @@ public class Sound_Front extends Activity{
         }
     }
 
+
+
     protected void onActivityResult(int requestCode,int resultCode,Intent intent){
         super.onActivityResult(requestCode,resultCode,intent);
         if(resultCode==RESULT_OK  && requestCode==RESULT && null!=intent){
@@ -165,6 +176,31 @@ public class Sound_Front extends Activity{
             beat=intent.getIntExtra("RES_BEAT",0);
             if(beat>1)
                 graphicView.setBpm(beat/2);
+        }
+    }
+
+    private void changeMidiFile()
+    {
+    // MediaPlayer再生中
+    	if ( mediaPlayer.isPlaying() )
+    	{
+    	//停止
+        	mediaPlayer.pause();
+
+        // midi作成
+            this.createMidiFile();
+
+        //再生
+        	mediaPlayer.start();
+        }
+        // MediaPlayer停止中
+        else if ( !mediaPlayer.isPlaying() )
+        {
+        // midi作成
+        	this.createMidiFile();
+
+        //再生
+            mediaPlayer.start();
         }
     }
 
@@ -184,6 +220,7 @@ public class Sound_Front extends Activity{
                     beforey[i]=-1;
                 }
                 record=0;//フラグリセット
+                beattemp=0;
                 break;
 
             case MotionEvent.ACTION_UP://離した時
@@ -192,7 +229,23 @@ public class Sound_Front extends Activity{
                 Log.d("", "eventDuration2: " +eventDuration2+" msec");
                 Log.d("", "Pressure: " + motionEvent.getPressure());
 
-                if(eventDuration2>500)//タッチ時間が長かった場合以降のイベントスキップ
+                if (beattemp!=0) {
+                    beat+=beattemp;
+                    if(beat>1 && beat<256) {
+                        graphicView.setBpm(beat / 2);
+                    }
+                    else{
+                        beat-=beattemp;
+                    }
+                }
+
+                // テンポが変わった時
+                if( record == 0 && beat != bpm ) {
+                    // MediaPlayer処理
+                    this.changeMidiFile();
+                }
+
+                if(eventDuration2>100)//タッチ時間が長かった場合以降のイベントスキップ
                     break;
 
                 if(getx<60 && gety<120) {//座標判定
@@ -251,6 +304,8 @@ public class Sound_Front extends Activity{
 							//再生
                             mediaPlayer.start();
                         }
+                        // MediaPlayer処理
+                        this.changeMidiFile();
                 	}
                 }
 				// エリア2( 右上 )
@@ -288,6 +343,8 @@ public class Sound_Front extends Activity{
 							//再生
 							mediaPlayer.start();
 						}
+                        // MediaPlayer処理
+                        this.changeMidiFile();
                     }
                 }
 				// エリア3( 左下 )
@@ -326,6 +383,8 @@ public class Sound_Front extends Activity{
 							//再生
 							mediaPlayer.start();
 						}
+                        // MediaPlayer処理
+                        this.changeMidiFile();
                     }
                 }
 				// エリア4( 右下 )
@@ -364,7 +423,25 @@ public class Sound_Front extends Activity{
 							//再生
 							mediaPlayer.start();
 						}
+                        // MediaPlayer処理
+                        this.changeMidiFile();
                     }
+                }
+
+                if (beattemp!=0) {
+                beat+=beattemp;
+                if(beat>1 && beat<256) {
+                    graphicView.setBpm(beat / 2);
+                }
+                else{
+                    beat-=beattemp;
+                }
+            }
+
+                // テンポが変わった時
+                if( record == 0 && beat != bpm ) {
+                    // MediaPlayer処理
+                    this.changeMidiFile();
                 }
                 break;
 
@@ -382,29 +459,192 @@ public class Sound_Front extends Activity{
                 beforey[1]=beforey[0];
                 beforey[0]=gety;
 
-                Log.d("", "bX:" + beforex[1] + ",bY:" + beforey[1]);//デバッグ用表示
-                Log.d("", "bX:" + beforex[3] + ",bY:" + beforey[3]);
-                if(record==0 && beforex[3]!=-1) {//座標が記録されてない時
-                    if (getx > beforex[1] && beforex[1] > beforex[3]) {//右移動時
-                        Log.d("", "spinright");
-                        record = 1;//フラグ管理
-                    }
-                    else {//左移動時
-                        Log.d("", "spinleft");
-                        record = 2;//フラグ管理
-                    }
-                }
-                else if(record==1){//右移動から始めた時
-                    Log.d("", "spinright");
-                    beat++;//bpm加算
-                }
-                else{//左移動から始めた時
-                    Log.d("", "spinleft");
-                    beat--;//bpm減算
-                }
 
-                if(beat>1)
-                    graphicView.setBpm(beat/2);
+                if(getx>400 && getx<800 && gety>750 && getx<1150) {
+                    Log.d("", "bX:" + beforex[1] + ",bY:" + beforey[1]);//デバッグ用表示
+                    Log.d("", "bX:" + beforex[3] + ",bY:" + beforey[3]);
+                    if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
+                        if (getx > beforex[1] && beforex[1] > beforex[3]) {//右移動時
+                            Log.d("", "spinright");
+                            record = 1;//フラグ管理
+                        } else {//左移動時
+                            Log.d("", "spinleft");
+                            record = 2;//フラグ管理
+                        }
+                    } else if (record == 1) {//右移動から始めた時
+                        Log.d("", "spinright");
+                        beattemp++;//bpm加算
+                    } else {//左移動から始めた時
+                        Log.d("", "spinleft");
+                        beattemp--;//bpm減算
+                    }
+                    Log.d("", "beattemp:" + beattemp);
+                }
+                else{
+                    if(getx<600 && gety<950) {
+                        if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
+                            if (getx > beforex[1] && beforex[1] > beforex[3]) {//右寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//右移動時
+                                    Log.d("", "moveright");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            else {//左寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//左移動時
+                                    Log.d("", "moveleft");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            record=1;
+                        }
+                        else {
+                            break;//スル―
+                        }
+                    }
+
+                    else if(getx>600 && gety<950) {
+                        if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
+                            if (getx > beforex[1] && beforex[1] > beforex[3]) {//右寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//右移動時
+                                    Log.d("", "moveright");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            else {//左寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//左移動時
+                                    Log.d("", "moveleft");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            record=1;
+                        }
+                        else {
+                            break;//スル―
+                        }
+                    }
+
+                    else if(getx<600 && gety>950) {
+                        if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
+                            if (getx > beforex[1] && beforex[1] > beforex[3]) {//右寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//右移動時
+                                    Log.d("", "moveright");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            else {//左寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//左移動時
+                                    Log.d("", "moveleft");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            record=1;
+                        }
+                        else {
+                            break;//スル―
+                        }
+                    }
+
+                    else if(getx>600 && gety>950) {
+                        if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
+                            if (getx > beforex[1] && beforex[1] > beforex[3]) {//右寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//右移動時
+                                    Log.d("", "moveright");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            else {//左寄り
+                                if(Math.abs(getx-beforex[3])>Math.abs(beforey[3]-gety)){//左移動時
+                                    Log.d("", "moveleft");
+                                    //音色変更
+                                }
+                                else{
+                                    if(beforey[3]>gety){//上移動時
+                                        Log.d("", "moveup");
+                                        //音色変更
+                                    }
+                                    else {//下移動時
+                                        Log.d("", "movedown");
+                                        //音色変更
+                                    }
+                                }
+                            }
+                            record=1;
+                        }
+                        else {
+                            break;//スル―
+                        }
+                    }
+                }
 
                 break;
 
