@@ -162,6 +162,8 @@ public class Sound_Front extends Activity{
 				mediaPlayer.setDataSource(fis.getFD());
 				// 待機
 				mediaPlayer.prepare();
+				// ループ再生の設定
+				mediaPlayer.setLooping(true);
 			}
 			catch( IOException e)
 			{
