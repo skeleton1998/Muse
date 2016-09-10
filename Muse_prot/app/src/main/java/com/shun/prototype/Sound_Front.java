@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class Sound_Front extends Activity{
 	static final int RESULT = 1000;
@@ -137,16 +138,38 @@ public class Sound_Front extends Activity{
 	// midi書き換え
 	private void changeMidiFile()
 	{
+		int nowPos = 0;
+
 		// MediaPlayer再生中
 		if ( mediaPlayer.isPlaying() )
 		{
+			// 現在の再生位置
+			nowPos = mediaPlayer.getCurrentPosition();
 			//停止
-			mediaPlayer.pause();
+			mediaPlayer.stop();
+			// テンポ操作で動くときの処理
+			if( beat != bpm ) nowPos = nowPos * beat / bpm;
 
 			// midi作成
 			this.createMidiFile();
 
 			//再生
+			try
+			{
+				// 消去
+				mediaPlayer.reset();
+				// 再取得
+				mediaPlayer.setDataSource(fis.getFD());
+				// 待機
+				mediaPlayer.prepare();
+			}
+			catch( IOException e)
+			{
+				e.printStackTrace();
+			}
+			// シーク
+			mediaPlayer.seekTo( nowPos );
+			// 再生
 			mediaPlayer.start();
 		}
 		// MediaPlayer停止中
@@ -156,6 +179,7 @@ public class Sound_Front extends Activity{
 			this.createMidiFile();
 
 			//再生
+			mediaPlayer.seekTo( nowPos );
 			mediaPlayer.start();
 		}
 	}
