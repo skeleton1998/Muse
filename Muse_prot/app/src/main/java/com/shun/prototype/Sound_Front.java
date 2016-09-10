@@ -24,11 +24,11 @@ public class Sound_Front extends Activity{
 
     double dist[]={0,0,0,0};
 
-	// midi用変数
-	int bpm = 120;
-	int inst[] = { 24, 0, 40, 56 };
-	//int inst[] = { 0, 0, 0, 0 };
-	int vel[] = { 0, 0, 0, 0 };
+    // midi用変数
+    int bpm = 120;
+    int inst[] = { 24, 0, 40, 56 };
+    //int inst[] = { 0, 0, 0, 0 };
+    int vel[] = { 0, 0, 0, 0 };
     int beattemp;
 
     static final int maxLen = (int)Math.sqrt(600*600+950*950);//ちゃんと画面サイズ捕る : TODO
@@ -97,7 +97,7 @@ public class Sound_Front extends Activity{
             {
                 mediaPlayer.setDataSource(fis.getFD());
             }
-			//ファイルセット
+            //ファイルセット
             mediaPlayer.prepare();
             Log.d("","midi complete");
         }
@@ -105,8 +105,8 @@ public class Sound_Front extends Activity{
             e.printStackTrace();
         }
 
-		// ループ再生の設定
-		mediaPlayer.setLooping(true);
+        // ループ再生の設定
+        mediaPlayer.setLooping(true);
 
         //GraphicViewのオブジェクト生成
         graphicView = new GrafhicView(this);
@@ -116,54 +116,80 @@ public class Sound_Front extends Activity{
         graphicView.onResume();
     }
 
-	// midiファイル作るメソッド
+    // midiファイル作るメソッド
     private void createMidiFile()
     {
-		//音の大きさ更新
+        //音の大きさ更新
         for( int i = 0; i < vel.length; i++ )
-		{
-			//値溢れない処理のみ : TODO
-			vel[i] = (int)( dist[i] * 127 / maxLen );
-		}
+        {
+            //値溢れない処理のみ : TODO
+            vel[i] = (int)( dist[i] * 127 / maxLen );
+        }
 
-		// 楽器の更新 : TODO
+        // 楽器の更新 : TODO
         for( int i = 0; i < inst.length; i++ )
         {
-        // いい感じに楽器変える : TODO
-        	//inst[i] = ;
+            // いい感じに楽器変える : TODO
+            //inst[i] = ;
         }
+
         // テンポの更新 : TODO
         bpm = beat;
 
-
         MidiFileWriter midFile = new MidiFileWriter(getBaseContext());
-        try {
-			// MIDIファイル作成
-			midFile.CreateMidiFile("temp", 5, 480);
+        try
+        {
+            // MIDIファイル作成
+            midFile.CreateMidiFile("temp", 5, 480);
 
-			// トラックデータ作成
-			// テンポ設定
-			midFile.setTempo(bpm);
+            // トラックデータ作成
+            // テンポ設定
+            midFile.setTempo(bpm);
 
-			// 音色設定
-			midFile.setProgramChange((byte) 0x00, (byte) inst[0]);
-			midFile.setProgramChange((byte) 0x01, (byte) inst[1]);
-			midFile.setProgramChange((byte) 0x02, (byte) inst[2]);
-			midFile.setProgramChange((byte) 0x03, (byte) inst[3]);
-			midFile.closeTrackData();
+            // 音色設定
+            midFile.setProgramChange((byte) 0x00, (byte) inst[0]);
+            midFile.setProgramChange((byte) 0x01, (byte) inst[1]);
+            midFile.setProgramChange((byte) 0x02, (byte) inst[2]);
+            midFile.setProgramChange((byte) 0x03, (byte) inst[3]);
+            midFile.closeTrackData();
 
-			// トラックデータ作成
-			midFile.FrogSong((byte) 0x00, (byte) vel[0]);
-			midFile.FrogSong((byte) 0x01, (byte) vel[1]);
-			midFile.FrogSong((byte) 0x02, (byte) vel[2]);
-			midFile.FrogSong((byte) 0x03, (byte) vel[3]);
-		}
-		catch( Exception e )
-		{
+            // トラックデータ作成
+            midFile.FrogSong((byte) 0x00, (byte) vel[0]);
+            midFile.FrogSong((byte) 0x01, (byte) vel[1]);
+            midFile.FrogSong((byte) 0x02, (byte) vel[2]);
+            midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+        }
+        catch( Exception e )
+        {
             e.printStackTrace();
         }
     }
 
+    // midi書き換え
+    private void changeMidiFile()
+    {
+        // MediaPlayer再生中
+        if ( mediaPlayer.isPlaying() )
+        {
+            //停止
+            mediaPlayer.pause();
+
+            // midi作成
+            this.createMidiFile();
+
+            //再生
+            mediaPlayer.start();
+        }
+        // MediaPlayer停止中
+        else if ( !mediaPlayer.isPlaying() )
+        {
+            // midi作成
+            this.createMidiFile();
+
+            //再生
+            mediaPlayer.start();
+        }
+    }
 
 
     protected void onActivityResult(int requestCode,int resultCode,Intent intent){
@@ -174,33 +200,16 @@ public class Sound_Front extends Activity{
             sound[2]=intent.getIntExtra("RES_S3",0);
             sound[3]=intent.getIntExtra("RES_S4",0);
             beat=intent.getIntExtra("RES_BEAT",0);
-            if(beat>1)
-                graphicView.setBpm(beat/2);
-        }
-    }
 
-    private void changeMidiFile()
-    {
-    // MediaPlayer再生中
-    	if ( mediaPlayer.isPlaying() )
-    	{
-    	//停止
-        	mediaPlayer.pause();
+            // エフェクト
+            if( beat > 1 ) graphicView.setBpm(beat/2);
 
-        // midi作成
-            this.createMidiFile();
-
-        //再生
-        	mediaPlayer.start();
-        }
-        // MediaPlayer停止中
-        else if ( !mediaPlayer.isPlaying() )
-        {
-        // midi作成
-        	this.createMidiFile();
-
-        //再生
-            mediaPlayer.start();
+            // テンポが変わった時
+            if( beat != bpm )
+            {
+                // MediaPlayer処理
+                this.changeMidiFile();
+            }
         }
     }
 
@@ -211,42 +220,54 @@ public class Sound_Front extends Activity{
         float nowx[]=graphicView.getBxpoint();//画像がおいてある場所取得
         float nowy[]=graphicView.getBypoint();
 
-        switch (motionEvent.getAction()) {
-            case MotionEvent.ACTION_DOWN://押した時
+        switch (motionEvent.getAction())
+        {
+            //押した時
+            case MotionEvent.ACTION_DOWN:
+                // デバック表示
                 Log.d("", "ACTION_DOWN");
                 Log.d("", "EventLocation X:" + getx + ",Y:" + gety);
-                for(int i=0;i<4;i++){//前回のタッチ記録を消去
+
+                //前回のタッチ記録を消去
+                for(int i=0;i<4;i++)
+                {
                     beforex[i]=-1;
                     beforey[i]=-1;
                 }
-                record=0;//フラグリセット
+
+                //フラグリセット
+                record=0;
                 beattemp=0;
                 break;
 
-            case MotionEvent.ACTION_UP://離した時
+            //離した時
+            case MotionEvent.ACTION_UP:
                 Log.d("", "ACTION_UP");
                 long eventDuration2 = motionEvent.getEventTime() - motionEvent.getDownTime();
                 Log.d("", "eventDuration2: " +eventDuration2+" msec");
                 Log.d("", "Pressure: " + motionEvent.getPressure());
 
-                if (beattemp!=0) {
+                // テンポ処理
+                if( beattemp != 0 )
+                {
                     beat+=beattemp;
-                    if(beat>1 && beat<256) {
-                        graphicView.setBpm(beat / 2);
-                    }
-                    else{
-                        beat-=beattemp;
-                    }
+
+                    if( beat < 1 ) beat = 1;
+                    else if( beat > 256 ) beat = 255;
+
+                    // テンポセット
+                    graphicView.setBpm(beat / 2);
                 }
 
                 // テンポが変わった時
-                if( record == 0 && beat != bpm ) {
+                if( beat != bpm )
+                {
                     // MediaPlayer処理
                     this.changeMidiFile();
                 }
 
-                if(eventDuration2>100)//タッチ時間が長かった場合以降のイベントスキップ
-                    break;
+                //タッチ時間が長かった場合以降のイベントスキップ
+                if( eventDuration2 > 300 ) break;
 
                 if(getx<60 && gety<120) {//座標判定
                     Intent intent1 = new Intent(getApplication(), Option.class);
@@ -258,8 +279,8 @@ public class Sound_Front extends Activity{
                     int requestCode = RESULT;
                     startActivityForResult(intent1, requestCode);//オプションに飛ぶ
                 }
-
-                else if(getx>1090 && gety<120){
+                else if(getx>1090 && gety<120)
+                {
                     Intent intent2 = new Intent(getApplication(), Sound_Back.class);
                     intent2.putExtra("S1",sound[0]);//各データの転送
                     intent2.putExtra("S2",sound[1]);
@@ -269,180 +290,81 @@ public class Sound_Front extends Activity{
                     int requestCode=RESULT;
                     startActivityForResult(intent2,requestCode);//裏に飛ぶ
                 }
-				// エリア1( 左上 )
+                // エリア1( 左上 )
                 else if(getx<600 && gety<950)
-				{
+                {
                     if( graphicView.getFlagPoint(0) == 0 )
-					{
-						// エフェクト
+                    {
+                        // エフェクト
                         graphicView.setFxpoint(0, getx - 10);
                         graphicView.setFypoint(0, gety - 40);
                         graphicView.setFlagPoint(0, 1);
 
-						//距離
+                        //距離
                         dist[0]=Math.sqrt((getx-600)*(getx-600)+(gety-950)*(gety-950));
                         Log.d("", "dist[0]="+dist[0]);
 
-						// MediaPlayer再生中
-						if ( mediaPlayer.isPlaying() )
-						{
-							//停止
-							mediaPlayer.pause();
-
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
-						// MediaPlayer停止中
-						else if ( !mediaPlayer.isPlaying() )
-						{
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-                            mediaPlayer.start();
-                        }
                         // MediaPlayer処理
                         this.changeMidiFile();
-                	}
+                    }
                 }
-				// エリア2( 右上 )
+                // エリア2( 右上 )
                 else if(getx>600 && gety<950)
-				{
+                {
                     if( graphicView.getFlagPoint(1) == 0 )
-					{
-						// 画像配置
+                    {
+                        // 画像配置
                         graphicView.setFxpoint(1, getx - 10);
                         graphicView.setFypoint(1, gety - 40);
                         graphicView.setFlagPoint(1, 1);
 
-						//距離
+                        //距離
                         dist[1]=Math.sqrt((600-getx)*(600-getx)+(gety-950)*(gety-950));
                         Log.d("", "dist[1]="+dist[1]);
 
-						// MediaPlayer再生中
-						if ( mediaPlayer.isPlaying() )
-						{
-							//停止
-							mediaPlayer.pause();
-
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
-						// MediaPlayer停止中
-						else if ( !mediaPlayer.isPlaying() )
-						{
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
                         // MediaPlayer処理
                         this.changeMidiFile();
                     }
                 }
-				// エリア3( 左下 )
+                // エリア3( 左下 )
                 else if(getx<600 && gety>950)
-				{
-					// 画像配置
+                {
+                    // 画像配置
                     if( graphicView.getFlagPoint(2) == 0 )
-					{
-						// エフェクト
+                    {
+                        // エフェクト
                         graphicView.setFxpoint(2, getx - 10);
                         graphicView.setFypoint(2, gety - 40);
                         graphicView.setFlagPoint(2, 1);
 
-						// 距離
-						dist[2]=Math.sqrt((getx-600)*(getx-600)+(950-gety)*(950-gety));
+                        // 距離
+                        dist[2]=Math.sqrt((getx-600)*(getx-600)+(950-gety)*(950-gety));
                         Log.d("", "dist[2]="+dist[2]);
 
-						// MediaPlayer再生中
-						if ( mediaPlayer.isPlaying() )
-						{
-							//停止
-							mediaPlayer.pause();
-
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
-						// MediaPlayer停止中
-						else if ( !mediaPlayer.isPlaying() )
-						{
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
                         // MediaPlayer処理
                         this.changeMidiFile();
                     }
                 }
-				// エリア4( 右下 )
+                // エリア4( 右下 )
                 else if(getx>600 && gety>950)
-				{
-					// 画像配置
+                {
+                    // 画像配置
                     if( graphicView.getFlagPoint(3) == 0 )
-					{
-						// エフェクト
+                    {
+                        // エフェクト
                         graphicView.setFxpoint(3, getx - 10);
                         graphicView.setFypoint(3, gety - 40);
                         graphicView.setFlagPoint(3, 1);
 
-						// 距離
+                        // 距離
                         dist[3]=Math.sqrt((600-getx)*(600-getx)+(950-gety)*(950-gety));
                         Log.d("", "dist[3]="+dist[3]);
 
-						// MediaPlayer再生中
-						if ( mediaPlayer.isPlaying() )
-						{
-							//停止
-							mediaPlayer.pause();
-
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
-						// MediaPlayer停止中
-						else if ( !mediaPlayer.isPlaying() )
-						{
-							// midi作成
-							this.createMidiFile();
-
-							//再生
-							mediaPlayer.start();
-						}
                         // MediaPlayer処理
                         this.changeMidiFile();
                     }
                 }
 
-                if (beattemp!=0) {
-                beat+=beattemp;
-                if(beat>1 && beat<256) {
-                    graphicView.setBpm(beat / 2);
-                }
-                else{
-                    beat-=beattemp;
-                }
-            }
-
-                // テンポが変わった時
-                if( record == 0 && beat != bpm ) {
-                    // MediaPlayer処理
-                    this.changeMidiFile();
-                }
                 break;
 
             case MotionEvent.ACTION_MOVE:
@@ -459,27 +381,43 @@ public class Sound_Front extends Activity{
                 beforey[1]=beforey[0];
                 beforey[0]=gety;
 
-
-                if(getx>400 && getx<800 && gety>750 && getx<1150) {
-                    Log.d("", "bX:" + beforex[1] + ",bY:" + beforey[1]);//デバッグ用表示
+                // テンポ操作
+                if(getx>400 && getx<800 && gety>750 && getx<1150)
+                {
+                    //デバッグ用表示
+                    Log.d("", "bX:" + beforex[1] + ",bY:" + beforey[1]);
                     Log.d("", "bX:" + beforex[3] + ",bY:" + beforey[3]);
-                    if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
-                        if (getx > beforex[1] && beforex[1] > beforex[3]) {//右移動時
+
+                    //座標が記録されてない時
+                    if (record == 0 && beforex[3] != -1)
+                    {
+                        //右移動時
+                        if (getx > beforex[1] && beforex[1] > beforex[3])
+                        {
                             Log.d("", "spinright");
                             record = 1;//フラグ管理
-                        } else {//左移動時
+                        }
+                        else
+                        {//左移動時
                             Log.d("", "spinleft");
                             record = 2;//フラグ管理
                         }
-                    } else if (record == 1) {//右移動から始めた時
+                    }
+                    //右移動から始めた時
+                    else if (record == 1)
+                    {
                         Log.d("", "spinright");
-                        beattemp++;//bpm加算
-                    } else {//左移動から始めた時
+                        beattemp += 2;//bpm加算
+                    }
+                    //左移動から始めた時
+                    else
+                    {
                         Log.d("", "spinleft");
-                        beattemp--;//bpm減算
+                        beattemp -= 2;//bpm減算
                     }
                     Log.d("", "beattemp:" + beattemp);
                 }
+                //左上
                 else{
                     if(getx<600 && gety<950) {
                         if (record == 0 && beforex[3] != -1) {//座標が記録されてない時
