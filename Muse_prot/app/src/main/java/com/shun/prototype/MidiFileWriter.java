@@ -28,7 +28,7 @@ public class MidiFileWriter
         this.context = contxt;
     }
 
-    //カエルの歌
+    // カエルの歌のNOTE ON, OFF
     protected void FrogSong( byte ch, byte vel )
     {
         try
@@ -161,6 +161,8 @@ public class MidiFileWriter
         TrackData trackData = new TrackData();
         trackData.length = 7;
         trackData.data = new byte[7];
+
+		// MetaMessage
         trackData.data[0] = (byte)0x00;
         trackData.data[1] = (byte)0xff;
         trackData.data[2] = (byte)0x51;
@@ -169,6 +171,7 @@ public class MidiFileWriter
         trackData.data[5] = (byte)( tempoL /256 /256 );
         trackData.data[6] = (byte)( tempoL /256 /256 );
 
+		// 追加
         TrackDataList.add(trackData);
     }
 
@@ -177,11 +180,14 @@ public class MidiFileWriter
     {
         TrackData trackData = new TrackData();
         trackData.length = 3;
+
+		// message
         trackData.data = new byte[4];
         trackData.data[0] = (byte)0x00;
         trackData.data[1] = (byte)(0xc0 | ch);
-        trackData.data[2] = (byte)no;
+        trackData.data[2] = no;
 
+		// 追加
         TrackDataList.add(trackData);
     }
 
@@ -189,15 +195,14 @@ public class MidiFileWriter
     public void addTrackData(byte[] data, int length)
     {
         // エラー処理
-        if (length <= 0) return;
+        if( length <= 0 ) return;
 
         TrackData trackData = new TrackData();
         trackData.length = length;
         trackData.data = new byte[length];
 
-
-        for(int i = 0; i < length; i++) trackData.data[i] = data[i];
-
+		// リストに追加
+        for( int i = 0; i < length; i++ ) trackData.data[i] = data[i];
         TrackDataList.add(trackData);
     }
 
@@ -213,10 +218,12 @@ public class MidiFileWriter
             data[i] = dltime[i];
         }
 
-        data[dltime.length + 0] = (byte)(0x90 | chNo);
-        data[dltime.length + 1] = (byte)NoteTone;
-        data[dltime.length + 2] = (byte)velocity;
+		// MidiMessage
+        data[ dltime.length + 0 ] = (byte)(0x90 | chNo);
+        data[ dltime.length + 1 ] = NoteTone;
+        data[ dltime.length + 2 ] = velocity;
 
+		// リストに追加
         addTrackData(data, dataLen);
     }
 
@@ -227,7 +234,7 @@ public class MidiFileWriter
         // データ長　データ終端データサイズを初期値とする
         int dataLen = 4;
 
-        for(int i=0; i < TrackDataList.size(); i++)
+        for( int i = 0; i < TrackDataList.size(); i++ )
         {
             dataLen += TrackDataList.get(i).length;
         }
@@ -238,19 +245,19 @@ public class MidiFileWriter
             fos.write( TRACK_TAG );
 
             // データサイズ
-            byte work = (byte)((dataLen & 0xff000000) >> 24);
+            byte work = (byte)( (dataLen & 0xff000000) >> 24 );
             fos.write(work);
-            work = (byte)((dataLen & 0x00ff0000) >> 16);
+            work = (byte)( (dataLen & 0x00ff0000) >> 16 );
             fos.write(work);
-            work = (byte)((dataLen & 0x0000ff00) >> 8);
+            work = (byte)( (dataLen & 0x0000ff00) >> 8 );
             fos.write(work);
-            work = (byte)(dataLen & 0x000000ff);
+            work = (byte)( dataLen & 0x000000ff );
             fos.write(work);
 
             // Trackデータ展開
-            for(int i=0; i < TrackDataList.size(); i++)
+            for( int i = 0; i < TrackDataList.size(); i++ )
             {
-                for(int c=0; c < TrackDataList.get(i).length; c++)
+                for( int c = 0; c < TrackDataList.get(i).length; c++ )
                 {
                     fos.write(TrackDataList.get(i).data[c]);
                 }
@@ -265,19 +272,19 @@ public class MidiFileWriter
         }
 
         // トラックデータ消去
-        clearTrackData();
+        this.clearTrackData();
     }
 
     // MIDIファイル作成完了
     public void Release()
     {
-        // FOS エラー処理
-        if (fos != null) return;
+        // エラー処理
+        if( this.fos != null ) return;
 
         // ファイルクローズ
         try
         {
-            fos.close();
+            this.fos.close();
         }
         catch( IOException e )
         {
@@ -285,26 +292,26 @@ public class MidiFileWriter
         }
 
         // 初期化
-        fos = null;
+        this.fos = null;
     }
 
     // 音符のデルタタイムを計算
     public int getNoteDeltaTime( double noteTime )
     {
-        return (int)( quarterNoteDeltaTime * noteTime );
+        return (int)( this.quarterNoteDeltaTime * noteTime );
     }
 
     // Trackデータクリア
     private void clearTrackData()
     {
-        TrackDataList.clear();
+        this.TrackDataList.clear();
     }
 
     // deltaTimeの計算
     private byte[] deltaTime(int deltaTime)
     {
+		// 配列の大きさ計算
         int size = 1;
-
         if( deltaTime >= 0x00200000 ) size = 4;
         else if( deltaTime >= 0x00004000 ) size = 3;
         else if( deltaTime >= 0x00000080 ) size = 2;
@@ -314,21 +321,20 @@ public class MidiFileWriter
         if( dltTime == null ) return null;
 
         // 生成
-        int workDeltaTime = deltaTime;
+        int dt = deltaTime;
         for( int i = ( size - 1 ); i >= 0; i-- )
         {
-            byte work = (byte)(workDeltaTime & 0x0000007f);
+            byte work = (byte)( dt & 0x0000007f );
             dltTime[i] = (byte)(work | 0x80);
-            workDeltaTime -= work;
-            workDeltaTime >>= 7;
+            dt -= work;
+            dt >>= 7;
         }
+        dltTime[ size-1 ] = (byte)(dltTime[ size-1 ] & 0x7f);
 
-        dltTime[(size-1)] = (byte)(dltTime[(size-1)] & 0x7f);
-        return dltTime;
+		return dltTime;
     }
 
     /* 定数 */
-
     // Trackデータ
     protected class TrackData
     {
@@ -340,10 +346,10 @@ public class MidiFileWriter
     public class NoteTime
     {
         public final static double Note_010 = 4;    // 全音符
-        public final static double Note_020 = 3;    //　付点2分音符
-        public final static double Note_030 = 2;    //　2分音符
-        public final static double Note_035 = 1.5;  //　付点4分音符
-        public final static double Note_040 = 1;    //　4分音符
+        public final static double Note_020 = 3;    // 付点2分音符
+        public final static double Note_030 = 2;    // 2分音符
+        public final static double Note_035 = 1.5;  // 付点4分音符
+        public final static double Note_040 = 1;    // 4分音符
         public final static double Note_045 = 0.75; // 付点8分音符
         public final static double Note_080 = 0.5;  // 8分音符
         public final static double Note_160 = 0.25; // 16分音符

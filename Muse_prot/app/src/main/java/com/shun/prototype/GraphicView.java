@@ -1,7 +1,5 @@
 package com.shun.prototype;
-/**
- * Created by ryoki_000 on 2016/08/15.
- */
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,7 +20,7 @@ import android.view.View;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class GrafhicView extends View {
+public class GraphicView extends View {
 
     //Getting monitor size
 
@@ -200,7 +198,7 @@ public class GrafhicView extends View {
     };
 
     //コンストラクタ
-    public GrafhicView(Context context) {
+    public GraphicView(Context context) {
         super(context);
     }
 
