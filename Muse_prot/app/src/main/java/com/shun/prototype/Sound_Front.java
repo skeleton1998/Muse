@@ -2,44 +2,44 @@ package com.shun.prototype;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.MotionEvent;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
-public class Sound_Front extends Activity{
+public class Sound_Front extends Activity
+{
 	static final int RESULT = 1000;
 	int sound[] = { 0,0,0,0 };//データ保存用変数
 	int beat = 100;
+	int beattemp;
 
-	float beforex[]={-1,-1,-1,-1};
-	float beforey[]={-1,-1,-1,-1};
-	int record=0;
-
-	double dist[]={0,0,0,0};
+	// Event判別用変数
+	float beforex[] = {-1,-1,-1,-1};
+	float beforey[] = {-1,-1,-1,-1};
+	int record = 0;
+	double dist[]={0,0,0,0};			// 4エリアの楽器と中心の距離
 
 	// midi用変数
 	int bpm = 120;				// beat per min
 	int inst[] = { 0,0,0,0 };	// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
-	int beattemp;
 
-	static final int maxLen = (int)Math.sqrt(600*600+950*950);//ちゃんと画面サイズ捕る : TODO
+	// 画面サイズうんぬん : TODO
+	static final int maxX = 1200;
+	static final int maxY = 1900;
+	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
 
-	private GrafhicView graphicView;
+	private GraphicView graphicView;
 	private MediaPlayer mediaPlayer = null;
-	private MidiFileWriter mfw;
 	private FileInputStream fis = null;
 
 	public class Vec
 	{
+		// 配列に楽器データ入れて、これで指定させようと思ったが挫折
+		// 全エリアのフリック4方向に音色種類を全対応
 		final static int UP = 0;
 		final static int RIGHT = 22;
 		final static int DOWN = 40;
@@ -60,32 +60,28 @@ public class Sound_Front extends Activity{
 		sound[3] = intent.getIntExtra("S4", 0);
 		beat = intent.getIntExtra("BEAT", 0);
 
-		//midi作成
-		// mfw = new MidiFileWriter(getBaseContext());
-
+		// MediaPlayer処理
 		mediaPlayer = new MediaPlayer();
-		//読み込み
 		try
 		{
+			// 読み込み
 			fis = new FileInputStream("/data/data/com.shun.prototype/files/temp.mid");
-			if (fis != null)
-			{
-				mediaPlayer.setDataSource(fis.getFD());
-			}
-			//ファイルセット
+
+			// set
+			if (fis != null) mediaPlayer.setDataSource(fis.getFD());
+
+			// 再生待機
 			mediaPlayer.prepare();
-			Log.d("","midi complete");
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-
 		// ループ再生の設定
 		mediaPlayer.setLooping(true);
 
-		//GraphicViewのオブジェクト生成
-		graphicView = new GrafhicView(this);
+		// GraphicViewのオブジェクト生成
+		graphicView = new GraphicView(this);
 		setContentView(graphicView);
 		graphicView.setBpm(beat/2);
 		graphicView.setScene(true);
@@ -192,22 +188,24 @@ public class Sound_Front extends Activity{
 		// 右側の判定
 		if( nx > beforex[1] && beforex[1] > beforex[3] )
 		{
-			// 右へ移動時
-			if( Math.abs( nx-beforex[3] ) > Math.abs( beforey[3] - ny ) )
+			// x軸移動が大きい時
+			if( Math.abs( nx - beforex[3] ) > Math.abs( beforey[3] - ny ) )
 			{
 				Log.d("", "moveright");
 				return Vec.RIGHT;
 			}
-			// 上下移動が大きい時
+			// y軸移動が大きい時
 			else
 			{
-				//上移動時
+				// 上移動時
 				if( beforey[3] > ny )
 				{
 					Log.d("", "moveup");
 					return Vec.UP;
 				}
-				else {//下移動時
+				// 下移動時
+				else
+				{
 					Log.d("", "movedown");
 					return Vec.DOWN;
 				}
@@ -216,32 +214,35 @@ public class Sound_Front extends Activity{
 		// 左側の判定
 		else
 		{
-			//左移動時
+			// x軸移動が大きい時
 			if( Math.abs( nx - beforex[3] ) > Math.abs( beforey[3] - ny ) )
 			{
 				Log.d("", "moveleft");
 				return Vec.LEFT;
 			}
-			//上移動時
-			else if( beforey[3] > ny )
-			{
-				Log.d("", "moveup");
-				return Vec.UP;
-			}
-			//下移動時
+			// y軸移動が大きい時
 			else
 			{
-				Log.d("", "movedown");
-				return Vec.DOWN;
+				//上移動時
+				if( beforey[3] > ny )
+				{
+					Log.d("", "moveup");
+					return Vec.UP;
+				}
+				//下移動時
+				else
+				{
+					Log.d("", "movedown");
+					return Vec.DOWN;
+				}
 			}
 		}
 	}
 
-
 	protected void onActivityResult(int requestCode,int resultCode,Intent intent)
 	{
 		super.onActivityResult(requestCode,resultCode,intent);
-		if(resultCode==RESULT_OK  && requestCode==RESULT && null!=intent)
+		if( resultCode == RESULT_OK  && requestCode == RESULT && intent != null )
 		{
 			//データの受取と反映
 			sound[0]=intent.getIntExtra("RES_S1",0);
@@ -251,14 +252,10 @@ public class Sound_Front extends Activity{
 			beat=intent.getIntExtra("RES_BEAT",0);
 
 			// エフェクト
-			if( beat > 1 ) graphicView.setBpm(beat/2);
+			if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
 
-			// テンポが変わった時
-			if( beat != bpm )
-			{
-				// MediaPlayer処理
-				this.changeMidiFile();
-			}
+			// midi更新
+			this.changeMidiFile();
 		}
 	}
 
@@ -267,12 +264,12 @@ public class Sound_Front extends Activity{
 	public boolean onTouchEvent(MotionEvent motionEvent)
 	{
 		//タッチ座標取得
-		float getx=motionEvent.getX();
-		float gety=motionEvent.getY();
+		float getx = motionEvent.getX();
+		float gety = motionEvent.getY();
 
 		//画像がおいてある場所取得
-		float nowx[]=graphicView.getBxpoint();
-		float nowy[]=graphicView.getBypoint();
+		float nowx[] = graphicView.getBxpoint();
+		float nowy[] = graphicView.getBypoint();
 
 		// 各イベント処理
 		switch( motionEvent.getAction() )
@@ -306,7 +303,7 @@ public class Sound_Front extends Activity{
 				// テンポ処理
 				if( beattemp != 0 )
 				{
-					beat+=beattemp;
+					beat += beattemp;
 
 					if( beat < 1 ) beat = 1;
 					else if( beat > 256 ) beat = 255;
@@ -316,11 +313,7 @@ public class Sound_Front extends Activity{
 				}
 
 				// テンポが変わった時
-				if( beat != bpm )
-				{
-					// MediaPlayer処理
-					this.changeMidiFile();
-				}
+				if( beat != bpm ) this.changeMidiFile();	// midi更新
 
 				//タッチ時間が長かった場合以降のイベントスキップ
 				if( eventDuration2 > 300 ) break;
@@ -357,7 +350,7 @@ public class Sound_Front extends Activity{
 					startActivityForResult(intent2,requestCode);
 				}
 				// エリア1( 左上 )
-				else if(getx<600 && gety<950)
+				else if( getx < maxX/2 && gety < maxY/2 )
 				{
 					if( graphicView.getFlagPoint(0) == 0 )
 					{
@@ -367,7 +360,7 @@ public class Sound_Front extends Activity{
 						graphicView.setFlagPoint(0, 1);
 
 						//距離
-						dist[0]=Math.sqrt((getx-600)*(getx-600)+(gety-950)*(gety-950));
+						dist[0] = Math.sqrt( ( getx-maxX/2 )*( getx-maxX/2 ) + ( gety-maxY/2 )*( gety-maxY/2 ) );
 						Log.d("", "dist[0]="+dist[0]);
 
 						// MediaPlayer処理
@@ -375,7 +368,7 @@ public class Sound_Front extends Activity{
 					}
 				}
 				// エリア2( 右上 )
-				else if(getx>600 && gety<950)
+				else if( getx > maxX/2 && gety < maxY/2 )
 				{
 					if( graphicView.getFlagPoint(1) == 0 )
 					{
@@ -385,7 +378,7 @@ public class Sound_Front extends Activity{
 						graphicView.setFlagPoint(1, 1);
 
 						//距離
-						dist[1]=Math.sqrt((600-getx)*(600-getx)+(gety-950)*(gety-950));
+						dist[1] = Math.sqrt( ( getx-maxX/2 )*( getx-maxX/2 ) + ( gety-maxY/2 )*( gety-maxY/2 ) );
 						Log.d("", "dist[1]="+dist[1]);
 
 						// MediaPlayer処理
@@ -393,7 +386,7 @@ public class Sound_Front extends Activity{
 					}
 				}
 				// エリア3( 左下 )
-				else if(getx<600 && gety>950)
+				else if( getx < maxX/2 && gety > maxY/2 )
 				{
 					// 画像配置
 
@@ -405,7 +398,7 @@ public class Sound_Front extends Activity{
 						graphicView.setFlagPoint(2, 1);
 
 						// 距離
-						dist[2]=Math.sqrt((getx-600)*(getx-600)+(950-gety)*(950-gety));
+						dist[2] = Math.sqrt( ( getx-maxX/2 )*( getx-maxX/2 ) + ( gety-maxY/2 )*( gety-maxY/2 ) );
 						Log.d("", "dist[2]="+dist[2]);
 
 						// MediaPlayer処理
@@ -413,7 +406,7 @@ public class Sound_Front extends Activity{
 					}
 				}
 				// エリア4( 右下 )
-				else if(getx>600 && gety>950)
+				else if( getx > maxX/2 && gety > maxY/2 )
 				{
 					// 画像配置
 					if( graphicView.getFlagPoint(3) == 0 )
@@ -424,7 +417,7 @@ public class Sound_Front extends Activity{
 						graphicView.setFlagPoint(3, 1);
 
 						// 距離
-						dist[3]=Math.sqrt((600-getx)*(600-getx)+(950-gety)*(950-gety));
+						dist[3] = Math.sqrt( ( getx-maxX/2 )*( getx-maxX/2 ) + ( gety-maxY/2 )*( gety-maxY/2 ) );
 						Log.d("", "dist[3]="+dist[3]);
 
 						// MediaPlayer処理
@@ -476,101 +469,37 @@ public class Sound_Front extends Activity{
 					else if (record == 1)
 					{
 						Log.d("", "spinright");
-						beattemp += 5;//bpm加算
+						beattemp += 1;//bpm加算
 					}
 					//左移動から始めた時
 					else
 					{
 						Log.d("", "spinleft");
-						beattemp -= 5;//bpm減算
+						beattemp -= 1;//bpm減算
 					}
 
 					// デバッグ表示
 					Log.d("", "beattemp:" + beattemp);
 				}
 				// 音色操作
+				// 座標が記録されてない時
 				else
 				{
+					// 音色をフリック方向で対応しているVecの音色へ変更
 					//左上
-					if(getx<600 && gety<950)
-					{
-						//座標が記録されてない時
-						if (record == 0 && beforex[3] != -1)
-						{
-							// 音色をフリック方向で対応しているVecの音色へ変更
-							this.inst[0] = this.frickVec( getx, gety );
-
-							// midi更新
-							this.changeMidiFile();
-
-							// フラグ
-							record=1;
-						}
-						else
-						{
-							break;//スル―
-						}
-					}
+					if( getx < maxX/2 && gety < maxY/2 ) this.inst[0] = this.frickVec( getx, gety );
 					// 右上
-					else if( getx > 600 && gety < 950 )
-					{
-						//座標が記録されてない時
-						if (record == 0 && beforex[3] != -1)
-						{
-							// 音色をフリック方向で対応しているVecの音色へ変更
-							this.inst[1] = this.frickVec( getx, gety );
-
-							// midi更新
-							this.changeMidiFile();
-
-							// フラグ
-							record = 1;
-						}
-						else
-						{
-							break;//スル―
-						}
-					}
+					else if( getx > maxX/2 && gety < maxY/2 ) this.inst[1] = this.frickVec( getx, gety );
 					// 左下
-					else if(getx<600 && gety>950)
-					{
-						//座標が記録されてない時
-						if (record == 0 && beforex[3] != -1)
-						{
-							// 音色をフリック方向で対応しているVecの音色へ変更
-							this.inst[2] = this.frickVec( getx, gety );
-
-							// midi更新
-							this.changeMidiFile();
-
-							// フラグ
-							record = 1;
-						}
-						else
-						{
-							break;//スル―
-						}
-					}
+					else if( getx < maxX/2 && gety > maxY/2 ) this.inst[2] = this.frickVec( getx, gety );
 					// 右下
-					else if(getx>600 && gety>950)
-					{
-						//座標が記録されてない時
-						if (record == 0 && beforex[3] != -1)
-						{
-							// 音色をフリック方向で対応しているVecの音色へ変更
-							this.inst[3] = this.frickVec( getx, gety );
+					else if( getx > maxX/2 && gety > maxY/2 ) this.inst[3] = this.frickVec( getx, gety );
 
-							// midi更新
-							this.changeMidiFile();
+					// midi更新
+					this.changeMidiFile();
 
-							// フラグ
-							record = 1;
-						}
-						else
-						{
-							break;//スル―
-						}
-					}
+					// フラグ
+					this.record = 1;
 				}
 				break;
 

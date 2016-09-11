@@ -2,12 +2,9 @@ package com.shun.prototype;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
 
 public class Sound_Back extends Activity {
     static final int RESULT = 1000;
@@ -15,7 +12,7 @@ public class Sound_Back extends Activity {
     int beat=100;
     int edit=0;
 
-    private GrafhicView graphicView;
+    private GraphicView graphicView;
 
 
     @Override
@@ -61,7 +58,7 @@ public class Sound_Back extends Activity {
         });*/
 
         //GraphicViewのオブジェクト生成
-        graphicView = new GrafhicView(this);
+        graphicView = new GraphicView(this);
         setContentView(graphicView);
         graphicView.setBpm(beat/2);
         graphicView.setScene(false);
