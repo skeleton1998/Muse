@@ -120,10 +120,15 @@ public class Sound_Front extends Activity
 			midFile.closeTrackData();
 
 			// トラックデータ作成
-			midFile.FrogSong((byte) 0x00, (byte) vel[0]);
+			midFile.TwinkleSong((byte) 0x00, (byte) vel[0]);
+			midFile.TwinkleSong((byte) 0x01, (byte) vel[1]);
+			midFile.TwinkleSong((byte) 0x02, (byte) vel[2]);
+			midFile.TwinkleSong((byte) 0x03, (byte) vel[3]);
+
+			/*midFile.FrogSong((byte) 0x00, (byte) vel[0]);
 			midFile.FrogSong((byte) 0x01, (byte) vel[1]);
 			midFile.FrogSong((byte) 0x02, (byte) vel[2]);
-			midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+			midFile.FrogSong((byte) 0x03, (byte) vel[3]);*/
 		}
 		catch( Exception e )
 		{
