@@ -36,7 +36,7 @@ public class Sound_Front extends Activity
 	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
 
 	private GraphicView graphicView;
-	private MediaPlayer mediaPlayer = null;
+	public MediaPlayer mediaPlayer = null;
 	private FileInputStream fis = null;
 
 	public class Vec
@@ -153,6 +153,13 @@ public class Sound_Front extends Activity
 					midFile.PuppySong((byte) 0x02, (byte) vel[2]);
 					midFile.PuppySong((byte) 0x03, (byte) vel[3]);
 					break;
+
+				case 4:
+					midFile.PuppySong((byte) 0x00, (byte) vel[0]);
+					midFile.PuppySong((byte) 0x01, (byte) vel[1]);
+					midFile.PuppySong((byte) 0x02, (byte) vel[2]);
+					midFile.PuppySong((byte) 0x03, (byte) vel[3]);
+					break;
 			}
 		}
 		catch( Exception e )
@@ -162,7 +169,8 @@ public class Sound_Front extends Activity
 	}
 
 	// midi書き換え
-	private void changeMidiFile()
+	// 裏も使うらしい(動くか知らない)
+	public void changeMidiFile()
 	{
 		// MediaPlayer再生中
 		if ( mediaPlayer.isPlaying() )
@@ -530,13 +538,29 @@ public class Sound_Front extends Activity
 				{
 					// 音色をフリック方向で対応しているVecの音色へ変更
 					//左上
-					if( getx < maxX/2 && gety < maxY/2 ) this.inst[0] = this.frickVec( getx, gety );
+					if( getx < maxX/2 && gety < maxY/2 )
+					{
+						this.inst[0] = this.frickVec( getx, gety );
+						graphicView.setflick( 0, this.inst[0]);
+					}
 					// 右上
-					else if( getx > maxX/2 && gety < maxY/2 ) this.inst[1] = this.frickVec( getx, gety );
+					else if( getx > maxX/2 && gety < maxY/2 )
+					{
+						this.inst[1] = this.frickVec( getx, gety );
+						graphicView.setflick( 1, this.inst[1]);
+					}
 					// 左下
-					else if( getx < maxX/2 && gety > maxY/2 ) this.inst[2] = this.frickVec( getx, gety );
+					else if( getx < maxX/2 && gety > maxY/2 )
+					{
+						this.inst[2] = this.frickVec( getx, gety );
+						graphicView.setflick( 2, this.inst[2]);
+					}
 					// 右下
-					else if( getx > maxX/2 && gety > maxY/2 ) this.inst[3] = this.frickVec( getx, gety );
+					else if( getx > maxX/2 && gety > maxY/2 )
+					{
+						this.inst[3] = this.frickVec( getx, gety );
+						graphicView.setflick( 3, this.inst[3]);
+					}
 
 					// midi更新
 					this.changeMidiFile();

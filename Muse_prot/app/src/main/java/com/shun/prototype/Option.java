@@ -35,7 +35,7 @@ public class Option extends Activity {
 
 	private TextView songTextView;
     private Spinner SelectSong;
-    String songItems[]={"かえるのうた","チューリップ","キラキラ星","子犬のマーチ"};
+    String songItems[]={"かえるのうた","チューリップ","キラキラ星","子犬のマーチ","ロンドン橋"};
 
     int sound[]={0,0,0,0};//データ保存用変数
     private int beat=0;
@@ -63,7 +63,8 @@ public class Option extends Activity {
 	    songTextView = (TextView)findViewById(R.id.songTextView);
 	    songTextView.setText("Select Song");
 
-	    textView10 = (TextView)findViewById(R.id.text_view10);
+	    // TODO : エラー出てID書き換えたけど、合ってるか知らない
+	    textView10 = (TextView)findViewById(R.id.songTextView);
 
         Intent intent=getIntent();
         sound[0]=intent.getIntExtra("S1",0);//データの受け取り
@@ -99,6 +100,10 @@ public class Option extends Activity {
 			    else if(item.equals("子犬のマーチ")){
 				    songno=3;
 				    textView10.setText("子犬のマーチ");
+			    }
+			    else if(item.equals("ロンドン橋")){
+				    songno=2;
+				    textView10.setText("ロンドン橋");
 			    }
 		    }
 		    public void onNothingSelected(AdapterView<?> parent){}
