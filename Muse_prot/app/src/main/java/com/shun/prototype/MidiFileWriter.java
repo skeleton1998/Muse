@@ -583,7 +583,7 @@ public class MidiFileWriter
         }
     }
 
-    protected void TwinkleSong( byte ch, byte vel )
+    /*protected void TwinkleSong( byte ch, byte vel )
     {
         try
         {
@@ -694,11 +694,11 @@ public class MidiFileWriter
         {
             e.printStackTrace();
         }
-    }
+    }*/
 
 	//子犬のマーチのNOTE ON, OFF
 	//小節ごとに分割 4/4拍子
-	protected void PuppySong( byte ch, byte vel )
+	/*protected void PuppySong( byte ch, byte vel )
 	{
 		try
 		{
@@ -823,7 +823,7 @@ public class MidiFileWriter
 		{
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 
 	// midiファイル作成

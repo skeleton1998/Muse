@@ -102,7 +102,7 @@ public class Option extends Activity {
 				    textView10.setText("子犬のマーチ");
 			    }
 			    else if(item.equals("ロンドン橋")){
-				    songno=2;
+				    songno=4;
 				    textView10.setText("ロンドン橋");
 			    }
 		    }
