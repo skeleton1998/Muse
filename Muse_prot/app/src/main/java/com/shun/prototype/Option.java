@@ -55,16 +55,15 @@ public class Option extends Activity {
         textView3.setText("Sound3");
         textView4=(TextView)findViewById(R.id.text_view4);
         textView4.setText("Sound4");
-        textView6=(TextView)findViewById(R.id.text_view6);
+        /*textView6=(TextView)findViewById(R.id.text_view6);
         textView7=(TextView)findViewById(R.id.text_view7);
         textView8=(TextView)findViewById(R.id.text_view8);
-        textView9=(TextView)findViewById(R.id.text_view9);
+        textView9=(TextView)findViewById(R.id.text_view9);*/
 
 	    songTextView = (TextView)findViewById(R.id.songTextView);
 	    songTextView.setText("Select Song");
 
-	    // TODO : エラー出てID書き換えたけど、合ってるか知らない
-	    textView10 = (TextView)findViewById(R.id.songTextView);
+	    //textView10 = (TextView)findViewById(R.id.text_view10);
 
         Intent intent=getIntent();
         sound[0]=intent.getIntExtra("S1",0);//データの受け取り
@@ -87,23 +86,23 @@ public class Option extends Activity {
 			    String item=(String)spinner.getSelectedItem();
 			    if(item.equals("かえるのうた")){
 				    songno=0;
-				    textView10.setText("かえるのうた");
+				    //textView10.setText("かえるのうた");
 			    }
 			    else if(item.equals("チューリップ")){
 				    songno=1;
-				    textView10.setText("チューリップ");
+				    //textView10.setText("チューリップ");
 			    }
 			    else if(item.equals("キラキラ星")){
 				    songno=2;
-				    textView10.setText("キラキラ星");
+				    //textView10.setText("キラキラ星");
 			    }
 			    else if(item.equals("子犬のマーチ")){
 				    songno=3;
-				    textView10.setText("子犬のマーチ");
+				    //textView10.setText("子犬のマーチ");
 			    }
 			    else if(item.equals("ロンドン橋")){
 				    songno=4;
-				    textView10.setText("ロンドン橋");
+				    //textView10.setText("ロンドン橋");
 			    }
 		    }
 		    public void onNothingSelected(AdapterView<?> parent){}
@@ -121,15 +120,15 @@ public class Option extends Activity {
                 String item=(String)spinner.getSelectedItem();
                 if(item.equals("dummy1")){
                     sound[0]=0;
-                    textView6.setText("dummy1");
+                    //textView6.setText("dummy1");
                 }
                 else if(item.equals("dummy2")){
                     sound[0]=1;
-                    textView6.setText("dummy2");
+                    //textView6.setText("dummy2");
                 }
                 else if(item.equals("dummy3")){
                     sound[0]=2;
-                    textView6.setText("dummy3");
+                    //textView6.setText("dummy3");
                 }
             }
             public void onNothingSelected(AdapterView<?> parent){}
@@ -147,15 +146,15 @@ public class Option extends Activity {
                 String item=(String)spinner.getSelectedItem();
                 if(item.equals("dummy1")){
                     sound[1]=0;
-                    textView7.setText("dummy1");
+                    //textView7.setText("dummy1");
                 }
                 else if(item.equals("dummy2")){
                     sound[1]=1;
-                    textView7.setText("dummy2");
+                    //textView7.setText("dummy2");
                 }
                 else if(item.equals("dummy3")){
                     sound[1]=2;
-                    textView7.setText("dummy3");
+                    //textView7.setText("dummy3");
                 }
             }
             public void onNothingSelected(AdapterView<?> parent){}
@@ -173,15 +172,15 @@ public class Option extends Activity {
                 String item=(String)spinner.getSelectedItem();
                 if(item.equals("dummy1")){
                     sound[2]=0;
-                    textView8.setText("dummy1");
+                    //textView8.setText("dummy1");
                 }
                 else if(item.equals("dummy2")){
                     sound[2]=1;
-                    textView8.setText("dummy2");
+                    //textView8.setText("dummy2");
                 }
                 else if(item.equals("dummy3")){
                     sound[2]=2;
-                    textView8.setText("dummy3");
+                    //textView8.setText("dummy3");
                 }
             }
             public void onNothingSelected(AdapterView<?> parent){}
@@ -199,15 +198,15 @@ public class Option extends Activity {
                 String item=(String)spinner.getSelectedItem();
                 if(item.equals("dummy1")){
                     sound[3]=0;
-                    textView9.setText("dummy1");
+                    //textView9.setText("dummy1");
                 }
                 else if(item.equals("dummy2")){
                     sound[3]=1;
-                    textView9.setText("dummy2");
+                    //textView9.setText("dummy2");
                 }
                 else if(item.equals("dummy3")){
                     sound[3]=2;
-                    textView9.setText("dummy3");
+                    //textView9.setText("dummy3");
                 }
             }
             public void onNothingSelected(AdapterView<?> parent){}
