@@ -77,6 +77,15 @@ public class Sound_Back extends Activity {
             sound[3]=intent.getIntExtra("RES_S4",0);
             beat=intent.getIntExtra("RES_BEAT",0);
             songNo=intent.getIntExtra("RES_SONGNO",0);
+
+            // エフェクト
+            /*if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
+
+            //再生
+            Sound_Front.mediaPlayer.start(); TODO: 非staticメソッドはstatic参照できない云々の解消
+
+            // midi更新
+            Sound_Front.changeMidiFile();*/
         }
     }
 
@@ -122,6 +131,8 @@ public class Sound_Back extends Activity {
                     intent1.putExtra("BEAT", beat);
                     intent1.putExtra("SONGNO",songNo);
                     int requestCode = RESULT;
+
+                    //Sound_Front.mediaPlayer.pause();
                     startActivityForResult(intent1, requestCode);//オプションに飛ぶ
                 }
 
@@ -132,7 +143,7 @@ public class Sound_Back extends Activity {
                     intent2.putExtra("RES_S3",sound[2]);
                     intent2.putExtra("RES_S4",sound[3]);
                     intent2.putExtra("RES_BEAT",beat);
-                    intent2.putExtra("SONGNO",songNo);
+                    intent2.putExtra("RES_SONGNO",songNo);
                     setResult(RESULT_OK,intent2);
                     finish();//表に戻る
                 }

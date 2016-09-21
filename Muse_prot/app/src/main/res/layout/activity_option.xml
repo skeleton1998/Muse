@@ -15,90 +15,100 @@
         android:layout_height="wrap_content"
         android:id="@+id/songTextView"
         android:layout_margin="10dp"
-        android:textSize="15sp"/>
+        android:textSize="20sp"/>
     <Spinner
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:id="@+id/spinnersong"
         android:drawSelectorOnTop="true" />
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/text_view"
+        android:id="@+id/text_view10"
         android:layout_margin="5dp"
-        android:textSize="10sp"/>
+        android:textSize="15sp"/>
+    -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view1"
         android:layout_margin="10dp"
-        android:textSize="15sp"/>
+        android:textSize="20sp"/>
     <Spinner
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:id="@+id/spinner1"
         android:drawSelectorOnTop="true" />
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view6"
         android:layout_margin="5dp"
-        android:textSize="10sp"/>
+        android:textSize="15sp"/>
+    -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view2"
         android:layout_margin="10dp"
-        android:textSize="15sp"/>
+        android:textSize="20sp"/>
     <Spinner
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:id="@+id/spinner2"
         android:drawSelectorOnTop="true" />
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view7"
         android:layout_margin="5dp"
-        android:textSize="10sp"/>
+        android:textSize="15sp"/>
+    -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view3"
         android:layout_margin="10dp"
-        android:textSize="15sp"/>
+        android:textSize="20sp"/>
     <Spinner
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:id="@+id/spinner3"
         android:drawSelectorOnTop="true" />
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view8"
         android:layout_margin="5dp"
-        android:textSize="10sp"/>
+        android:textSize="15sp"/>
+    -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view4"
         android:layout_margin="10dp"
-        android:textSize="15sp"/>
+        android:textSize="20sp"/>
     <Spinner
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
         android:id="@+id/spinner4"
         android:drawSelectorOnTop="true" />
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view9"
         android:layout_margin="5dp"
-        android:textSize="10sp"/>
+        android:textSize="15sp"/>
+    -->
 
     <TextView
         android:layout_width="wrap_content"
@@ -111,25 +121,25 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Tempo"
-        android:textSize="15sp" />
+        android:textSize="20sp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/text_view5"
         android:layout_margin="10dp"
         android:layout_gravity="center"
-        android:textSize="10sp" />
+        android:textSize="15sp" />
     <SeekBar
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:id="@+id/tempo"
         android:background="#ccc" />
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:id="@+id/return_button"
-        android:textSize="15sp"
+        android:textSize="20sp"
         android:layout_margin="20dp"
         android:text="return"/>
 
