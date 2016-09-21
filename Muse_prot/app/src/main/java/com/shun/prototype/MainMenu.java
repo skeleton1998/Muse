@@ -11,6 +11,7 @@ public class MainMenu extends Activity {
     static final int RESULT = 1000;
     int sound[]={0,0,0,0};
     int beat=100;
+    int songno=0;
 
 
     @Override
@@ -28,6 +29,7 @@ public class MainMenu extends Activity {
                 intent1.putExtra("S3",sound[2]);
                 intent1.putExtra("S4",sound[3]);
                 intent1.putExtra("BEAT",beat);
+                intent1.putExtra("SONGNO",songno);
                 int requestCode=RESULT;
                 startActivityForResult(intent1,requestCode);
             }
@@ -43,6 +45,7 @@ public class MainMenu extends Activity {
                 intent2.putExtra("S3",sound[2]);
                 intent2.putExtra("S4",sound[3]);
                 intent2.putExtra("BEAT",beat);
+                intent2.putExtra("SONGNO",songno);
                 int requestCode=RESULT;
                 startActivityForResult(intent2,requestCode);
             }
@@ -57,6 +60,7 @@ public class MainMenu extends Activity {
             sound[2]=intent.getIntExtra("RES_S3",0);
             sound[3]=intent.getIntExtra("RES_S4",0);
             beat=intent.getIntExtra("RES_BEAT",0);
+            songno=intent.getIntExtra("RES_SONGNO",0);
         }
     }
 }

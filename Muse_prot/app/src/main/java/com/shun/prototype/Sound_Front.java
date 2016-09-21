@@ -26,6 +26,9 @@ public class Sound_Front extends Activity
 	int bpm = 120;				// beat per min
 	int inst[] = { 0,0,0,0 };	// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
+	int songNo = 0;             //曲セレクト
+
+	int nowPos = 0;
 
 	// 画面サイズうんぬん : TODO
 	static final int maxX = 1200;
@@ -33,7 +36,7 @@ public class Sound_Front extends Activity
 	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
 
 	private GraphicView graphicView;
-	private MediaPlayer mediaPlayer = null;
+	public MediaPlayer mediaPlayer = null;
 	private FileInputStream fis = null;
 
 	public class Vec
@@ -59,6 +62,7 @@ public class Sound_Front extends Activity
 		sound[2] = intent.getIntExtra("S3", 0);
 		sound[3] = intent.getIntExtra("S4", 0);
 		beat = intent.getIntExtra("BEAT", 0);
+		songNo = intent.getIntExtra("SONGNO", 0);
 
 		// MediaPlayer処理
 		mediaPlayer = new MediaPlayer();
@@ -120,10 +124,43 @@ public class Sound_Front extends Activity
 			midFile.closeTrackData();
 
 			// トラックデータ作成
-			midFile.FrogSong((byte) 0x00, (byte) vel[0]);
-			midFile.FrogSong((byte) 0x01, (byte) vel[1]);
-			midFile.FrogSong((byte) 0x02, (byte) vel[2]);
-			midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+			switch( songNo )
+			{
+				case 0:
+					midFile.FrogSong((byte) 0x00, (byte) vel[0]);
+					midFile.FrogSong((byte) 0x01, (byte) vel[1]);
+					midFile.FrogSong((byte) 0x02, (byte) vel[2]);
+					midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+					break;
+
+				case 1:
+					midFile.TulipSong((byte) 0x00, (byte) vel[0]);
+					midFile.TulipSong((byte) 0x01, (byte) vel[1]);
+					midFile.TulipSong((byte) 0x02, (byte) vel[2]);
+					midFile.TulipSong((byte) 0x03, (byte) vel[3]);
+					break;
+
+				case 2:
+					midFile.TwinkleSong((byte) 0x00, (byte) vel[0]);
+					midFile.TwinkleSong((byte) 0x01, (byte) vel[1]);
+					midFile.TwinkleSong((byte) 0x02, (byte) vel[2]);
+					midFile.TwinkleSong((byte) 0x03, (byte) vel[3]);
+					break;
+
+				case 3:
+					midFile.PuppySong((byte) 0x00, (byte) vel[0]);
+					midFile.PuppySong((byte) 0x01, (byte) vel[1]);
+					midFile.PuppySong((byte) 0x02, (byte) vel[2]);
+					midFile.PuppySong((byte) 0x03, (byte) vel[3]);
+					break;
+
+				case 4:
+					midFile.PuppySong((byte) 0x00, (byte) vel[0]);
+					midFile.PuppySong((byte) 0x01, (byte) vel[1]);
+					midFile.PuppySong((byte) 0x02, (byte) vel[2]);
+					midFile.PuppySong((byte) 0x03, (byte) vel[3]);
+					break;
+			}
 		}
 		catch( Exception e )
 		{
@@ -132,10 +169,9 @@ public class Sound_Front extends Activity
 	}
 
 	// midi書き換え
-	private void changeMidiFile()
+	// 裏も使うらしい(動くか知らない)
+	public void changeMidiFile()
 	{
-		int nowPos = 0;
-
 		// MediaPlayer再生中
 		if ( mediaPlayer.isPlaying() )
 		{
@@ -171,7 +207,7 @@ public class Sound_Front extends Activity
 			mediaPlayer.start();
 		}
 		// MediaPlayer停止中
-		else if ( !mediaPlayer.isPlaying() )
+		else
 		{
 			// midi作成
 			this.createMidiFile();
@@ -250,9 +286,19 @@ public class Sound_Front extends Activity
 			sound[2]=intent.getIntExtra("RES_S3",0);
 			sound[3]=intent.getIntExtra("RES_S4",0);
 			beat=intent.getIntExtra("RES_BEAT",0);
+			songNo=intent.getIntExtra("RES_SONGNO",0);
+
+			if( this.songNo != intent.getIntExtra("RES_SONGNO",0) )
+			{
+				nowPos = 0;
+			}
+			songNo = intent.getIntExtra("RES_SONGNO",0);
 
 			// エフェクト
 			if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
+
+			//再生
+			mediaPlayer.start();
 
 			// midi更新
 			this.changeMidiFile();
@@ -329,7 +375,11 @@ public class Sound_Front extends Activity
 					intent1.putExtra("S3", sound[2]);
 					intent1.putExtra("S4", sound[3]);
 					intent1.putExtra("BEAT", beat);
+					intent1.putExtra("SONGNO",songNo);
 					int requestCode = RESULT;
+
+					//停止
+					mediaPlayer.pause();
 
 					// 飛ぶ
 					startActivityForResult(intent1, requestCode);
@@ -344,6 +394,7 @@ public class Sound_Front extends Activity
 					intent2.putExtra("S3",sound[2]);
 					intent2.putExtra("S4",sound[3]);
 					intent2.putExtra("BEAT",beat);
+					intent2.putExtra("SONGNO",songNo);
 					int requestCode=RESULT;
 
 					//裏に飛ぶ
@@ -487,13 +538,29 @@ public class Sound_Front extends Activity
 				{
 					// 音色をフリック方向で対応しているVecの音色へ変更
 					//左上
-					if( getx < maxX/2 && gety < maxY/2 ) this.inst[0] = this.frickVec( getx, gety );
+					if( getx < maxX/2 && gety < maxY/2 )
+					{
+						this.inst[0] = this.frickVec( getx, gety );
+						graphicView.setflick( 0, this.inst[0]);
+					}
 					// 右上
-					else if( getx > maxX/2 && gety < maxY/2 ) this.inst[1] = this.frickVec( getx, gety );
+					else if( getx > maxX/2 && gety < maxY/2 )
+					{
+						this.inst[1] = this.frickVec( getx, gety );
+						graphicView.setflick( 1, this.inst[1]);
+					}
 					// 左下
-					else if( getx < maxX/2 && gety > maxY/2 ) this.inst[2] = this.frickVec( getx, gety );
+					else if( getx < maxX/2 && gety > maxY/2 )
+					{
+						this.inst[2] = this.frickVec( getx, gety );
+						graphicView.setflick( 2, this.inst[2]);
+					}
 					// 右下
-					else if( getx > maxX/2 && gety > maxY/2 ) this.inst[3] = this.frickVec( getx, gety );
+					else if( getx > maxX/2 && gety > maxY/2 )
+					{
+						this.inst[3] = this.frickVec( getx, gety );
+						graphicView.setflick( 3, this.inst[3]);
+					}
 
 					// midi更新
 					this.changeMidiFile();

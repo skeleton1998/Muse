@@ -13,6 +13,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/songTextView"
+        android:layout_margin="10dp"
+        android:textSize="15sp"/>
+    <Spinner
+        android:layout_width="120dp"
+        android:layout_height="20dp"
+        android:id="@+id/spinnersong"
+        android:drawSelectorOnTop="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_view"
+        android:layout_margin="5dp"
+        android:textSize="10sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/text_view1"
         android:layout_margin="10dp"
         android:textSize="15sp"/>
