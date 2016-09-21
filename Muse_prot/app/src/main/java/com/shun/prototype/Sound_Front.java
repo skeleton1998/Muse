@@ -50,8 +50,8 @@ public class Sound_Front extends Activity
 		// 全エリアのフリック4方向に音色種類を全対応
 		final static int UP = 0;
 		final static int RIGHT = 1;
-		final static int DOWN = 2;
-		final static int LEFT = 3;
+		final static int LEFT = 2;
+		final static int DOWN = 3;
 	}
 
 	@Override
