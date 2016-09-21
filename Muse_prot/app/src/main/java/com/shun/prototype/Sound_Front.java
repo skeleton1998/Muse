@@ -28,7 +28,12 @@ public class Sound_Front extends Activity
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
 	int songNo = 0;             //曲セレクト
 
-	int nowPos = 0;
+	int Arrange1InstList[] = { 0, 22, 40, 56 };	// 楽器リスト
+	int Arrange2InstList[] = { 0, 22, 40, 56 };	// 楽器リスト
+	int melodyInstList[] = { 0, 22, 40, 56 };	// 楽器リスト
+
+	//
+	int nowPos = 0;	// 再生位置
 
 	// 画面サイズうんぬん : TODO
 	static final int maxX = 1200;
@@ -44,9 +49,9 @@ public class Sound_Front extends Activity
 		// 配列に楽器データ入れて、これで指定させようと思ったが挫折
 		// 全エリアのフリック4方向に音色種類を全対応
 		final static int UP = 0;
-		final static int RIGHT = 22;
-		final static int DOWN = 40;
-		final static int LEFT = 56;
+		final static int RIGHT = 1;
+		final static int DOWN = 2;
+		final static int LEFT = 3;
 	}
 
 	@Override
@@ -119,18 +124,18 @@ public class Sound_Front extends Activity
 			// 音色設定
 			midFile.setProgramChange((byte) 0x00, (byte) inst[0]);
 			midFile.setProgramChange((byte) 0x01, (byte) inst[1]);
-			midFile.setProgramChange((byte) 0x02, (byte) inst[2]);
-			midFile.setProgramChange((byte) 0x03, (byte) inst[3]);
+			midFile.setProgramChange((byte) 0x02, (byte) inst[2]);	// 	主旋律
+			midFile.setProgramChange((byte) 0x03, (byte) inst[3] );	// ドラム
 			midFile.closeTrackData();
 
 			// トラックデータ作成
 			switch( songNo )
 			{
 				case 0:
-					midFile.FrogSong((byte) 0x00, (byte) vel[0]);
-					midFile.FrogSong((byte) 0x01, (byte) vel[1]);
-					midFile.FrogSong((byte) 0x02, (byte) vel[2]);
-					midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+					midFile.Song1Arrange1((byte) 0x00, (byte) vel[0]);
+					midFile.Song1Arrange2((byte) 0x01, (byte) vel[1]);
+					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
+					midFile.Song1Percussion((byte) 0x03, (byte) vel[3]);
 					break;
 
 				case 1:
@@ -532,33 +537,57 @@ public class Sound_Front extends Activity
 					// デバッグ表示
 					Log.d("", "beattemp:" + beattemp);
 				}
-				// 音色操作
+				// フリック操作
 				// 座標が記録されてない時
 				else
 				{
-					// 音色をフリック方向で対応しているVecの音色へ変更
+					// フリック方向で各エリアごとの操作
 					//左上
 					if( getx < maxX/2 && gety < maxY/2 )
 					{
-						this.inst[0] = this.frickVec( getx, gety );
+						// 下フリックで消す
+						if( this.frickVec( getx, gety ) == Vec.DOWN )
+						{
+							graphicView.setFxpoint( 0, 0 );
+							graphicView.setFypoint( 0, 0 );
+							dist[ 0 ] = 0;
+						}
+						else this.inst[0] = Arrange1InstList[ this.frickVec( getx, gety ) ];
+
 						graphicView.setflick( 0, this.inst[0]);
 					}
 					// 右上
 					else if( getx > maxX/2 && gety < maxY/2 )
 					{
-						this.inst[1] = this.frickVec( getx, gety );
+						// 下フリックで消す
+						if( this.frickVec( getx, gety ) == Vec.DOWN )
+						{
+							graphicView.setFxpoint( 1, 0 );
+							graphicView.setFypoint( 1, 0 );
+							dist[ 1 ] = 0;
+						}
+						else this.inst[1] = Arrange2InstList[ this.frickVec( getx, gety ) ];
+
 						graphicView.setflick( 1, this.inst[1]);
 					}
 					// 左下
 					else if( getx < maxX/2 && gety > maxY/2 )
 					{
-						this.inst[2] = this.frickVec( getx, gety );
+						this.inst[2] = melodyInstList[ this.frickVec( getx, gety ) ];
 						graphicView.setflick( 2, this.inst[2]);
 					}
 					// 右下
 					else if( getx > maxX/2 && gety > maxY/2 )
 					{
-						this.inst[3] = this.frickVec( getx, gety );
+						// 下フリックで消す
+						if( this.frickVec( getx, gety ) == Vec.DOWN )
+						{
+							graphicView.setFxpoint(3, 0);
+							graphicView.setFypoint(3, 0);
+							dist[ 3 ] = 0;
+						}
+						else this.inst[3] = this.frickVec( getx, gety );
+
 						graphicView.setflick( 3, this.inst[3]);
 					}
 
