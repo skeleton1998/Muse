@@ -11,6 +11,7 @@ public class Sound_Back extends Activity {
     int sound[]={0,0,0,0};//データ保存用変数
     int beat=100;
     int edit=0;
+    int songNo=0;
 
     private GraphicView graphicView;
 
@@ -26,6 +27,7 @@ public class Sound_Back extends Activity {
         sound[2]=intent.getIntExtra("S3",0);
         sound[3]=intent.getIntExtra("S4",0);
         beat=intent.getIntExtra("BEAT",0);
+        songNo=intent.getIntExtra("SONGNO",0);
 
         /*Button sendbutton1 = (Button) findViewById(R.id.send_button1);
         sendbutton1.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +76,7 @@ public class Sound_Back extends Activity {
             sound[2]=intent.getIntExtra("RES_S3",0);
             sound[3]=intent.getIntExtra("RES_S4",0);
             beat=intent.getIntExtra("RES_BEAT",0);
+            songNo=intent.getIntExtra("RES_SONGNO",0);
         }
     }
 
@@ -117,6 +120,7 @@ public class Sound_Back extends Activity {
                     intent1.putExtra("S3", sound[2]);
                     intent1.putExtra("S4", sound[3]);
                     intent1.putExtra("BEAT", beat);
+                    intent1.putExtra("SONGNO",songNo);
                     int requestCode = RESULT;
                     startActivityForResult(intent1, requestCode);//オプションに飛ぶ
                 }
@@ -128,6 +132,7 @@ public class Sound_Back extends Activity {
                     intent2.putExtra("RES_S3",sound[2]);
                     intent2.putExtra("RES_S4",sound[3]);
                     intent2.putExtra("RES_BEAT",beat);
+                    intent2.putExtra("SONGNO",songNo);
                     setResult(RESULT_OK,intent2);
                     finish();//表に戻る
                 }

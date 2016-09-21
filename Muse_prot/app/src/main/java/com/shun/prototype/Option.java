@@ -22,6 +22,7 @@ public class Option extends Activity {
     private TextView textView7;
     private TextView textView8;
     private TextView textView9;
+	private TextView textView10;
 
     private Spinner SelectSound1;//ドロップダウンメニュー使うためのやつ
     private Spinner SelectSound2;
@@ -32,8 +33,13 @@ public class Option extends Activity {
     String Items3[]={"dummy1","dummy2","dummy3"};
     String Items4[]={"dummy1","dummy2","dummy3"};
 
+	private TextView songTextView;
+    private Spinner SelectSong;
+    String songItems[]={"かえるのうた","チューリップ","キラキラ星","子犬のマーチ"};
+
     int sound[]={0,0,0,0};//データ保存用変数
     private int beat=0;
+    private int songno = 0;
 
     private SeekBar seekbar;//シークバー使うためのやつ
 
@@ -54,6 +60,10 @@ public class Option extends Activity {
         textView8=(TextView)findViewById(R.id.text_view8);
         textView9=(TextView)findViewById(R.id.text_view9);
 
+	    songTextView = (TextView)findViewById(R.id.songTextView);
+	    songTextView.setText("Select Song");
+
+	    textView10 = (TextView)findViewById(R.id.text_view10);
 
         Intent intent=getIntent();
         sound[0]=intent.getIntExtra("S1",0);//データの受け取り
@@ -61,6 +71,38 @@ public class Option extends Activity {
         sound[2]=intent.getIntExtra("S3",0);
         sound[3]=intent.getIntExtra("S4",0);
         beat=intent.getIntExtra("BEAT",0);
+	    songno=intent.getIntExtra("SONGNO",0);
+
+	    //曲のドロップダウンメニュー
+	    SelectSong=(Spinner)findViewById(R.id.spinnersong);
+	    ArrayAdapter<String> adaptersong
+			    =new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,songItems);
+	    adaptersong.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    SelectSong.setAdapter(adaptersong);
+	    SelectSong.setSelection(songno);
+	    SelectSong.setOnItemSelectedListener(new OnItemSelectedListener(){
+		    public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
+			    Spinner spinner=(Spinner)parent;
+			    String item=(String)spinner.getSelectedItem();
+			    if(item.equals("かえるのうた")){
+				    songno=0;
+				    textView10.setText("かえるのうた");
+			    }
+			    else if(item.equals("チューリップ")){
+				    songno=1;
+				    textView10.setText("チューリップ");
+			    }
+			    else if(item.equals("キラキラ星")){
+				    songno=2;
+				    textView10.setText("キラキラ星");
+			    }
+			    else if(item.equals("子犬のマーチ")){
+				    songno=3;
+				    textView10.setText("子犬のマーチ");
+			    }
+		    }
+		    public void onNothingSelected(AdapterView<?> parent){}
+	    });
 
         SelectSound1=(Spinner)findViewById(R.id.spinner1);//楽器1のドロップダウンメニュー
         ArrayAdapter<String> adapter1
@@ -192,6 +234,7 @@ public class Option extends Activity {
                 intent.putExtra("RES_S3",sound[2]);
                 intent.putExtra("RES_S4",sound[3]);
                 intent.putExtra("RES_BEAT",beat);
+	            intent.putExtra("RES_SONGNO",songno);
                 setResult(RESULT_OK,intent);
                 finish();
             }
