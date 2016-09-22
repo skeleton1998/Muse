@@ -26,6 +26,7 @@ public class Sound_Front extends Activity
 	int inst[] = { 0, 0, 0, 0 };// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
 	int songNo = 0;             //曲セレクト
+	int DrumNo = 0;				// ドラムトラック用変数
 
 	// 楽器リスト
 	int Arrange1InstList[] = new int[3];
@@ -143,38 +144,17 @@ public class Sound_Front extends Activity
 			switch( songNo )
 			{
 				case 0:
-					midFile.Song1Arrange1((byte) 0x00, (byte) vel[0]);
-					midFile.Song1Arrange2((byte) 0x01, (byte) vel[1]);
+					midFile.Song1ArrangeA((byte) 0x00, (byte) vel[0]);
+					midFile.Song1ArrangeB((byte) 0x01, (byte) vel[1]);
 					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
-					midFile.Song1Percussion((byte) 0x09, (byte) vel[3]);
+					midFile.Song1Percuss( DrumNo, (byte) 0x09, (byte) vel[3]);
 					break;
 
-				case 1:
-					midFile.TulipSong((byte) 0x00, (byte) vel[0]);
-					midFile.TulipSong((byte) 0x01, (byte) vel[1]);
-					midFile.TulipSong((byte) 0x02, (byte) vel[2]);
-					midFile.TulipSong((byte) 0x03, (byte) vel[3]);
-					break;
-
-				case 2:
-					midFile.TwinkleSong((byte) 0x00, (byte) vel[0]);
-					midFile.TwinkleSong((byte) 0x01, (byte) vel[1]);
-					midFile.TwinkleSong((byte) 0x02, (byte) vel[2]);
-					midFile.TwinkleSong((byte) 0x03, (byte) vel[3]);
-					break;
-
-				case 3:
-					midFile.PuppySong((byte) 0x00, (byte) vel[0]);
-					midFile.PuppySong((byte) 0x01, (byte) vel[1]);
-					midFile.PuppySong((byte) 0x02, (byte) vel[2]);
-					midFile.PuppySong((byte) 0x03, (byte) vel[3]);
-					break;
-
-				case 4:
-					midFile.PuppySong((byte) 0x00, (byte) vel[0]);
-					midFile.PuppySong((byte) 0x01, (byte) vel[1]);
-					midFile.PuppySong((byte) 0x02, (byte) vel[2]);
-					midFile.PuppySong((byte) 0x03, (byte) vel[3]);
+				default:
+					midFile.Song1ArrangeA((byte) 0x00, (byte) vel[0]);
+					midFile.Song1ArrangeB((byte) 0x01, (byte) vel[1]);
+					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
+					midFile.Song1PercussionA((byte) 0x09, (byte) vel[3]);
 					break;
 			}
 		}
@@ -185,7 +165,6 @@ public class Sound_Front extends Activity
 	}
 
 	// midi書き換え
-	// 裏も使うらしい(動くか知らない)
 	public void changeMidiFile()
 	{
 		// MediaPlayer再生中
@@ -618,7 +597,11 @@ public class Sound_Front extends Activity
 							graphicView.setFypoint(3, 0);
 							dist[ 3 ] = 0;
 						}
-						else this.inst[3] = this.frickVec( getx, gety );
+						else
+						{
+							DrumNo = this.frickVec( getx, gety );
+							this.inst[3] = this.frickVec( getx, gety );
+						}
 
 						graphicView.setflick( 3, this.inst[3]);
 					}

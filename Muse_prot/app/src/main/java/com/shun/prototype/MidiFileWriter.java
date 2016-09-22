@@ -28,473 +28,42 @@ public class MidiFileWriter
         this.context = contxt;
     }
 
-    // カエルの歌のNOTE ON, OFF
-    //小節ごとに分割
-    protected void FrogSong( byte ch, byte vel )
-    {
-        try
-        {
-            // カエルの歌
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.closeTrackData();
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // チューリップの歌のNOTE ON, OFF
-    //小節ごとに分割
-    protected void TulipSong( byte ch, byte vel )
-    {
-        try
-        {
-            // チューリップの歌
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.closeTrackData();
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-        }
-    }
-
-    //きらきらぼしのNOTE ON, OFF
-    //小節ごとに分割
-    protected void TwinkleSong( byte ch, byte vel )
-    {
-        try
-        {
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-          this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-          this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-          this.closeTrackData();
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-        }
-    }
-
-    //子犬のマーチのNOTE ON, OFF
-    //小節ごとに分割
-    protected void PuppySong( byte ch, byte vel )
-    {
-        try
-        {
-            // 子犬のマーチ
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-
-            this.closeTrackData();
-        }
-        catch( Exception e )
-        {
-            e.printStackTrace();
-        }
-    }
-
-    // Debug用サンプル
+    //オリジナル１曲目
     protected void Song1Melody( byte ch, byte vel )
     {
         try
         {
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_010), (byte)MidiFileWriter.NoteTone.G5, (byte)0x00);
 
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.FF5, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G5, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_025), (byte)MidiFileWriter.NoteTone.D5, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.B4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_010), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_010), (byte)MidiFileWriter.NoteTone.G4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_025), (byte)MidiFileWriter.NoteTone.A4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.B4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_010), (byte)MidiFileWriter.NoteTone.D5, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_025), (byte)MidiFileWriter.NoteTone.E5, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D5, (byte)0x00);
 
             this.closeTrackData();
         }
@@ -504,29 +73,81 @@ public class MidiFileWriter
         }
     }
 
-    protected void Song1Percussion( byte ch, byte vel )
+    protected void Song1PercussionA( byte ch, byte vel )
     {
         try
         {
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)54, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)54, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)54, (byte)0x00);
 
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
+
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
+
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
             this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
-            this.addNoteOn( ch, 0, (byte)54, vel);
-            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)54, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)35, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
 
             this.closeTrackData();
         }
@@ -536,25 +157,81 @@ public class MidiFileWriter
         }
     }
 
-	protected void Song1Arrange1( byte ch, byte vel )
+	protected void Song1PercussionB( byte ch, byte vel )
 	{
 		try
 		{
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
 
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
 
 			this.closeTrackData();
 		}
@@ -564,31 +241,345 @@ public class MidiFileWriter
 		}
 	}
 
-	protected void Song1Arrange2( byte ch, byte vel )
+	protected void Song1Percuss( int no, byte ch, byte vel )
+	{
+		switch( no )
+		{
+			case 0:
+				this.Song1PercussionA( ch, vel);
+				break;
+
+			case 1:
+				this.Song1PercussionB( ch, vel );
+				break;
+
+			default:
+				this.Song1PercussionA( ch, vel);
+				break;
+		}
+	}
+
+	protected void Song1ArrangeA( byte ch, byte vel )
 	{
 		try
 		{
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
 
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.D4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.E4, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.F4, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)MidiFileWriter.NoteTone.F4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
 
-			this.closeTrackData();
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.C3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.E3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.C3, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G2, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G2, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D3, vel);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.FF3, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_020), (byte)MidiFileWriter.NoteTone.G3, (byte)0x00);
+
+            this.closeTrackData();
 		}
 		catch( Exception e )
 		{
 			e.printStackTrace();
 		}
 	}
+
+	protected void Song1ArrangeB( byte ch, byte vel )
+	{
+		try
+		{
+			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.A4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.G4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.D5, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+            this.addNoteOn( ch, 0, (byte)MidiFileWriter.NoteTone.B4, vel);
+            this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)MidiFileWriter.NoteTone.C4, (byte)0x00);
+
+            this.closeTrackData();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+	}
+
+    // 2曲目
 
 	// midiファイル作成
     public boolean CreateMidiFile( String fileName, int trackNo, int dTime )
@@ -826,11 +817,11 @@ public class MidiFileWriter
     public class NoteTime
     {
         public final static double Note_010 = 4;    // 全音符
-        public final static double Note_020 = 3;    // 付点2分音符
-        public final static double Note_030 = 2;    // 2分音符
-        public final static double Note_035 = 1.5;  // 付点4分音符
+        public final static double Note_025 = 3;    // 付点2分音符
+        public final static double Note_020 = 2;    // 2分音符
+        public final static double Note_045 = 1.5;  // 付点4分音符
         public final static double Note_040 = 1;    // 4分音符
-        public final static double Note_045 = 0.75; // 付点8分音符
+        public final static double Note_085 = 0.75; // 付点8分音符
         public final static double Note_080 = 0.5;  // 8分音符
         public final static double Note_160 = 0.25; // 16分音符
     }
