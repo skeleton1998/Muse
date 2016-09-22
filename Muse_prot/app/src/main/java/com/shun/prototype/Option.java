@@ -79,23 +79,32 @@ public class Option extends Activity
 	// 本体
 	private Instrument[] InstList = {
 			new Instrument( "ピアノ", 0 ),
+			new Instrument( "オルゴール", 11 ),
+			new Instrument( "マリンバ", 13 ),
+			new Instrument( "ドローパーオルガン", 17 ),
 			new Instrument( "アコーディオン", 22 ),
 			new Instrument( "ハーモニカ", 23 ),
 			new Instrument( "ナイロン弦アコギ", 25 ),
+			new Instrument( "スラップベース", 37 ),
 			new Instrument( "シンセベース2", 40 ),
-			new Instrument( "トランペット", 53 )
+			new Instrument( "ヴァイオリン", 41 ),
+			new Instrument( "トランペット", 57 ),
+			new Instrument( "ソプラノサックス", 65 ),
+			new Instrument( "三味線", 107 ),
+			new Instrument( "太鼓", 117 )
 	};
 	public String[] nameList = new String[ InstList.length ];
 	public int[] instList = new int[ InstList.length ];
 
-	// 選択肢の添字判断
+	/* 選択肢の添字判断 */
+	// プログラムチェンジリスト用
 	public int indexOfInt( int array[], int num )
 	{
 		for( int i = 0; i < array.length; i++) if( num == array[i] ) return i;
 
 		return -1;
 	}
-
+	// 楽器名用
 	public int indexOfString( String array[], String s )
 	{
 		for( int i = 0; i < array.length; i++) if( array[i].equals( s ) ) return i;

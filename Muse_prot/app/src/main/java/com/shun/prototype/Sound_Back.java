@@ -104,22 +104,7 @@ public class Sound_Back extends Activity {
                 Log.d("","getx   ="+getx+",gety   ="+gety);
                 Log.d("","nowx[0]="+nowx[0]+",nowy[0]="+nowy[0]);
 
-
-                if(getx<60 && gety<120) {//座標判定
-                    Intent intent1 = new Intent(getApplication(), Option.class);
-                    intent1.putExtra("S1", sound[0]);//各データの転送
-                    intent1.putExtra("S2", sound[1]);
-                    intent1.putExtra("S3", sound[2]);
-                    intent1.putExtra("S4", sound[3]);
-                    intent1.putExtra("BEAT", beat);
-                    intent1.putExtra("SONGNO",songNo);
-                    int requestCode = RESULT;
-
-                    //Sound_Front.mediaPlayer.pause();
-                    startActivityForResult(intent1, requestCode);//オプションに飛ぶ
-                }
-
-                else if(getx>1090 && gety<120){
+				if(getx>1090 && gety<120){
                     Intent intent2 = new Intent();
                     intent2.putExtra("RES_S1",sound[0]);//データを返す
                     intent2.putExtra("RES_S2",sound[1]);
