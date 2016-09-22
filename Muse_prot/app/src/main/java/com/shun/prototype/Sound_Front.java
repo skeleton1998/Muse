@@ -110,8 +110,11 @@ public class Sound_Front extends Activity
 		//音の大きさ更新
 		for( int i = 0; i < vel.length; i++ )
 		{
-			//値溢れない処理のみ : TODO
-			vel[i] = (int)( dist[i] * 127 / maxLen );
+			// アイコンが無いとき
+			if( dist[ i ] == 0 ) continue;
+
+			// 音量計算
+			vel[i] = (int)( ( maxLen - dist[i] ) * 127 / maxLen );
 		}
 
 		// テンポの更新 : TODO
@@ -129,10 +132,10 @@ public class Sound_Front extends Activity
 			midFile.setTempo(bpm);
 
 			// 音色設定
-			midFile.setProgramChange((byte) 0x00, (byte) inst[0]);
-			midFile.setProgramChange((byte) 0x01, (byte) inst[1]);
-			midFile.setProgramChange((byte) 0x02, (byte) inst[2]);	// 	主旋律
-			midFile.setProgramChange((byte) 0x03, (byte) inst[3] );	// ドラム
+			midFile.setProgramChange((byte) 0x00, (byte) inst[0] );
+			midFile.setProgramChange((byte) 0x01, (byte) inst[1] );
+			midFile.setProgramChange((byte) 0x02, (byte) inst[2] );	// 	主旋律
+			//midFile.setProgramChange((byte) 0x03, (byte) inst[3] );	// ドラム
 			midFile.closeTrackData();
 
 			// トラックデータ作成
@@ -142,7 +145,7 @@ public class Sound_Front extends Activity
 					midFile.Song1Arrange1((byte) 0x00, (byte) vel[0]);
 					midFile.Song1Arrange2((byte) 0x01, (byte) vel[1]);
 					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
-					midFile.Song1Percussion((byte) 0x03, (byte) vel[3]);
+					midFile.Song1Percussion((byte) 0x09, (byte) vel[3]);
 					break;
 
 				case 1:
@@ -303,7 +306,11 @@ public class Sound_Front extends Activity
 			melodyInstList[1] = intent.getIntExtra("RES_MInst1", 0);
 			melodyInstList[2] = intent.getIntExtra("RES_MInst2", 0);
 			melodyInstList[3] = intent.getIntExtra("RES_MInst3", 0);
+
+			// テンポ処理
 			beat = intent.getIntExtra("RES_BEAT", 0);
+			if( beat < 20 ) beat = 20;
+			else if( beat > 240 ) beat = 240;
 
 			if( this.songNo != intent.getIntExtra("RES_SongNo",0) )
 			{
@@ -312,7 +319,7 @@ public class Sound_Front extends Activity
 			songNo = intent.getIntExtra("RES_SongNo",0);
 
 			// エフェクト
-			if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
+			graphicView.setBpm(beat/2);
 
 			//再生
 			mediaPlayer.start();
@@ -368,8 +375,8 @@ public class Sound_Front extends Activity
 				{
 					beat += beattemp;
 
-					if( beat < 1 ) beat = 1;
-					else if( beat > 256 ) beat = 255;
+					if( beat < 20 ) beat = 20;
+					else if( beat > 240 ) beat = 240;
 
 					// テンポセット
 					graphicView.setBpm(beat / 2);
