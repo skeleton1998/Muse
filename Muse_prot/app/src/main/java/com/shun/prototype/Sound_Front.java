@@ -39,6 +39,7 @@ public class Sound_Front extends Activity
 	static final int maxX = 1200;
 	static final int maxY = 1900;
 	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
+	static final int buttonSize = 60;
 
 	private GraphicView graphicView;
 	public MediaPlayer mediaPlayer = null;
@@ -109,12 +110,12 @@ public class Sound_Front extends Activity
 		//音の大きさ更新
 		for( int i = 0; i < vel.length; i++ )
 		{
-			int fixDist = 30;   // 音量微調整(中心付近は全部最大)
+			int fixDist = 300;   // 音量微調整(中心付近は全部最大)
 
 			// 音量計算
 			if( dist[i] == 0 ) vel[i] = 0;
 			else if( dist[ i ] < fixDist ) vel[i] = 127;
-			else vel[i] = (int)( ( maxLen - dist[i] + fixDist ) * 127 / maxLen );
+			else vel[i] = (int)( ( maxLen - dist[i] ) * 127 / ( maxLen - fixDist ) );
 		}
 
 		// テンポの更新 : TODO
@@ -390,7 +391,7 @@ public class Sound_Front extends Activity
 
 				//座標判定
 				// オプションへの遷移
-				if(getx<60 && gety<120)
+				if( getx < buttonSize && gety < buttonSize*2 )
 				{
 					//各データの転送
 					Intent intent1 = new Intent(getApplication(), Option.class);
@@ -415,7 +416,7 @@ public class Sound_Front extends Activity
 					startActivityForResult(intent1, requestCode);
 				}
 				// 裏画面への遷移
-				else if( getx > 1090 && gety < 120 )
+				else if( getx > ( maxX - buttonSize ) && gety < buttonSize*2 )
 				{
 					//各データの転送
 					Intent intent2 = new Intent(getApplication(), Sound_Back.class);
