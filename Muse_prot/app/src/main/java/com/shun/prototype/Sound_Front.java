@@ -113,7 +113,9 @@ public class Sound_Front extends Activity
 			if( dist[ i ] == 0 ) continue;
 
 			// 音量計算
-			vel[i] = (int)( ( maxLen - dist[i] ) * 127 / maxLen );
+			int fixDist = 30;   // 音量微調整(中心付近は全部最大)
+			if( dist[ i ] < fixDist ) vel[i] = 127;
+			else vel[i] = (int)( ( maxLen - dist[i] + fixDist ) * 127 / maxLen );
 		}
 
 		// テンポの更新 : TODO
