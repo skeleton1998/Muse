@@ -14,30 +14,28 @@ import android.content.Intent;
 
 public class Option extends Activity
 {
-    //文章表示使うためのやつ
-    private TextView tempoTextView;
-
 	/* メニューのための変数共 */
     // 曲セレクト
 	private TextView songTextView;
     private Spinner selectSong;
     String songItems[] = { "かえるのうた", "チューリップ", "キラキラ星", "子犬のマーチ", "ロンドン橋" };
+	private int songNo = 0;     // 曲番号(配列添え字)
 
 	// 左上フリックに対応する楽器変更
-	private TextView arra1UpFlickTextView;
-	private Spinner selectArra1UpFlick;
-	private TextView arra1RightFlickTextView;
-	private Spinner selectArra1RightFlick;
-	private TextView arra1LeftFlickTextView;
-	private Spinner selectArra1LeftFlick;
+	private TextView arrange1UpFlickTextView;
+	private Spinner selectArrange1UpFlick;
+	private TextView arrange1RightFlickTextView;
+	private Spinner selectArrange1RightFlick;
+	private TextView arrange1LeftFlickTextView;
+	private Spinner selectArrange1LeftFlick;
 
 	// 右上フリックに対応する楽器変更
-	private TextView arra2UpFlickTextView;
-	private Spinner selectArra2UpFlick;
-	private TextView arra2RightFlickTextView;
-	private Spinner selectArra2RightFlick;
-	private TextView arra2LeftFlickTextView;
-	private Spinner selectArra2LeftFlick;
+	private TextView arrange2UpFlickTextView;
+	private Spinner selectArrange2UpFlick;
+	private TextView arrange2RightFlickTextView;
+	private Spinner selectArrange2RightFlick;
+	private TextView arrange2LeftFlickTextView;
+	private Spinner selectArrange2LeftFlick;
 
 	// 左下フリックに対応する楽器変更
 	private TextView melodyUpFlickTextView;
@@ -49,19 +47,25 @@ public class Option extends Activity
 	private TextView melodyDownFlickTextView;
 	private Spinner selectMelodyDownFlick;
 
+	// Tempo変更のText
+	private TextView tempoTextView;
+	// Tempo変更シークバー
+	private SeekBar seekbar;
+
 	//データ保存用変数
     private int beat = 0;
-	private int arra1Inst[] = { 0, 22, 40 };
-	private int arra2Inst[] = { 0, 22, 40 };
-	private int melodyInst[] = { 0, 53, 23, 25 };
+	private int arrange1Inst[] = new int[3];
+	private int arrange2Inst[] = new int[3];
+	private int melodyInst[] = new int[4];
 
 	/* 楽器リスト */
-	// 楽器
+	// 楽器クラス
 	private class Instrument
 	{
-		String name;
-		int pm;
+		String name;    // 名前
+		int pm;         // プログラムチェンジ番号
 
+		// コンストラクタ
 		Instrument( String name, int pm )
 		{
 			this.name = name;
@@ -84,28 +88,17 @@ public class Option extends Activity
 	public String[] nameList = new String[ InstList.length ];
 	public int[] instList = new int[ InstList.length ];
 
-	private int songno = 0;
-
-	//シークバー使うためのやつ
-    private SeekBar seekbar;
-
 	// 選択肢の添字判断
 	public int indexOfInt( int array[], int num )
 	{
-		for( int i = 0; i < array.length; i++)
-		{
-			if( num == array[i] ) return i;
-		}
+		for( int i = 0; i < array.length; i++) if( num == array[i] ) return i;
 
 		return -1;
 	}
 
 	public int indexOfString( String array[], String s )
 	{
-		for( int i = 0; i < array.length; i++)
-		{
-			if( array[i].equals( s ) ) return i;
-		}
+		for( int i = 0; i < array.length; i++) if( array[i].equals( s ) ) return i;
 
 		return -1;
 	}
@@ -120,28 +113,28 @@ public class Option extends Activity
 	    songTextView = (TextView)findViewById(R.id.songTextView);
 	    songTextView.setText("Select Song");
 
-		arra1UpFlickTextView = (TextView)findViewById(R.id.arra1UpFlickTextView);
-		arra1UpFlickTextView.setText("Select Arra1 Up Flick Inst");
-		arra1RightFlickTextView = (TextView)findViewById(R.id.arra1RightFlickTextView);
-		arra1RightFlickTextView.setText("Select Arra1 Right Flick Inst");
-		arra1LeftFlickTextView = (TextView)findViewById(R.id.arra1LeftFlickTextView);
-		arra1LeftFlickTextView.setText("Select Arra1 Left Flick Inst");
+		arrange1UpFlickTextView = (TextView)findViewById(R.id.arrange1UpFlickTextView);
+		arrange1UpFlickTextView.setText("Select Arrange1 Up Flick Instrument");
+		arrange1RightFlickTextView = (TextView)findViewById(R.id.arrange1RightFlickTextView);
+		arrange1RightFlickTextView.setText("Select Arrange1 Right Flick Instrument");
+		arrange1LeftFlickTextView = (TextView)findViewById(R.id.arrange1LeftFlickTextView);
+		arrange1LeftFlickTextView.setText("Select Arrange1 Left Flick Instrument");
 
-		arra2UpFlickTextView = (TextView)findViewById(R.id.arra2UpFlickTextView);
-		arra2UpFlickTextView.setText("Select Arra2 Up Flick Inst");
-		arra2RightFlickTextView = (TextView)findViewById(R.id.arra2RightFlickTextView);
-		arra2RightFlickTextView.setText("Select Arra2 Right Flick Inst");
-		arra2LeftFlickTextView = (TextView)findViewById(R.id.arra2LeftFlickTextView);
-		arra2LeftFlickTextView.setText("Select Arra2 Left Flick Inst");
+		arrange2UpFlickTextView = (TextView)findViewById(R.id.arrange2UpFlickTextView);
+		arrange2UpFlickTextView.setText("Select Arrange2 Up Flick Instrument");
+		arrange2RightFlickTextView = (TextView)findViewById(R.id.arrange2RightFlickTextView);
+		arrange2RightFlickTextView.setText("Select Arrange2 Right Flick Instrument");
+		arrange2LeftFlickTextView = (TextView)findViewById(R.id.arrange2LeftFlickTextView);
+		arrange2LeftFlickTextView.setText("Select Arrange2 Left Flick Instrument");
 
 		melodyUpFlickTextView = (TextView)findViewById(R.id.melodyUpFlickTextView);
-		melodyUpFlickTextView.setText("Select Melody Up Flick Inst");
+		melodyUpFlickTextView.setText("Select Melody Up Flick Instrument");
 		melodyRightFlickTextView = (TextView)findViewById(R.id.melodyRightFlickTextView);
-		melodyRightFlickTextView.setText("Select Melody Right Flick Inst");
+		melodyRightFlickTextView.setText("Select Melody Right Flick Instrument");
 		melodyLeftFlickTextView = (TextView)findViewById(R.id.melodyLeftFlickTextView);
-		melodyLeftFlickTextView.setText("Select Melody Left Flick Inst");
+		melodyLeftFlickTextView.setText("Select Melody Left Flick Instrument");
 		melodyDownFlickTextView = (TextView)findViewById(R.id.melodyDownFlickTextView);
-		melodyDownFlickTextView.setText("Select Melody Down Flick Inst");
+		melodyDownFlickTextView.setText("Select Melody Down Flick Instrument");
 
 		// リスト生成
 		this.makeNameList();
@@ -149,13 +142,13 @@ public class Option extends Activity
 
 		//データの受け取り
         Intent intent = getIntent();
-		songno = intent.getIntExtra("SongNo", 0);
-		arra1Inst[0] = intent.getIntExtra("A1Inst0", 0);
-		arra1Inst[1] = intent.getIntExtra("A1Inst1", 0);
-		arra1Inst[2] = intent.getIntExtra("A1Inst2", 0);
-		arra2Inst[0] = intent.getIntExtra("A2Inst0", 0);
-		arra2Inst[1] = intent.getIntExtra("A2Inst1", 0);
-		arra2Inst[2] = intent.getIntExtra("A2Inst2", 0);
+		songNo = intent.getIntExtra("SongNo", 0);
+		arrange1Inst[0] = intent.getIntExtra("A1Inst0", 0);
+		arrange1Inst[1] = intent.getIntExtra("A1Inst1", 0);
+		arrange1Inst[2] = intent.getIntExtra("A1Inst2", 0);
+		arrange2Inst[0] = intent.getIntExtra("A2Inst0", 0);
+		arrange2Inst[1] = intent.getIntExtra("A2Inst1", 0);
+		arrange2Inst[2] = intent.getIntExtra("A2Inst2", 0);
 		melodyInst[0] = intent.getIntExtra("MInst0", 0);
 		melodyInst[1] = intent.getIntExtra("MInst1", 0);
 		melodyInst[2] = intent.getIntExtra("MInst2", 0);
@@ -167,116 +160,116 @@ public class Option extends Activity
 	    ArrayAdapter<String> adapterSong = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,songItems);
 	    adapterSong.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	    selectSong.setAdapter(adapterSong);
-	    selectSong.setSelection(songno);
+	    selectSong.setSelection(songNo);
 	    selectSong.setOnItemSelectedListener(new OnItemSelectedListener(){
 		    public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 			    Spinner spinner=(Spinner)parent;
 			    String item=(String)spinner.getSelectedItem();
 			    if(item.equals("かえるのうた")){
-				    songno = 0;
+				    songNo = 0;
 			    }
 			    else if(item.equals("チューリップ")){
-				    songno = 1;
+				    songNo = 1;
 			    }
 			    else if(item.equals("キラキラ星")){
-				    songno = 2;
+				    songNo = 2;
 			    }
 			    else if(item.equals("子犬のマーチ")){
-				    songno = 3;
+				    songNo = 3;
 			    }
 			    else if(item.equals("ロンドン橋")){
-				    songno = 4;
+				    songNo = 4;
 			    }
 		    }
 		    public void onNothingSelected(AdapterView<?> parent){}
 	    });
 
 		// 左上の上フリックのドロップダウンメニュー
-		selectArra1UpFlick = (Spinner)findViewById(R.id.selectArra1UpFlickSpinner);
-		ArrayAdapter<String> adapterArra1UpFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
-		adapterArra1UpFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		selectArra1UpFlick.setAdapter(adapterArra1UpFlickItems);
-		selectArra1UpFlick.setSelection( this.indexOfInt( instList, arra1Inst[0] ) );
-		selectArra1UpFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
+		selectArrange1UpFlick = (Spinner)findViewById(R.id.selectArrange1UpFlickSpinner);
+		ArrayAdapter<String> adapterArrange1UpFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
+		adapterArrange1UpFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		selectArrange1UpFlick.setAdapter(adapterArrange1UpFlickItems);
+		selectArrange1UpFlick.setSelection( this.indexOfInt( instList, arrange1Inst[0] ) );
+		selectArrange1UpFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
 			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 				Spinner spinner=(Spinner)parent;
 				String item=(String)spinner.getSelectedItem();
-				arra1Inst[ 0 ] = InstList[ indexOfString( nameList, item ) ].pm;
+				arrange1Inst[ 0 ] = InstList[ indexOfString( nameList, item ) ].pm;
 			}
 			public void onNothingSelected(AdapterView<?> parent){}
 		});
 
 		// 左上の右フリックのドロップダウンメニュー
-		selectArra1RightFlick = (Spinner)findViewById(R.id.selectArra1RightFlickSpinner);
-		ArrayAdapter<String> adapterArra1RightFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
-		adapterArra1RightFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		selectArra1RightFlick.setAdapter(adapterArra1RightFlickItems);
-		selectArra1RightFlick.setSelection( this.indexOfInt( instList, arra1Inst[1] ) );
-		selectArra1RightFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
+		selectArrange1RightFlick = (Spinner)findViewById(R.id.selectArrange1RightFlickSpinner);
+		ArrayAdapter<String> adapterArrange1RightFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
+		adapterArrange1RightFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		selectArrange1RightFlick.setAdapter(adapterArrange1RightFlickItems);
+		selectArrange1RightFlick.setSelection( this.indexOfInt( instList, arrange1Inst[1] ) );
+		selectArrange1RightFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
 			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 				Spinner spinner=(Spinner)parent;
 				String item=(String)spinner.getSelectedItem();
-				arra1Inst[ 1 ] = InstList[ indexOfString( nameList, item ) ].pm;
+				arrange1Inst[ 1 ] = InstList[ indexOfString( nameList, item ) ].pm;
 			}
 			public void onNothingSelected(AdapterView<?> parent){}
 		});
 
 		// 左上の左フリックのドロップダウンメニュー
-		selectArra1LeftFlick = (Spinner)findViewById(R.id.selectArra1LeftFlickSpinner);
-		ArrayAdapter<String> adapterArra1LeftFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
-		adapterArra1LeftFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		selectArra1LeftFlick.setAdapter(adapterArra1LeftFlickItems);
-		selectArra1LeftFlick.setSelection( this.indexOfInt( instList, arra1Inst[2] ) );
-		selectArra1LeftFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
+		selectArrange1LeftFlick = (Spinner)findViewById(R.id.selectArrange1LeftFlickSpinner);
+		ArrayAdapter<String> adapterArrange1LeftFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
+		adapterArrange1LeftFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		selectArrange1LeftFlick.setAdapter(adapterArrange1LeftFlickItems);
+		selectArrange1LeftFlick.setSelection( this.indexOfInt( instList, arrange1Inst[2] ) );
+		selectArrange1LeftFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
 			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 				Spinner spinner=(Spinner)parent;
 				String item=(String)spinner.getSelectedItem();
-				arra1Inst[ 2 ] = InstList[ indexOfString( nameList, item ) ].pm;
+				arrange1Inst[ 2 ] = InstList[ indexOfString( nameList, item ) ].pm;
 			}
 			public void onNothingSelected(AdapterView<?> parent){}
 		});
 
 		// 右上の上フリックのドロップダウンメニュー
-		selectArra2UpFlick = (Spinner)findViewById(R.id.selectArra2UpFlickSpinner);
-		ArrayAdapter<String> adapterArra2UpFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
-		adapterArra2UpFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		selectArra2UpFlick.setAdapter(adapterArra2UpFlickItems);
-		selectArra2UpFlick.setSelection( this.indexOfInt( instList, arra2Inst[0] ) );
-		selectArra2UpFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
+		selectArrange2UpFlick = (Spinner)findViewById(R.id.selectArrange2UpFlickSpinner);
+		ArrayAdapter<String> adapterArrange2UpFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
+		adapterArrange2UpFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		selectArrange2UpFlick.setAdapter(adapterArrange2UpFlickItems);
+		selectArrange2UpFlick.setSelection( this.indexOfInt( instList, arrange2Inst[0] ) );
+		selectArrange2UpFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
 			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 				Spinner spinner=(Spinner)parent;
 				String item=(String)spinner.getSelectedItem();
-				arra2Inst[ 0 ] = InstList[ indexOfString( nameList, item ) ].pm;
+				arrange2Inst[ 0 ] = InstList[ indexOfString( nameList, item ) ].pm;
 			}
 			public void onNothingSelected(AdapterView<?> parent){}
 		});
 
 		// 右上の右フリックのドロップダウンメニュー
-		selectArra2RightFlick = (Spinner)findViewById(R.id.selectArra2RightFlickSpinner);
-		ArrayAdapter<String> adapterArra2RightFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
-		adapterArra2RightFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		selectArra2RightFlick.setAdapter(adapterArra2RightFlickItems);
-		selectArra2RightFlick.setSelection( this.indexOfInt( instList, arra2Inst[1] ) );
-		selectArra2RightFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
+		selectArrange2RightFlick = (Spinner)findViewById(R.id.selectArrange2RightFlickSpinner);
+		ArrayAdapter<String> adapterArrange2RightFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
+		adapterArrange2RightFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		selectArrange2RightFlick.setAdapter(adapterArrange2RightFlickItems);
+		selectArrange2RightFlick.setSelection( this.indexOfInt( instList, arrange2Inst[1] ) );
+		selectArrange2RightFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
 			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 				Spinner spinner=(Spinner)parent;
 				String item=(String)spinner.getSelectedItem();
-				arra2Inst[ 1 ] = InstList[ indexOfString( nameList, item ) ].pm;
+				arrange2Inst[ 1 ] = InstList[ indexOfString( nameList, item ) ].pm;
 			}
 			public void onNothingSelected(AdapterView<?> parent){}
 		});
 
 		// 右上の左フリックのドロップダウンメニュー
-		selectArra2LeftFlick = (Spinner)findViewById(R.id.selectArra2LeftFlickSpinner);
-		ArrayAdapter<String> adapterArra2LeftFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
-		adapterArra2LeftFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		selectArra2LeftFlick.setAdapter(adapterArra2LeftFlickItems);
-		selectArra2LeftFlick.setSelection( this.indexOfInt( instList, arra2Inst[2] ) );
-		selectArra2LeftFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
+		selectArrange2LeftFlick = (Spinner)findViewById(R.id.selectArrange2LeftFlickSpinner);
+		ArrayAdapter<String> adapterArrange2LeftFlickItems = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nameList);
+		adapterArrange2LeftFlickItems.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		selectArrange2LeftFlick.setAdapter(adapterArrange2LeftFlickItems);
+		selectArrange2LeftFlick.setSelection( this.indexOfInt( instList, arrange2Inst[2] ) );
+		selectArrange2LeftFlick.setOnItemSelectedListener(new OnItemSelectedListener(){
 			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 				Spinner spinner=(Spinner)parent;
 				String item=(String)spinner.getSelectedItem();
-				arra2Inst[ 2 ] = InstList[ indexOfString( nameList, item ) ].pm;
+				arrange2Inst[ 2 ] = InstList[ indexOfString( nameList, item ) ].pm;
 			}
 			public void onNothingSelected(AdapterView<?> parent){}
 		});
@@ -363,13 +356,13 @@ public class Option extends Activity
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
-	            intent.putExtra("RES_SongNo", songno);
-	            intent.putExtra("RES_A1Inst0", arra2Inst[0]);
-	            intent.putExtra("RES_A1Inst1", arra2Inst[1]);
-	            intent.putExtra("RES_A1Inst2", arra2Inst[2]);
-	            intent.putExtra("RES_A2Inst0", arra2Inst[0]);
-	            intent.putExtra("RES_A2Inst1", arra2Inst[1]);
-	            intent.putExtra("RES_A2Inst2", arra2Inst[2]);
+	            intent.putExtra("RES_SongNo", songNo);
+	            intent.putExtra("RES_A1Inst0", arrange2Inst[0]);
+	            intent.putExtra("RES_A1Inst1", arrange2Inst[1]);
+	            intent.putExtra("RES_A1Inst2", arrange2Inst[2]);
+	            intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
+	            intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
+	            intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
 	            intent.putExtra("RES_MInst0", melodyInst[0]);
 	            intent.putExtra("RES_MInst1", melodyInst[1]);
 	            intent.putExtra("RES_MInst2", melodyInst[2]);

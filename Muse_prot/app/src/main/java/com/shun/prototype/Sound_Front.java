@@ -12,7 +12,6 @@ import java.io.*;
 public class Sound_Front extends Activity
 {
 	static final int RESULT = 1000;
-	int sound[] = { 0,0,0,0 };//データ保存用変数
 	int beat = 100;
 	int beattemp;
 
