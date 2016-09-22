@@ -12,7 +12,6 @@ import java.io.*;
 public class Sound_Front extends Activity
 {
 	static final int RESULT = 1000;
-	int sound[] = { 0,0,0,0 };//データ保存用変数
 	int beat = 100;
 	int beattemp;
 
@@ -29,9 +28,9 @@ public class Sound_Front extends Activity
 	int songNo = 0;             //曲セレクト
 
 	// 楽器リスト
-	int Arrange1InstList[] = { 0, 22, 40 };
-	int Arrange2InstList[] = { 0, 22, 40 };
-	int melodyInstList[] = { 0, 53, 23, 25 };
+	int Arrange1InstList[] = new int[3];
+	int Arrange2InstList[] = new int[3];
+	int melodyInstList[] = new int[4];
 
 	//
 	int nowPos = 0;	// 再生位置
@@ -110,11 +109,12 @@ public class Sound_Front extends Activity
 		//音の大きさ更新
 		for( int i = 0; i < vel.length; i++ )
 		{
-			// アイコンが無いとき
-			if( dist[ i ] == 0 ) continue;
+			int fixDist = 30;   // 音量微調整(中心付近は全部最大)
 
 			// 音量計算
-			vel[i] = (int)( ( maxLen - dist[i] ) * 127 / maxLen );
+			if( dist[i] == 0 ) vel[i] = 0;
+			else if( dist[ i ] < fixDist ) vel[i] = 127;
+			else vel[i] = (int)( ( maxLen - dist[i] + fixDist ) * 127 / maxLen );
 		}
 
 		// テンポの更新 : TODO

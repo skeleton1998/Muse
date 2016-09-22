@@ -36,78 +36,78 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/arra1UpFlickTextView"
+                android:id="@+id/arrange1UpFlickTextView"
                 android:layout_margin="10dp"
                 android:textSize="20sp"/>
             <Spinner
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/selectArra1UpFlickSpinner"
+                android:id="@+id/selectArrange1UpFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
             <!-- Arra1 Right Flick Inst Select -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/arra1RightFlickTextView"
+                android:id="@+id/arrange1RightFlickTextView"
                 android:layout_margin="10dp"
                 android:textSize="20sp"/>
             <Spinner
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/selectArra1RightFlickSpinner"
+                android:id="@+id/selectArrange1RightFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
             <!-- Arra1 Left Flick Inst Select -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/arra1LeftFlickTextView"
+                android:id="@+id/arrange1LeftFlickTextView"
                 android:layout_margin="10dp"
                 android:textSize="20sp"/>
             <Spinner
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/selectArra1LeftFlickSpinner"
+                android:id="@+id/selectArrange1LeftFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
             <!-- Arra2 Up Flick Inst Select -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/arra2UpFlickTextView"
+                android:id="@+id/arrange2UpFlickTextView"
                 android:layout_margin="10dp"
                 android:textSize="20sp"/>
             <Spinner
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/selectArra2UpFlickSpinner"
+                android:id="@+id/selectArrange2UpFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
             <!-- Arra2 Right Flick Inst Select -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/arra2RightFlickTextView"
+                android:id="@+id/arrange2RightFlickTextView"
                 android:layout_margin="10dp"
                 android:textSize="20sp"/>
             <Spinner
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/selectArra2RightFlickSpinner"
+                android:id="@+id/selectArrange2RightFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
             <!-- Arra2 Left Flick Inst Select -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/arra2LeftFlickTextView"
+                android:id="@+id/arrange2LeftFlickTextView"
                 android:layout_margin="10dp"
                 android:textSize="20sp"/>
             <Spinner
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/selectArra2LeftFlickSpinner"
+                android:id="@+id/selectArrange2LeftFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
             <!-- Melody Up Flick Inst Select -->

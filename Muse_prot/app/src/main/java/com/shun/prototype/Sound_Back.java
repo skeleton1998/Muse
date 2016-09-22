@@ -13,8 +13,12 @@ public class Sound_Back extends Activity {
     int edit=0;
     int songNo=0;
 
-    private GraphicView graphicView;
+    // 楽器リスト
+    int Arrange1InstList[] = new int[3];
+    int Arrange2InstList[] = new int[3];
+    int melodyInstList[] = new int[4];
 
+    private GraphicView graphicView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,42 +26,18 @@ public class Sound_Back extends Activity {
         setContentView(R.layout.activity_soundback);
 
         Intent intent=getIntent();
-        sound[0]=intent.getIntExtra("S1",0);//データ受け取り
-        sound[1]=intent.getIntExtra("S2",0);
-        sound[2]=intent.getIntExtra("S3",0);
-        sound[3]=intent.getIntExtra("S4",0);
-        beat=intent.getIntExtra("BEAT",0);
-        songNo=intent.getIntExtra("SONGNO",0);
-
-        /*Button sendbutton1 = (Button) findViewById(R.id.send_button1);
-        sendbutton1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent1 = new Intent(getApplication(), Option.class);
-                intent1.putExtra("S1",sound[0]);//各データの転送
-                intent1.putExtra("S2",sound[1]);
-                intent1.putExtra("S3",sound[2]);
-                intent1.putExtra("S4",sound[3]);
-                intent1.putExtra("BEAT",beat);
-                int requestCode=RESULT;
-                startActivityForResult(intent1,requestCode);
-            }
-        });
-
-        Button sendbutton2 = (Button) findViewById(R.id.send_button2);
-        sendbutton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent2 = new Intent();
-                intent2.putExtra("RES_S1",sound[0]);//データを返す
-                intent2.putExtra("RES_S2",sound[1]);
-                intent2.putExtra("RES_S3",sound[2]);
-                intent2.putExtra("RES_S4",sound[3]);
-                intent2.putExtra("RES_BEAT",beat);
-                setResult(RESULT_OK,intent2);
-                finish();
-            }
-        });*/
+        songNo = intent.getIntExtra("SongNo", 0);
+        Arrange1InstList[0] = intent.getIntExtra("A1Inst0", 0);
+        Arrange1InstList[1] = intent.getIntExtra("A1Inst1", 0);
+        Arrange1InstList[2] = intent.getIntExtra("A1Inst2", 0);
+        Arrange2InstList[0] = intent.getIntExtra("A2Inst0", 0);
+        Arrange2InstList[1] = intent.getIntExtra("A2Inst1", 0);
+        Arrange2InstList[2] = intent.getIntExtra("A2Inst2", 0);
+        melodyInstList[0] = intent.getIntExtra("MInst0", 0);
+        melodyInstList[1] = intent.getIntExtra("MInst1", 0);
+        melodyInstList[2] = intent.getIntExtra("MInst2", 0);
+        melodyInstList[3] = intent.getIntExtra("MInst3", 0);
+        beat = intent.getIntExtra("BEAT", 0);
 
         //GraphicViewのオブジェクト生成
         graphicView = new GraphicView(this);
@@ -71,21 +51,25 @@ public class Sound_Back extends Activity {
     protected void onActivityResult(int requestCode,int resultCode,Intent intent){
         super.onActivityResult(requestCode,resultCode,intent);
         if(resultCode==RESULT_OK  && requestCode==RESULT && null!=intent){
-            sound[0]=intent.getIntExtra("RES_S1",0);//データの受取と反映
-            sound[1]=intent.getIntExtra("RES_S2",0);
-            sound[2]=intent.getIntExtra("RES_S3",0);
-            sound[3]=intent.getIntExtra("RES_S4",0);
-            beat=intent.getIntExtra("RES_BEAT",0);
-            songNo=intent.getIntExtra("RES_SONGNO",0);
+	        //データの受取と反映
+	        Arrange1InstList[0] = intent.getIntExtra("RES_A1Inst0", 0);
+	        Arrange1InstList[1] = intent.getIntExtra("RES_A1Inst1", 0);
+	        Arrange1InstList[2] = intent.getIntExtra("RES_A1Inst2", 0);
+	        Arrange2InstList[0] = intent.getIntExtra("RES_A2Inst0", 0);
+	        Arrange2InstList[1] = intent.getIntExtra("RES_A2Inst1", 0);
+	        Arrange2InstList[2] = intent.getIntExtra("RES_A2Inst2", 0);
+	        melodyInstList[0] = intent.getIntExtra("RES_MInst0", 0);
+	        melodyInstList[1] = intent.getIntExtra("RES_MInst1", 0);
+	        melodyInstList[2] = intent.getIntExtra("RES_MInst2", 0);
+	        melodyInstList[3] = intent.getIntExtra("RES_MInst3", 0);
 
-            // エフェクト
-            /*if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
+	        // テンポ処理
+	        beat = intent.getIntExtra("RES_BEAT", 0);
+	        if( beat < 20 ) beat = 20;
+	        else if( beat > 240 ) beat = 240;
 
-            //再生
-            Sound_Front.mediaPlayer.start(); TODO: 非staticメソッドはstatic参照できない云々の解消
-
-            // midi更新
-            Sound_Front.changeMidiFile();*/
+	        // midi更新
+	        //Sound_Front.changeMidiFile();
         }
     }
 
@@ -95,13 +79,12 @@ public class Sound_Back extends Activity {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-    }
+    public void onStop() { super.onStop(); }
 
     @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {//タッチイベントを拾う
+    //タッチイベントを拾う
+    public boolean onTouchEvent(MotionEvent motionEvent)
+    {
         float getx=motionEvent.getX();//タッチ座標取得
         float gety=motionEvent.getY();
         float nowx[]=graphicView.getBxpoint();//画像がおいてある場所取得
