@@ -24,11 +24,17 @@ public class Sound_Front extends Activity
 
 	// midi用変数
 	int bpm = 120;				// beat per min
-	int inst[] = { 0,0,0,0 };	// 音色
+	int inst[] = { 0, 0, 0, 0 };// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
 	int songNo = 0;             //曲セレクト
 
-	int nowPos = 0;
+	// 楽器リスト
+	int Arrange1InstList[] = { 0, 22, 40 };
+	int Arrange2InstList[] = { 0, 22, 40 };
+	int melodyInstList[] = { 0, 53, 23, 25 };
+
+	//
+	int nowPos = 0;	// 再生位置
 
 	// 画面サイズうんぬん : TODO
 	static final int maxX = 1200;
@@ -44,9 +50,9 @@ public class Sound_Front extends Activity
 		// 配列に楽器データ入れて、これで指定させようと思ったが挫折
 		// 全エリアのフリック4方向に音色種類を全対応
 		final static int UP = 0;
-		final static int RIGHT = 22;
-		final static int DOWN = 40;
-		final static int LEFT = 56;
+		final static int RIGHT = 1;
+		final static int LEFT = 2;
+		final static int DOWN = 3;
 	}
 
 	@Override
@@ -57,12 +63,18 @@ public class Sound_Front extends Activity
 
 		//データ受け取り
 		Intent intent = getIntent();
-		sound[0] = intent.getIntExtra("S1", 0);
-		sound[1] = intent.getIntExtra("S2", 0);
-		sound[2] = intent.getIntExtra("S3", 0);
-		sound[3] = intent.getIntExtra("S4", 0);
+		songNo = intent.getIntExtra("SongNo", 0);
+		Arrange1InstList[0] = intent.getIntExtra("A1Inst0", 0);
+		Arrange1InstList[1] = intent.getIntExtra("A1Inst1", 0);
+		Arrange1InstList[2] = intent.getIntExtra("A1Inst2", 0);
+		Arrange2InstList[0] = intent.getIntExtra("A2Inst0", 0);
+		Arrange2InstList[1] = intent.getIntExtra("A2Inst1", 0);
+		Arrange2InstList[2] = intent.getIntExtra("A2Inst2", 0);
+		melodyInstList[0] = intent.getIntExtra("MInst0", 0);
+		melodyInstList[1] = intent.getIntExtra("MInst1", 0);
+		melodyInstList[2] = intent.getIntExtra("MInst2", 0);
+		melodyInstList[3] = intent.getIntExtra("MInst3", 0);
 		beat = intent.getIntExtra("BEAT", 0);
-		songNo = intent.getIntExtra("SONGNO", 0);
 
 		// MediaPlayer処理
 		mediaPlayer = new MediaPlayer();
@@ -98,8 +110,11 @@ public class Sound_Front extends Activity
 		//音の大きさ更新
 		for( int i = 0; i < vel.length; i++ )
 		{
-			//値溢れない処理のみ : TODO
-			vel[i] = (int)( dist[i] * 127 / maxLen );
+			// アイコンが無いとき
+			if( dist[ i ] == 0 ) continue;
+
+			// 音量計算
+			vel[i] = (int)( ( maxLen - dist[i] ) * 127 / maxLen );
 		}
 
 		// テンポの更新 : TODO
@@ -117,20 +132,20 @@ public class Sound_Front extends Activity
 			midFile.setTempo(bpm);
 
 			// 音色設定
-			midFile.setProgramChange((byte) 0x00, (byte) inst[0]);
-			midFile.setProgramChange((byte) 0x01, (byte) inst[1]);
-			midFile.setProgramChange((byte) 0x02, (byte) inst[2]);
-			midFile.setProgramChange((byte) 0x03, (byte) inst[3]);
+			midFile.setProgramChange((byte) 0x00, (byte) inst[0] );
+			midFile.setProgramChange((byte) 0x01, (byte) inst[1] );
+			midFile.setProgramChange((byte) 0x02, (byte) inst[2] );	// 	主旋律
+			//midFile.setProgramChange((byte) 0x03, (byte) inst[3] );	// ドラム
 			midFile.closeTrackData();
 
 			// トラックデータ作成
 			switch( songNo )
 			{
 				case 0:
-					midFile.FrogSong((byte) 0x00, (byte) vel[0]);
-					midFile.FrogSong((byte) 0x01, (byte) vel[1]);
-					midFile.FrogSong((byte) 0x02, (byte) vel[2]);
-					midFile.FrogSong((byte) 0x03, (byte) vel[3]);
+					midFile.Song1Arrange1((byte) 0x00, (byte) vel[0]);
+					midFile.Song1Arrange2((byte) 0x01, (byte) vel[1]);
+					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
+					midFile.Song1Percussion((byte) 0x09, (byte) vel[3]);
 					break;
 
 				case 1:
@@ -281,21 +296,30 @@ public class Sound_Front extends Activity
 		if( resultCode == RESULT_OK  && requestCode == RESULT && intent != null )
 		{
 			//データの受取と反映
-			sound[0]=intent.getIntExtra("RES_S1",0);
-			sound[1]=intent.getIntExtra("RES_S2",0);
-			sound[2]=intent.getIntExtra("RES_S3",0);
-			sound[3]=intent.getIntExtra("RES_S4",0);
-			beat=intent.getIntExtra("RES_BEAT",0);
-			songNo=intent.getIntExtra("RES_SONGNO",0);
+			Arrange1InstList[0] = intent.getIntExtra("RES_A1Inst0", 0);
+			Arrange1InstList[1] = intent.getIntExtra("RES_A1Inst1", 0);
+			Arrange1InstList[2] = intent.getIntExtra("RES_A1Inst2", 0);
+			Arrange2InstList[0] = intent.getIntExtra("RES_A2Inst0", 0);
+			Arrange2InstList[1] = intent.getIntExtra("RES_A2Inst1", 0);
+			Arrange2InstList[2] = intent.getIntExtra("RES_A2Inst2", 0);
+			melodyInstList[0] = intent.getIntExtra("RES_MInst0", 0);
+			melodyInstList[1] = intent.getIntExtra("RES_MInst1", 0);
+			melodyInstList[2] = intent.getIntExtra("RES_MInst2", 0);
+			melodyInstList[3] = intent.getIntExtra("RES_MInst3", 0);
 
-			if( this.songNo != intent.getIntExtra("RES_SONGNO",0) )
+			// テンポ処理
+			beat = intent.getIntExtra("RES_BEAT", 0);
+			if( beat < 20 ) beat = 20;
+			else if( beat > 240 ) beat = 240;
+
+			if( this.songNo != intent.getIntExtra("RES_SongNo",0) )
 			{
 				nowPos = 0;
 			}
-			songNo = intent.getIntExtra("RES_SONGNO",0);
+			songNo = intent.getIntExtra("RES_SongNo",0);
 
 			// エフェクト
-			if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
+			graphicView.setBpm(beat/2);
 
 			//再生
 			mediaPlayer.start();
@@ -351,8 +375,8 @@ public class Sound_Front extends Activity
 				{
 					beat += beattemp;
 
-					if( beat < 1 ) beat = 1;
-					else if( beat > 256 ) beat = 255;
+					if( beat < 20 ) beat = 20;
+					else if( beat > 240 ) beat = 240;
 
 					// テンポセット
 					graphicView.setBpm(beat / 2);
@@ -370,12 +394,18 @@ public class Sound_Front extends Activity
 				{
 					//各データの転送
 					Intent intent1 = new Intent(getApplication(), Option.class);
-					intent1.putExtra("S1", sound[0]);
-					intent1.putExtra("S2", sound[1]);
-					intent1.putExtra("S3", sound[2]);
-					intent1.putExtra("S4", sound[3]);
+					intent1.putExtra("SongNo", songNo);
+					intent1.putExtra("A1Inst0", Arrange1InstList[0]);
+					intent1.putExtra("A1Inst1", Arrange1InstList[1]);
+					intent1.putExtra("A1Inst2", Arrange1InstList[2]);
+					intent1.putExtra("A2Inst0", Arrange2InstList[0]);
+					intent1.putExtra("A2Inst1", Arrange2InstList[1]);
+					intent1.putExtra("A2Inst2", Arrange2InstList[2]);
+					intent1.putExtra("MInst0", melodyInstList[0]);
+					intent1.putExtra("MInst1", melodyInstList[1]);
+					intent1.putExtra("MInst2", melodyInstList[2]);
+					intent1.putExtra("MInst3", melodyInstList[3]);
 					intent1.putExtra("BEAT", beat);
-					intent1.putExtra("SONGNO",songNo);
 					int requestCode = RESULT;
 
 					//停止
@@ -389,12 +419,18 @@ public class Sound_Front extends Activity
 				{
 					//各データの転送
 					Intent intent2 = new Intent(getApplication(), Sound_Back.class);
-					intent2.putExtra("S1",sound[0]);
-					intent2.putExtra("S2",sound[1]);
-					intent2.putExtra("S3",sound[2]);
-					intent2.putExtra("S4",sound[3]);
-					intent2.putExtra("BEAT",beat);
-					intent2.putExtra("SONGNO",songNo);
+					intent2.putExtra("SongNo", songNo);
+					intent2.putExtra("A1Inst0", Arrange1InstList[0]);
+					intent2.putExtra("A1Inst1", Arrange1InstList[1]);
+					intent2.putExtra("A1Inst2", Arrange1InstList[2]);
+					intent2.putExtra("A2Inst0", Arrange2InstList[0]);
+					intent2.putExtra("A2Inst1", Arrange2InstList[1]);
+					intent2.putExtra("A2Inst2", Arrange2InstList[2]);
+					intent2.putExtra("MInst0", melodyInstList[0]);
+					intent2.putExtra("MInst1", melodyInstList[1]);
+					intent2.putExtra("MInst2", melodyInstList[2]);
+					intent2.putExtra("MInst3", melodyInstList[3]);
+					intent2.putExtra("BEAT", beat);
 					int requestCode=RESULT;
 
 					//裏に飛ぶ
@@ -532,33 +568,57 @@ public class Sound_Front extends Activity
 					// デバッグ表示
 					Log.d("", "beattemp:" + beattemp);
 				}
-				// 音色操作
+				// フリック操作
 				// 座標が記録されてない時
 				else
 				{
-					// 音色をフリック方向で対応しているVecの音色へ変更
+					// フリック方向で各エリアごとの操作
 					//左上
 					if( getx < maxX/2 && gety < maxY/2 )
 					{
-						this.inst[0] = this.frickVec( getx, gety );
+						// 下フリックで消す
+						if( this.frickVec( getx, gety ) == Vec.DOWN )
+						{
+							graphicView.setFxpoint( 0, 0 );
+							graphicView.setFypoint( 0, 0 );
+							dist[ 0 ] = 0;
+						}
+						else this.inst[0] = Arrange1InstList[ this.frickVec( getx, gety ) ];
+
 						graphicView.setflick( 0, this.inst[0]);
 					}
 					// 右上
 					else if( getx > maxX/2 && gety < maxY/2 )
 					{
-						this.inst[1] = this.frickVec( getx, gety );
+						// 下フリックで消す
+						if( this.frickVec( getx, gety ) == Vec.DOWN )
+						{
+							graphicView.setFxpoint( 1, 0 );
+							graphicView.setFypoint( 1, 0 );
+							dist[ 1 ] = 0;
+						}
+						else this.inst[1] = Arrange2InstList[ this.frickVec( getx, gety ) ];
+
 						graphicView.setflick( 1, this.inst[1]);
 					}
 					// 左下
 					else if( getx < maxX/2 && gety > maxY/2 )
 					{
-						this.inst[2] = this.frickVec( getx, gety );
+						this.inst[2] = melodyInstList[ this.frickVec( getx, gety ) ];
 						graphicView.setflick( 2, this.inst[2]);
 					}
 					// 右下
 					else if( getx > maxX/2 && gety > maxY/2 )
 					{
-						this.inst[3] = this.frickVec( getx, gety );
+						// 下フリックで消す
+						if( this.frickVec( getx, gety ) == Vec.DOWN )
+						{
+							graphicView.setFxpoint(3, 0);
+							graphicView.setFypoint(3, 0);
+							dist[ 3 ] = 0;
+						}
+						else this.inst[3] = this.frickVec( getx, gety );
+
 						graphicView.setflick( 3, this.inst[3]);
 					}
 
