@@ -162,7 +162,7 @@
                 android:id="@+id/selectMelodyDownFlickSpinner"
                 android:drawSelectorOnTop="true" />
 
-            <!-- Tenpo Select -->
+            <!-- Tempo Select -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

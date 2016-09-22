@@ -24,13 +24,14 @@ public class Sound_Front extends Activity
 
 	// midi用変数
 	int bpm = 120;				// beat per min
-	int inst[] = { 0,0,0,0 };	// 音色
+	int inst[] = { 0, 0, 0, 0 };// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
 	int songNo = 0;             //曲セレクト
 
-	int Arrange1InstList[] = { 0, 22, 40, 56 };	// 楽器リスト
-	int Arrange2InstList[] = { 0, 22, 40, 56 };	// 楽器リスト
-	int melodyInstList[] = { 0, 22, 40, 56 };	// 楽器リスト
+	// 楽器リスト
+	int Arrange1InstList[] = { 0, 22, 40 };
+	int Arrange2InstList[] = { 0, 22, 40 };
+	int melodyInstList[] = { 0, 53, 23, 25 };
 
 	//
 	int nowPos = 0;	// 再生位置
@@ -62,12 +63,18 @@ public class Sound_Front extends Activity
 
 		//データ受け取り
 		Intent intent = getIntent();
-		sound[0] = intent.getIntExtra("S1", 0);
-		sound[1] = intent.getIntExtra("S2", 0);
-		sound[2] = intent.getIntExtra("S3", 0);
-		sound[3] = intent.getIntExtra("S4", 0);
+		songNo = intent.getIntExtra("SongNo", 0);
+		Arrange1InstList[0] = intent.getIntExtra("A1Inst0", 0);
+		Arrange1InstList[1] = intent.getIntExtra("A1Inst1", 0);
+		Arrange1InstList[2] = intent.getIntExtra("A1Inst2", 0);
+		Arrange2InstList[0] = intent.getIntExtra("A2Inst0", 0);
+		Arrange2InstList[1] = intent.getIntExtra("A2Inst1", 0);
+		Arrange2InstList[2] = intent.getIntExtra("A2Inst2", 0);
+		melodyInstList[0] = intent.getIntExtra("MInst0", 0);
+		melodyInstList[1] = intent.getIntExtra("MInst1", 0);
+		melodyInstList[2] = intent.getIntExtra("MInst2", 0);
+		melodyInstList[3] = intent.getIntExtra("MInst3", 0);
 		beat = intent.getIntExtra("BEAT", 0);
-		songNo = intent.getIntExtra("SONGNO", 0);
 
 		// MediaPlayer処理
 		mediaPlayer = new MediaPlayer();
@@ -286,18 +293,23 @@ public class Sound_Front extends Activity
 		if( resultCode == RESULT_OK  && requestCode == RESULT && intent != null )
 		{
 			//データの受取と反映
-			sound[0]=intent.getIntExtra("RES_S1",0);
-			sound[1]=intent.getIntExtra("RES_S2",0);
-			sound[2]=intent.getIntExtra("RES_S3",0);
-			sound[3]=intent.getIntExtra("RES_S4",0);
-			beat=intent.getIntExtra("RES_BEAT",0);
-			songNo=intent.getIntExtra("RES_SONGNO",0);
+			Arrange1InstList[0] = intent.getIntExtra("RES_A1Inst0", 0);
+			Arrange1InstList[1] = intent.getIntExtra("RES_A1Inst1", 0);
+			Arrange1InstList[2] = intent.getIntExtra("RES_A1Inst2", 0);
+			Arrange2InstList[0] = intent.getIntExtra("RES_A2Inst0", 0);
+			Arrange2InstList[1] = intent.getIntExtra("RES_A2Inst1", 0);
+			Arrange2InstList[2] = intent.getIntExtra("RES_A2Inst2", 0);
+			melodyInstList[0] = intent.getIntExtra("RES_MInst0", 0);
+			melodyInstList[1] = intent.getIntExtra("RES_MInst1", 0);
+			melodyInstList[2] = intent.getIntExtra("RES_MInst2", 0);
+			melodyInstList[3] = intent.getIntExtra("RES_MInst3", 0);
+			beat = intent.getIntExtra("RES_BEAT", 0);
 
-			if( this.songNo != intent.getIntExtra("RES_SONGNO",0) )
+			if( this.songNo != intent.getIntExtra("RES_SongNo",0) )
 			{
 				nowPos = 0;
 			}
-			songNo = intent.getIntExtra("RES_SONGNO",0);
+			songNo = intent.getIntExtra("RES_SongNo",0);
 
 			// エフェクト
 			if( beat > 1 && beat < 256 ) graphicView.setBpm(beat/2);
@@ -375,12 +387,18 @@ public class Sound_Front extends Activity
 				{
 					//各データの転送
 					Intent intent1 = new Intent(getApplication(), Option.class);
-					intent1.putExtra("S1", sound[0]);
-					intent1.putExtra("S2", sound[1]);
-					intent1.putExtra("S3", sound[2]);
-					intent1.putExtra("S4", sound[3]);
+					intent1.putExtra("SongNo", songNo);
+					intent1.putExtra("A1Inst0", Arrange1InstList[0]);
+					intent1.putExtra("A1Inst1", Arrange1InstList[1]);
+					intent1.putExtra("A1Inst2", Arrange1InstList[2]);
+					intent1.putExtra("A2Inst0", Arrange2InstList[0]);
+					intent1.putExtra("A2Inst1", Arrange2InstList[1]);
+					intent1.putExtra("A2Inst2", Arrange2InstList[2]);
+					intent1.putExtra("MInst0", melodyInstList[0]);
+					intent1.putExtra("MInst1", melodyInstList[1]);
+					intent1.putExtra("MInst2", melodyInstList[2]);
+					intent1.putExtra("MInst3", melodyInstList[3]);
 					intent1.putExtra("BEAT", beat);
-					intent1.putExtra("SONGNO",songNo);
 					int requestCode = RESULT;
 
 					//停止
@@ -394,12 +412,18 @@ public class Sound_Front extends Activity
 				{
 					//各データの転送
 					Intent intent2 = new Intent(getApplication(), Sound_Back.class);
-					intent2.putExtra("S1",sound[0]);
-					intent2.putExtra("S2",sound[1]);
-					intent2.putExtra("S3",sound[2]);
-					intent2.putExtra("S4",sound[3]);
-					intent2.putExtra("BEAT",beat);
-					intent2.putExtra("SONGNO",songNo);
+					intent2.putExtra("SongNo", songNo);
+					intent2.putExtra("A1Inst0", Arrange1InstList[0]);
+					intent2.putExtra("A1Inst1", Arrange1InstList[1]);
+					intent2.putExtra("A1Inst2", Arrange1InstList[2]);
+					intent2.putExtra("A2Inst0", Arrange2InstList[0]);
+					intent2.putExtra("A2Inst1", Arrange2InstList[1]);
+					intent2.putExtra("A2Inst2", Arrange2InstList[2]);
+					intent2.putExtra("MInst0", melodyInstList[0]);
+					intent2.putExtra("MInst1", melodyInstList[1]);
+					intent2.putExtra("MInst2", melodyInstList[2]);
+					intent2.putExtra("MInst3", melodyInstList[3]);
+					intent2.putExtra("BEAT", beat);
 					int requestCode=RESULT;
 
 					//裏に飛ぶ
