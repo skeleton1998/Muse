@@ -109,12 +109,11 @@ public class Sound_Front extends Activity
 		//音の大きさ更新
 		for( int i = 0; i < vel.length; i++ )
 		{
-			// アイコンが無いとき
-			if( dist[ i ] == 0 ) continue;
+			int fixDist = 30;   // 音量微調整(中心付近は全部最大)
 
 			// 音量計算
-			int fixDist = 30;   // 音量微調整(中心付近は全部最大)
-			if( dist[ i ] < fixDist ) vel[i] = 127;
+			if( dist[i] == 0 ) vel[i] = 0;
+			else if( dist[ i ] < fixDist ) vel[i] = 127;
 			else vel[i] = (int)( ( maxLen - dist[i] + fixDist ) * 127 / maxLen );
 		}
 
