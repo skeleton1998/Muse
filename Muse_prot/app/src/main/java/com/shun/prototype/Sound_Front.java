@@ -149,6 +149,13 @@ public class Sound_Front extends Activity
 					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
 					midFile.Song1Percuss( DrumNo, (byte) 0x09, (byte) vel[3]);
 					break;
+				
+				//case 1:
+				//	midFile.Song2ArrangeA((byte) 0x00, (byte) vel[0]);
+				//	midFile.Song2ArrangeB((byte) 0x01, (byte) vel[1]);
+				//	midFile.Song2Melody((byte) 0x02, (byte) vel[2]);
+				//	midFile.Song2Percuss( DrumNo, (byte) 0x09, (byte) vel[3]);
+				//	break;
 
 				default:
 					midFile.Song1ArrangeA((byte) 0x00, (byte) vel[0]);
