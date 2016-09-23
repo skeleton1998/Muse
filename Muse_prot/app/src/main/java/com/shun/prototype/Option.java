@@ -18,7 +18,7 @@ public class Option extends Activity
     // 曲セレクト
 	private TextView songTextView;
     private Spinner selectSong;
-    String songItems[] = { "かえるのうた", "チューリップ", "キラキラ星", "子犬のマーチ", "ロンドン橋" };
+    String songItems[] = { "Song1", "Song2","Song3","Song4","Song5" };
 	private int songNo = 0;     // 曲番号(配列添え字)
 
 	// 左上フリックに対応する楽器変更
@@ -174,22 +174,8 @@ public class Option extends Activity
 		    public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
 			    Spinner spinner=(Spinner)parent;
 			    String item=(String)spinner.getSelectedItem();
-			    if(item.equals("かえるのうた")){
-				    songNo = 0;
-			    }
-			    else if(item.equals("チューリップ")){
-				    songNo = 1;
-			    }
-			    else if(item.equals("キラキラ星")){
-				    songNo = 2;
-			    }
-			    else if(item.equals("子犬のマーチ")){
-				    songNo = 3;
-			    }
-			    else if(item.equals("ロンドン橋")){
-				    songNo = 4;
-			    }
-		    }
+			    songNo = indexOfString( songItems, item );
+		}
 		    public void onNothingSelected(AdapterView<?> parent){}
 	    });
 
