@@ -83,7 +83,7 @@ public class Sound_Front extends Activity
 		try
 		{
 			// 読み込み
-			fis = new FileInputStream("/data/data/com.shun.prototype/files/temp.mid");
+			fis = new FileInputStream("/data/data/muse.muse_performance/files/temp.mid");
 
 			// set
 			if (fis != null) mediaPlayer.setDataSource(fis.getFD());
