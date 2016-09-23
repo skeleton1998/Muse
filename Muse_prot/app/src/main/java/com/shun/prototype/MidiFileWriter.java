@@ -28,7 +28,7 @@ public class MidiFileWriter
         this.context = contxt;
     }
 
-    //オリジナル１局目
+    //オリジナル１曲目
     protected void Song1Melody( byte ch, byte vel )
     {
         try
@@ -73,6 +73,7 @@ public class MidiFileWriter
         }
     }
 
+    // 打楽器
     protected void Song1PercussionA( byte ch, byte vel )
     {
         try
@@ -157,7 +158,109 @@ public class MidiFileWriter
         }
     }
 
-	protected void Song1Arrange1( byte ch, byte vel )
+	protected void Song1PercussionB( byte ch, byte vel )
+	{
+		try
+		{
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(MidiFileWriter.NoteTime.Note_040), (byte)54, (byte)0x00);
+
+			this.closeTrackData();
+		}
+		catch( Exception e )
+		{
+			e.printStackTrace();
+		}
+	}
+
+	protected void Song1Percuss( int no, byte ch, byte vel )
+	{
+		switch( no )
+		{
+			case 0:
+				this.Song1PercussionA( ch, vel);
+				break;
+
+			case 1:
+				this.Song1PercussionB( ch, vel );
+				break;
+
+			default:
+				this.Song1PercussionA( ch, vel);
+				break;
+		}
+	}
+
+	protected void Song1ArrangeA( byte ch, byte vel )
 	{
 		try
 		{
@@ -329,7 +432,7 @@ public class MidiFileWriter
 		}
 	}
 
-	protected void Song1Arrange2( byte ch, byte vel )
+	protected void Song1ArrangeB( byte ch, byte vel )
 	{
 		try
 		{
@@ -476,6 +579,8 @@ public class MidiFileWriter
 			e.printStackTrace();
 		}
 	}
+
+    // 2曲目
 
 	// midiファイル作成
     public boolean CreateMidiFile( String fileName, int trackNo, int dTime )

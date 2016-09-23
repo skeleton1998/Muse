@@ -44,7 +44,7 @@ public class GraphicView extends View{
     private int r = 0; //半径
     private int x = terminal_width/2; //音生成中心の座標 TODO : 画面大きさから取得
     private int y = terminal_height/2;
-    private int d = (waveSpeed * 60) / bpm; //音の間隔 TODO : bpmから取得
+    private int d = (waveSpeed * 120) / bpm; //音の間隔 TODO : bpmから取得
 
     //画面の座標計算メソッド   (#define風)
     /*  作り方(画面をパーセンテージで見る)
@@ -217,9 +217,9 @@ public class GraphicView extends View{
                     float num = ((fxpoint[i]-x) * (fxpoint[i]-x)) + ((fypoint[i]-y) * (fypoint[i]-y));
                     int dr = sqrt( (int) num );
                     //衝突位置計算
-                    hogecollisionR[i] = dr % d;
+                    hogecollisionR[i] = (dr/2) % d;
                 }
-                if(hoger[i] > 0)    hoger[i] += 10;
+                if(hoger[i] > 0)    hoger[i] += 8;
                 if(hoger[i] > overR * 2){
                     hoger[i] = 0;
                     hogecollisionR[i] = 0;
@@ -239,7 +239,7 @@ public class GraphicView extends View{
 
             /* --------------------------------------------------------------------------------------- */
 
-            d = (waveSpeed * 60) / bpm;
+            d = (waveSpeed * 120) / bpm;
 
 
             // 画面を更新
@@ -267,13 +267,13 @@ public class GraphicView extends View{
         Log.d("","make soundpool");
         soundID[0] = soundPool.load(getContext(),R.raw.flog ,1);
         Log.d("","load1");
-        soundID[1] = soundPool.load(getContext(),R.raw.flog1,1);
+        soundID[1] = soundPool.load(getContext(),R.raw.hiyoko,1);
         Log.d("","load2");
-        soundID[2] = soundPool.load(getContext(),R.raw.flog2,1);
+        soundID[2] = soundPool.load(getContext(),R.raw.semi,1);
         Log.d("","load3");
-        soundID[3] = soundPool.load(getContext(),R.raw.flog3,1);
+        soundID[3] = soundPool.load(getContext(),R.raw.hand,1);
         Log.d("","load4");
-        soundID[4] = soundPool.load(getContext(),R.raw.flog4,1);
+        soundID[4] = soundPool.load(getContext(),R.raw.flog2,1);
         Log.d("","load5");
 
         // 一定時間ごとにRunnableの処理を実行
@@ -312,7 +312,7 @@ public class GraphicView extends View{
         if(boundcheck[i] == 20)    boundcheck[i] = 0;     //20を基点とする
         if(bxpoint[i] > 0 && bypoint[i] > 0 && backcollisionR[i] <= r % d + 8 && backcollisionR[i] >= r % d - 10){
             if(boundcheck[i] == 0){
-                soundPool.play(soundID[i],1,1,0,0,1);
+                soundPool.play(soundID[i],0.2f,0.2f,0,0,1);
                 //チャタリング除去フラグ_インデント
                 boundcheck[i]++;
             }
@@ -345,6 +345,11 @@ public class GraphicView extends View{
         Bitmap bmpo= BitmapFactory.decodeResource(res,R.drawable.testo);
         Bitmap bmpb= BitmapFactory.decodeResource(res,R.drawable.testb);
         Bitmap bmpf= BitmapFactory.decodeResource(res,R.drawable.testf);
+        Bitmap bmpAA= BitmapFactory.decodeResource(res,R.drawable.testaa);
+        Bitmap bmpBB= BitmapFactory.decodeResource(res,R.drawable.testbb);
+        Bitmap bmpCC= BitmapFactory.decodeResource(res,R.drawable.testcc);
+        Bitmap bmpDD= BitmapFactory.decodeResource(res,R.drawable.testdd);
+        Bitmap bmpEE= BitmapFactory.decodeResource(res,R.drawable.testee);
 
 
         //Paintオブジェクトの生成
@@ -534,29 +539,29 @@ public class GraphicView extends View{
                }
                else{
                     //if (xpoint > 0 && ypoint > 0)   canvas.drawBitmap(bmp, xpoint, ypoint, paint);
-                    canvas.drawBitmap(bmpo,0,0,paint);
                     canvas.drawBitmap(bmpf,1115,0,paint);
-                    canvas.drawBitmap(bmp1,0,400,paint);
-                    canvas.drawBitmap(bmp2,0,500,paint);
-                    canvas.drawBitmap(bmp3,0,600,paint);
-                    canvas.drawBitmap(bmp4,0,700,paint);
-                    canvas.drawBitmap(bmp5,0,800,paint);
+                    canvas.drawBitmap(bmpAA,0,400,paint);
+                    canvas.drawBitmap(bmpBB,0,500,paint);
+                    canvas.drawBitmap(bmpCC,0,600,paint);
+                    canvas.drawBitmap(bmpDD,0,700,paint);
+                    canvas.drawBitmap(bmpEE,0,800,paint);
                     canvas.drawBitmap(bmpa,0,900,paint);
-                    if(bxpoint[0]>0 && bypoint[0]>0) {//画像配置
-                        canvas.drawBitmap(bmp1, bxpoint[0], bypoint[0], paint);
-                    }
-                    if(bxpoint[1]>0 && bypoint[1]>0){
-                        canvas.drawBitmap(bmp2, bxpoint[1], bypoint[1], paint);
-                    }
-                    if(bxpoint[2]>0 && bypoint[2]>0) {
-                        canvas.drawBitmap(bmp3, bxpoint[2], bypoint[2], paint);
-                    }
-                    if(bxpoint[3]>0 && bypoint[3]>0) {
-                        canvas.drawBitmap(bmp4, bxpoint[3], bypoint[3], paint);
-                    }
-                    if(bxpoint[4]>0 && bypoint[4]>0) {
-                        canvas.drawBitmap(bmp5, bxpoint[4], bypoint[4], paint);
-                    }
+
+               }
+               if(bxpoint[0]>0 && bypoint[0]>0) {//画像配置
+                    canvas.drawBitmap(bmpAA, bxpoint[0], bypoint[0], paint);
+               }
+               if(bxpoint[1]>0 && bypoint[1]>0){
+                    canvas.drawBitmap(bmpBB, bxpoint[1], bypoint[1], paint);
+               }
+               if(bxpoint[2]>0 && bypoint[2]>0) {
+                    canvas.drawBitmap(bmpCC, bxpoint[2], bypoint[2], paint);
+               }
+               if(bxpoint[3]>0 && bypoint[3]>0) {
+                    canvas.drawBitmap(bmpDD, bxpoint[3], bypoint[3], paint);
+               }
+               if(bxpoint[4]>0 && bypoint[4]>0) {
+                    canvas.drawBitmap(bmpEE, bxpoint[4], bypoint[4], paint);
                }
                for(int i=0;i<5;i++){ ObjectMusic(i,canvas,paint); }
            }
