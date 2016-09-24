@@ -73,6 +73,7 @@ public class MainMenu extends Activity
 		});
 	}
 
+	//データ受取
 	protected void onActivityResult(int requestCode,int resultCode,Intent intent)
 	{
 		super.onActivityResult(requestCode,resultCode,intent);

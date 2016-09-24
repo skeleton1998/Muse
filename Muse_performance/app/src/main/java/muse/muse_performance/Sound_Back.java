@@ -8,7 +8,9 @@ import android.view.MotionEvent;
 
 public class Sound_Back extends Activity {
 	static final int RESULT = 1000;
-	int sound[]={0,0,0,0};//データ保存用変数
+
+	//データ保存用変数
+	int sound[]={0,0,0,0};
 	int beat=100;
 	int edit=0;
 	int songNo=0;
@@ -25,6 +27,7 @@ public class Sound_Back extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_soundback);
 
+		//データ受取
 		Intent intent=getIntent();
 		songNo = intent.getIntExtra("SongNo", 0);
 		Arrange1InstList[0] = intent.getIntExtra("A1Inst0", 0);
@@ -141,8 +144,8 @@ public class Sound_Back extends Activity {
 					graphicView.setBxpoint(edit,getx-20);//タッチ位置に画像配置
 					graphicView.setBypoint(edit,gety-60);
 				}
-
 				break;
+
 			case MotionEvent.ACTION_MOVE:
 				Log.d("", "ACTION_MOVE");
 				break;

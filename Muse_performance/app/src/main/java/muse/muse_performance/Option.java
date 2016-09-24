@@ -78,20 +78,20 @@ public class Option extends Activity
 
 	// 本体
 	private Instrument[] InstList = {
-			new Instrument( "ピアノ", 0 ),
-			new Instrument( "オルゴール", 11 ),
-			new Instrument( "マリンバ", 13 ),
-			new Instrument( "ドローパーオルガン", 17 ),
-			new Instrument( "アコーディオン", 22 ),
-			new Instrument( "ハーモニカ", 23 ),
-			new Instrument( "ナイロン弦アコギ", 25 ),
-			new Instrument( "スラップベース", 37 ),
-			new Instrument( "シンセベース2", 40 ),
-			new Instrument( "ヴァイオリン", 41 ),
-			new Instrument( "トランペット", 57 ),
-			new Instrument( "ソプラノサックス", 65 ),
-			new Instrument( "三味線", 107 ),
-			new Instrument( "太鼓", 117 )
+		new Instrument( "ピアノ", 0 ),
+		new Instrument( "オルゴール", 11 ),
+		new Instrument( "マリンバ", 13 ),
+		new Instrument( "ドローパーオルガン", 17 ),
+		new Instrument( "アコーディオン", 22 ),
+		new Instrument( "ハーモニカ", 23 ),
+		new Instrument( "ナイロン弦アコギ", 25 ),
+		new Instrument( "スラップベース", 37 ),
+		new Instrument( "シンセベース2", 40 ),
+		new Instrument( "ヴァイオリン", 41 ),
+		new Instrument( "トランペット", 57 ),
+		new Instrument( "ソプラノサックス", 65 ),
+		new Instrument( "三味線", 107 ),
+		new Instrument( "太鼓", 117 )
 	};
 	public String[] nameList = new String[ InstList.length ];
 	public int[] instList = new int[ InstList.length ];
@@ -336,37 +336,36 @@ public class Option extends Activity
 		seekbar.setMax(255);
 		seekbar.setProgress(beat);
 		seekbar.setOnSeekBarChangeListener(
-				new SeekBar.OnSeekBarChangeListener(){
-					@Override
-					public void onProgressChanged(SeekBar seekbar,int progress,boolean fromUser){
-						beat=seekbar.getProgress();
-						tempoTextView.setText("bpm"+beat);
-					}
-					public void onStartTrackingTouch(SeekBar seekbar){}
-					public void onStopTrackingTouch(SeekBar seekbar){                    }
-				});
+			new SeekBar.OnSeekBarChangeListener(){
+				@Override
+				public void onProgressChanged(SeekBar seekbar,int progress,boolean fromUser){
+					beat=seekbar.getProgress();
+					tempoTextView.setText("bpm"+beat);
+				}
+				public void onStartTrackingTouch(SeekBar seekbar){}
+				public void onStopTrackingTouch(SeekBar seekbar){}
+			});
 
 		Button sendButton = (Button) findViewById(R.id.return_button);
 		sendButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent=new Intent();
-				intent.putExtra("RES_SongNo", songNo);
-				intent.putExtra("RES_A1Inst0", arrange2Inst[0]);
-				intent.putExtra("RES_A1Inst1", arrange2Inst[1]);
-				intent.putExtra("RES_A1Inst2", arrange2Inst[2]);
-				intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
-				intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
-				intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
-				intent.putExtra("RES_MInst0", melodyInst[0]);
-				intent.putExtra("RES_MInst1", melodyInst[1]);
-				intent.putExtra("RES_MInst2", melodyInst[2]);
-				intent.putExtra("RES_MInst3", melodyInst[3]);
-				intent.putExtra("RES_BEAT", beat);
-				setResult(RESULT_OK,intent);
-				finish();
+			Intent intent=new Intent();
+			intent.putExtra("RES_SongNo", songNo);
+			intent.putExtra("RES_A1Inst0", arrange2Inst[0]);
+			intent.putExtra("RES_A1Inst1", arrange2Inst[1]);
+			intent.putExtra("RES_A1Inst2", arrange2Inst[2]);
+			intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
+			intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
+			intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
+			intent.putExtra("RES_MInst0", melodyInst[0]);
+			intent.putExtra("RES_MInst1", melodyInst[1]);
+			intent.putExtra("RES_MInst2", melodyInst[2]);
+			intent.putExtra("RES_MInst3", melodyInst[3]);
+			intent.putExtra("RES_BEAT", beat);
+			setResult(RESULT_OK,intent);
+			finish();
 			}
 		});
-
 	}
 }

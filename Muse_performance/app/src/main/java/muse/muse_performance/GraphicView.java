@@ -33,22 +33,25 @@ public class GraphicView extends View{
 	private int y = terminal_height/2;
 	private int d = (waveSpeed * 120) / bpm; //音の間隔
 
+	//裏オブジェクトの座標
 	private static float bxpoint[]={-1,-1,-1,-1,-1};
 	private static float bypoint[]={-1,-1,-1,-1,-1};
 
+	//表オブジェクトの座標
 	private float fxpoint[]={-1,-1,-1,-1};
 	private float fypoint[]={-1,-1,-1,-1};
 
+	//表裏判定
 	private boolean scene;
 
-	//時間系の変数
-	////タイマー変数
-	private static long startTime = System.currentTimeMillis();
+	//音がはねるのを防ぐ
+	private int boundcheck[] = {0,0,0,0,0};
+
 	////関連設置系
 	private static int waveSpeed = 300;  //波の速さ(px/s)
 	private static int bpm=50;    // bpm(beat / miniutes)
 
-
+	//タイマー
 	private ScheduledExecutorService ses = null;
 
 	//波生成変数
@@ -56,27 +59,21 @@ public class GraphicView extends View{
 	static private int graWidth = 2; // グラデーション1段階の幅
 	static private int colorDeference = 25; // 波の頂点と一番下の色の差
 
-
 	//画面の色
-	//白
-	static private int graTopcolorR = 148,
-			graTopcolorG = 213,
-			graTopcolorB = 225;
-	static private int graTopcolorEfeR = 0,graTopcolorEfeG = 0, graTopcolorEfeB = 0;
-
-
+	static private int graTopcolorR=148,graTopcolorG=213,graTopcolorB= 225;
+	static private int graTopcolorEfeR=0,graTopcolorEfeG=0,graTopcolorEfeB=0;
 
 	////画面の背景色
 	private int colorR = graTopcolorR + colorDeference
-			,colorG = graTopcolorG + colorDeference
-			,colorB = graTopcolorB + colorDeference;
+			   ,colorG = graTopcolorG + colorDeference
+			   ,colorB = graTopcolorB + colorDeference;
 
 	//半径の最大値
 	private int overR = sqrt(x  * x + y * y);
 
 	//タップしてできた円の半径と当たり判定
-	int[] hoger = {0,0,0,0};
-	private int[] hogecollisionR = {-1,-1,-1,-1};
+	int[] tapCircleR = {0,0,0,0};
+	private int[] tapCircleCollisionR = {-1,-1,-1,-1};
 	//背面のオブジェクトの当たり判定
 	private int[] backcollisionR = {-1,-1,-1,-1,-1};
 
@@ -89,9 +86,10 @@ public class GraphicView extends View{
 	private BackSE backSE;
 
 	//変数管理系
-	public void setFlagPoint(int i,int r) { hoger[i] = r; }
-	public int getFlagPoint(int i) { return hoger[i]; }
+	public void setFlagPoint(int i,int r) { tapCircleR[i] = r; }
+	public int getFlagPoint(int i) { return tapCircleR[i]; }
 
+	//裏座標変数
 	public float[] getBxpoint(){
 		return bxpoint;
 	}
@@ -105,6 +103,7 @@ public class GraphicView extends View{
 		bypoint[i]=y;
 	}
 
+	//表座標変数
 	public float[] getFxpoint(){
 		return fxpoint;
 	}
@@ -118,6 +117,7 @@ public class GraphicView extends View{
 		fypoint[i]=y;
 	}
 
+	//表裏管理フラグ
 	public void setScene(boolean i){
 		this.scene = i;
 	}
@@ -125,6 +125,7 @@ public class GraphicView extends View{
 		return this.scene;
 	}
 
+	//テンポ変数
 	public void setBpm(int b){
 		bpm=b;
 	}
@@ -172,17 +173,17 @@ public class GraphicView extends View{
             /* ------------------------------------ 衝突判定処理 -------------------------------------- */
 			//タップで生成された波の処理
 			for(int i=0;i<4;i++){
-				if(hoger[i] == 1){
+				if(tapCircleR[i] == 1){
 					//中心とタップした波の距離計算
 					float num = ((fxpoint[i]-x) * (fxpoint[i]-x)) + ((fypoint[i]-y) * (fypoint[i]-y));
 					int dr = sqrt( (int) num );
 					//衝突位置計算
-					hogecollisionR[i] = (dr/2) % d;
+					tapCircleCollisionR[i] = (dr/2) % d;
 				}
-				if(hoger[i] > 0)    hoger[i] += 8;
-				if(hoger[i] > overR * 2){
-					hoger[i] = 0;
-					hogecollisionR[i] = 0;
+				if(tapCircleR[i] > 0)    tapCircleR[i] += 8;
+				if(tapCircleR[i] > overR * 2){
+					tapCircleR[i] = 0;
+					tapCircleCollisionR[i] = 0;
 				}
 			}
 
@@ -199,8 +200,8 @@ public class GraphicView extends View{
 
             /* --------------------------------------------------------------------------------------- */
 
+			//波の描画間隔
 			d = (waveSpeed * 120) / bpm;
-
 
 			// 画面を更新
 			postInvalidate();
@@ -232,14 +233,6 @@ public class GraphicView extends View{
 		ses.scheduleAtFixedRate(task, 0L, 24L, TimeUnit.MILLISECONDS);
 	}
 
-	public void onPause(){
-		if (ses != null) {
-			// タイマーを停止する
-			ses.shutdown();
-			ses = null;
-		}
-	}
-
 	public void changeColor(int changenum,Paint paint,Canvas canvas){
 		if( changenum == -1 ) {
 			paint.setColor(Color.argb(0x90,graTopcolorR+10, graTopcolorG+10, graTopcolorB+10));
@@ -258,7 +251,6 @@ public class GraphicView extends View{
 		}
 	}
 
-	private int boundcheck[] = {0,0,0,0,0};     //音がはねるのを防ぐ (チャタリング除去)
 	protected void ObjectMusic(int i, Canvas canvas,Paint paint){
 		if(boundcheck[i] == 20)    boundcheck[i] = 0;     //20を基点とする
 		if(bxpoint[i] > 0 && bypoint[i] > 0 && backcollisionR[i] <= r % d + 8 && backcollisionR[i] >= r % d - 10){
@@ -275,8 +267,6 @@ public class GraphicView extends View{
 		if(boundcheck[i] > 0)     boundcheck[i]++;   //boundしてるときにのみチェックをかける(インデント)
 	}
 
-
-
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
@@ -289,7 +279,6 @@ public class GraphicView extends View{
 		Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
 		Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
 		Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
-		Bitmap bmp5= BitmapFactory.decodeResource(res,R.drawable.test5);
 		Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
 		Bitmap bmpo= BitmapFactory.decodeResource(res,R.drawable.testo);
 		Bitmap bmpb= BitmapFactory.decodeResource(res,R.drawable.testb);
@@ -299,7 +288,6 @@ public class GraphicView extends View{
 		Bitmap bmpCC= BitmapFactory.decodeResource(res,R.drawable.testcc);
 		Bitmap bmpDD= BitmapFactory.decodeResource(res,R.drawable.testdd);
 		Bitmap bmpEE= BitmapFactory.decodeResource(res,R.drawable.testee);
-
 
 		//Paintオブジェクトの生成
 		Paint paint = new Paint();
@@ -318,11 +306,11 @@ public class GraphicView extends View{
 			}
 			else if(flicklog[0] == 22 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG - 30, graTopcolorB));
-				canvas.drawRect(0+(10-flickchange[0])*80,0,x,y,paint);
+				canvas.drawRect((10-flickchange[0])*80,0,x,y,paint);
 			}
 			else if( flicklog[0] == 40 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG, graTopcolorB - 30));
-				canvas.drawRect(0, 0 + (10 - flickchange[0]) * 80, x, y, paint);
+				canvas.drawRect(0,(10-flickchange[0])*80,x,y,paint);
 			}
 			else if( flicklog[0] == 56 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR-30, graTopcolorG, graTopcolorB));
@@ -348,11 +336,11 @@ public class GraphicView extends View{
 			}
 			else if( flicklog[1] == 40 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG, graTopcolorB - 30));
-				canvas.drawRect(x,0 + (10-flickchange[1])*80,x*2,y,paint);
+				canvas.drawRect(x,(10-flickchange[1])*80,x*2,y,paint);
 			}
 			else if( flicklog[1] == 56 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR-30, graTopcolorG, graTopcolorB));
-				canvas.drawRect(x,0,x*2 - (10-flickchange[1])*80,y,paint);
+				canvas.drawRect(x,0,x*2-(10-flickchange[1])*80,y,paint);
 			}
 
 			flickchange[1] --;
@@ -370,7 +358,7 @@ public class GraphicView extends View{
 			}
 			else if( flicklog[2] == 22 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG - 30, graTopcolorB));
-				canvas.drawRect(0 + (10-flickchange[2])*80,y,x,y*2,paint);
+				canvas.drawRect((10-flickchange[2])*80,y,x,y*2,paint);
 			}
 			else if( flicklog[2] == 40 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG, graTopcolorB - 30));
@@ -392,11 +380,11 @@ public class GraphicView extends View{
 			}
 			else if( flicklog[3] == 0 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG, graTopcolorB));
-				canvas.drawRect(x,y,x*2,y*2 - (10-flickchange[3])*80,paint);
+				canvas.drawRect(x,y,x*2,y*2-(10-flickchange[3])*80,paint);
 			}
 			else if( flicklog[3] == 22 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG - 30, graTopcolorB));
-				canvas.drawRect(x + (10-flickchange[3])*80,y,x*2,y*2,paint);
+				canvas.drawRect(x+(10-flickchange[3])*80,y,x*2,y*2,paint);
 			}
 			else if( flicklog[3] == 40 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR, graTopcolorG, graTopcolorB - 30));
@@ -404,20 +392,15 @@ public class GraphicView extends View{
 			}
 			else if( flicklog[3] == 56 ) {
 				paint.setColor(Color.argb(0x90,graTopcolorR-30, graTopcolorG, graTopcolorB));
-				canvas.drawRect(x,y,x*2 - (10-flickchange[3])*80,y*2,paint);
+				canvas.drawRect(x,y,x*2-(10-flickchange[3])*80,y*2,paint);
 			}
 
 			flickchange[3] --;
 		}
 
-
 		//描画色の指定
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setStrokeWidth( graWidth );
-
-		//bpm更新
-		//d = beat;
-
 
 		//円
 		int colorGap; //グラデーションの色の差の値
@@ -432,19 +415,18 @@ public class GraphicView extends View{
 			//白
 			paint.setColor(  Color.rgb( colorR - colorGap,  colorG - colorGap,  colorB - colorGap) );
 			// 表示
-			//// 円で表示させてる(ざまく
 			//波の数ループ
 			for( int i = 0; i <= r / d; i++ ) {
 				canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
 			}
 
 			for(int i = 0; i < 4 ; i++){
-				if(hoger[i] > 0){
-					if(r % d >= hogecollisionR[i] && r % d < hogecollisionR[i] + 30){
+				if(tapCircleR[i] > 0){
+					if(r % d >= tapCircleCollisionR[i] && r % d < tapCircleCollisionR[i] + 30){
 						paint.setColor(  Color.rgb( graTopcolorEfeR - colorGap,  graTopcolorEfeG - colorGap,  graTopcolorEfeB - colorGap) );
 					}
-					canvas.drawCircle(fxpoint[i],fypoint[i], hoger[i] + j * graWidth, paint);
-					if(r % d >= hogecollisionR[i] && r % d < hogecollisionR[i] + 30){
+					canvas.drawCircle(fxpoint[i],fypoint[i], tapCircleR[i] + j * graWidth, paint);
+					if(r % d >= tapCircleCollisionR[i] && r % d < tapCircleCollisionR[i] + 30){
 						paint.setColor(  Color.rgb( graTopcolorR - colorGap,  graTopcolorG - colorGap,  graTopcolorB - colorGap) );
 					}
 				}
