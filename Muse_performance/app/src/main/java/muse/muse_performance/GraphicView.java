@@ -29,9 +29,9 @@ public class GraphicView extends View{
 
 	//画面の位置情報変数
 	private int r = 0; //半径
-	private int x = terminal_width/2; //音生成中心の座標 TODO : 画面大きさから取得
+	private int x = terminal_width/2; //音生成中心の座標
 	private int y = terminal_height/2;
-	private int d = (waveSpeed * 120) / bpm; //音の間隔 TODO : bpmから取得
+	private int d = (waveSpeed * 120) / bpm; //音の間隔
 
 	private static float bxpoint[]={-1,-1,-1,-1,-1};
 	private static float bypoint[]={-1,-1,-1,-1,-1};
@@ -429,8 +429,6 @@ public class GraphicView extends View{
 			colorGap = j * graWidth;
 			if( colorGap < 0 ) colorGap *= -1;
 			//色計算
-			//黒
-			////paint.setColor(  Color.rgb( graTopcolorR + colorGap ,  graTopcolorG + colorGap,  graTopcolorB + colorGap));
 			//白
 			paint.setColor(  Color.rgb( colorR - colorGap,  colorG - colorGap,  colorB - colorGap) );
 			// 表示
@@ -470,12 +468,12 @@ public class GraphicView extends View{
 			}
 			else{
 				canvas.drawBitmap(bmpf,1115,0,paint);
-				canvas.drawBitmap(bmpAA,0,400,paint);
-				canvas.drawBitmap(bmpBB,0,500,paint);
+				canvas.drawBitmap(bmpAA,0,300,paint);
+				canvas.drawBitmap(bmpBB,0,450,paint);
 				canvas.drawBitmap(bmpCC,0,600,paint);
-				canvas.drawBitmap(bmpDD,0,700,paint);
-				canvas.drawBitmap(bmpEE,0,800,paint);
-				canvas.drawBitmap(bmpa,0,900,paint);
+				canvas.drawBitmap(bmpDD,0,750,paint);
+				canvas.drawBitmap(bmpEE,0,900,paint);
+				canvas.drawBitmap(bmpa,0,1070,paint);
 
 			}
 			if(bxpoint[0]>0 && bypoint[0]>0) {//画像配置

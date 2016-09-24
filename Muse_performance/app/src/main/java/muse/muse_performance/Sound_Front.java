@@ -37,7 +37,7 @@ public class Sound_Front extends Activity
 	//
 	int nowPos = 0;	// 再生位置
 
-	// 画面サイズうんぬん : TODO
+	// 画面サイズうんぬん
 	static final int maxX = 1200;
 	static final int maxY = 1900;
 	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
@@ -120,7 +120,7 @@ public class Sound_Front extends Activity
 			else vel[i] = (int)( ( maxLen - dist[i] ) * 127 / ( maxLen - fixDist ) );
 		}
 
-		// テンポの更新 : TODO
+		// テンポの更新
 		bpm = beat;
 
 		// midi作成
@@ -207,7 +207,6 @@ public class Sound_Front extends Activity
 			// x軸移動が大きい時
 			if(Math.abs(pushx-nx)>Math.abs(pushy-ny))
 			{
-				Log.d("", "moveright");
 				return Vec.RIGHT;
 			}
 			// y軸移動が大きい時
@@ -216,13 +215,11 @@ public class Sound_Front extends Activity
 				// 上移動時
 				if(pushy>ny)
 				{
-					Log.d("", "moveup");
 					return Vec.UP;
 				}
 				// 下移動時
 				else
 				{
-					Log.d("", "movedown");
 					return Vec.DOWN;
 				}
 			}
@@ -233,7 +230,6 @@ public class Sound_Front extends Activity
 			// x軸移動が大きい時
 			if(Math.abs(pushx-nx)>Math.abs(pushy-ny))
 			{
-				Log.d("", "moveleft");
 				return Vec.LEFT;
 			}
 			// y軸移動が大きい時
@@ -242,13 +238,11 @@ public class Sound_Front extends Activity
 				//上移動時
 				if(pushy>ny)
 				{
-					Log.d("", "moveup");
 					return Vec.UP;
 				}
 				//下移動時
 				else
 				{
-					Log.d("", "movedown");
 					return Vec.DOWN;
 				}
 			}
@@ -310,10 +304,7 @@ public class Sound_Front extends Activity
 		{
 			//押した時
 			case MotionEvent.ACTION_DOWN:
-				// デバック表示
 				Log.d("", "ACTION_DOWN");
-				Log.d("", "EventLocation X:" + getx + ",Y:" + gety);
-
 				//前回のタッチ記録を消去
 				for( int i = 0 ; i < 4; i++ )
 				{
@@ -331,12 +322,7 @@ public class Sound_Front extends Activity
 
 			//離した時
 			case MotionEvent.ACTION_UP:
-				// デバッグ表示
 				Log.d("", "ACTION_UP");
-				long eventDuration2 = motionEvent.getEventTime() - motionEvent.getDownTime();
-				Log.d("", "eventDuration2: " +eventDuration2+" msec");
-				Log.d("", "Pressure: " + motionEvent.getPressure());
-
 				// テンポ処理
 				if( beattemp != 0 )
 				{
@@ -470,7 +456,6 @@ public class Sound_Front extends Activity
 
 						//距離
 						dist[0] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-						Log.d("", "dist[0]=" + dist[0]);
 
 						// MediaPlayer処理
 						this.changeMidiFile();
@@ -484,7 +469,6 @@ public class Sound_Front extends Activity
 
 						//距離
 						dist[1] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-						Log.d("", "dist[1]=" + dist[1]);
 
 						// MediaPlayer処理
 						this.changeMidiFile();
@@ -499,7 +483,6 @@ public class Sound_Front extends Activity
 
 						// 距離
 						dist[2] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-						Log.d("", "dist[2]=" + dist[2]);
 
 						// MediaPlayer処理
 						this.changeMidiFile();
@@ -514,7 +497,6 @@ public class Sound_Front extends Activity
 
 						// 距離
 						dist[3] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-						Log.d("", "dist[3]=" + dist[3]);
 
 						// MediaPlayer処理
 						this.changeMidiFile();
@@ -523,11 +505,6 @@ public class Sound_Front extends Activity
 				break;
 
 			case MotionEvent.ACTION_MOVE:
-				//デバッグ表示
-				Log.d("", "ACTION_MOVE");
-				Log.d("", " X:" + getx + ", Y:" + gety);
-				Log.d("", "beat:" + beat);
-
 				//スライド座標を保存
 				beforex[3]=beforex[2];
 				beforex[2]=beforex[1];
@@ -541,41 +518,30 @@ public class Sound_Front extends Activity
 				// テンポ操作
 				if(getx>400 && getx<800 && gety>750 && getx<1150)
 				{
-					//デバッグ用表示
-					Log.d("", "bX:" + beforex[1] + ",bY:" + beforey[1]);
-					Log.d("", "bX:" + beforex[3] + ",bY:" + beforey[3]);
-
 					//座標が記録されてない時
 					if (record == 0 && beforex[3] != -1)
 					{
 						//右移動時
 						if (getx > beforex[1] && beforex[1] > beforex[3])
 						{
-							Log.d("", "spinright");
 							record = 1;//フラグ管理
 						}
 						//左移動時
 						else
 						{
-							Log.d("", "spinleft");
 							record = 2;//フラグ管理
 						}
 					}
 					//右移動から始めた時
 					else if (record == 1)
 					{
-						Log.d("", "spinright");
 						beattemp += 1;//bpm加算
 					}
 					//左移動から始めた時
 					else
 					{
-						Log.d("", "spinleft");
 						beattemp -= 1;//bpm減算
 					}
-
-					// デバッグ表示
-					Log.d("", "beattemp:" + beattemp);
 				}
 				break;
 
