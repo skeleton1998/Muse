@@ -89,18 +89,11 @@ public class Sound_Back extends Activity {
 		switch (motionEvent.getAction()) {
 			case MotionEvent.ACTION_DOWN://押した時
 				Log.d("", "ACTION_DOWN");
-				Log.d("", "EventLocation X:" + getx + ",Y:" + gety);
 				break;
+
 			case MotionEvent.ACTION_UP://離した時
 				Log.d("", "ACTION_UP");
-				long eventDuration2 = motionEvent.getEventTime() - motionEvent.getDownTime();
-				Log.d("", "eventDuration2: " +eventDuration2+" msec");//デバッグ用出力
-				Log.d("", "Pressure: " + motionEvent.getPressure());
-				Log.d("", "edit="+edit);
-				Log.d("","getx   ="+getx+",gety   ="+gety);
-				Log.d("","nowx[0]="+nowx[0]+",nowy[0]="+nowy[0]);
-
-				if(getx>1090 && gety<120){
+				if(getx>1070 && gety<140){
 					Intent intent2 = new Intent();
 					intent2.putExtra("RES_S1",sound[0]);//データを返す
 					intent2.putExtra("RES_S2",sound[1]);
@@ -133,11 +126,11 @@ public class Sound_Back extends Activity {
 					graphicView.setBypoint(4,-1);
 				}
 
-				else if(getx<60 && gety>430 && gety<929){
-					edit=((int)gety-430)/100;//編集する画像の選択
+				else if(getx<60 && gety>330 && gety<1079){
+					edit=((int)gety-330)/150;//編集する画像の選択
 				}
 
-				else if(getx<60 && gety>930 && gety<1010){
+				else if(getx<60 && gety>1100 && gety<1200){
 					for(int i=0;i<5;i++) {//全画像消去
 						graphicView.setBxpoint(i, -1);
 						graphicView.setBypoint(i, -1);
