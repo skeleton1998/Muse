@@ -27,6 +27,21 @@ public class GraphicView extends View{
 	int terminal_width = disp.getWidth();   // monitor width
 	int terminal_height = disp.getHeight(); // monitor height
 
+	Resources res=getResources();//画像読み込み
+	Bitmap bmp1= BitmapFactory.decodeResource(res,R.drawable.test1);
+	Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
+	Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
+	Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
+	Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
+	Bitmap bmpo= BitmapFactory.decodeResource(res,R.drawable.testo);
+	Bitmap bmpb= BitmapFactory.decodeResource(res,R.drawable.testb);
+	Bitmap bmpf= BitmapFactory.decodeResource(res,R.drawable.testf);
+	Bitmap bmpAA= BitmapFactory.decodeResource(res,R.drawable.testaa);
+	Bitmap bmpBB= BitmapFactory.decodeResource(res,R.drawable.testbb);
+	Bitmap bmpCC= BitmapFactory.decodeResource(res,R.drawable.testcc);
+	Bitmap bmpDD= BitmapFactory.decodeResource(res,R.drawable.testdd);
+	Bitmap bmpEE= BitmapFactory.decodeResource(res,R.drawable.testee);
+
 	//画面の位置情報変数
 	private int r = 0; //半径
 	private int x = terminal_width/2; //音生成中心の座標
@@ -274,20 +289,6 @@ public class GraphicView extends View{
 		//背景色の設定
 		////白
 		canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
-		Resources res=getResources();//画像読み込み
-		Bitmap bmp1= BitmapFactory.decodeResource(res,R.drawable.test1);
-		Bitmap bmp2= BitmapFactory.decodeResource(res,R.drawable.test2);
-		Bitmap bmp3= BitmapFactory.decodeResource(res,R.drawable.test3);
-		Bitmap bmp4= BitmapFactory.decodeResource(res,R.drawable.test4);
-		Bitmap bmpa= BitmapFactory.decodeResource(res,R.drawable.testa);
-		Bitmap bmpo= BitmapFactory.decodeResource(res,R.drawable.testo);
-		Bitmap bmpb= BitmapFactory.decodeResource(res,R.drawable.testb);
-		Bitmap bmpf= BitmapFactory.decodeResource(res,R.drawable.testf);
-		Bitmap bmpAA= BitmapFactory.decodeResource(res,R.drawable.testaa);
-		Bitmap bmpBB= BitmapFactory.decodeResource(res,R.drawable.testbb);
-		Bitmap bmpCC= BitmapFactory.decodeResource(res,R.drawable.testcc);
-		Bitmap bmpDD= BitmapFactory.decodeResource(res,R.drawable.testdd);
-		Bitmap bmpEE= BitmapFactory.decodeResource(res,R.drawable.testee);
 
 		//Paintオブジェクトの生成
 		Paint paint = new Paint();
