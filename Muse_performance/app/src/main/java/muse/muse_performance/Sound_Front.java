@@ -23,7 +23,7 @@ public class Sound_Front extends Activity
 	float pushx,pushy;
 
 	// midi用変数
-	int bpm = 120;				// beat per min
+	int bpm = 100;				// beat per min
 	int inst[] = { 0, 0, 0, 0 };// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
 	int songNo = 0;             //曲セレクト
@@ -135,28 +135,13 @@ public class Sound_Front extends Activity
 			midFile.setTempo(bpm);
 
 			// 音色設定
-			midFile.setProgramChange((byte) 0x00, (byte) inst[0] );
-			midFile.setProgramChange((byte) 0x01, (byte) inst[1] );
-			midFile.setProgramChange((byte) 0x02, (byte) inst[2] );	// 	主旋律
+			midFile.setProgramChange((byte) 0x00, (byte) inst[0] ); // アレンジA (左上)
+			midFile.setProgramChange((byte) 0x01, (byte) inst[1] ); // アレンジA (右上)
+			midFile.setProgramChange((byte) 0x02, (byte) inst[2] );	// 	主旋律   (左下)
 			midFile.closeTrackData();
 
 			// トラックデータ作成
-			switch( songNo )
-			{
-				case 0:
-					midFile.Song1ArrangeA((byte) 0x00, (byte) vel[0]);
-					midFile.Song1ArrangeB((byte) 0x01, (byte) vel[1]);
-					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
-					midFile.Song1Percuss( DrumNo, (byte) 0x09, (byte) vel[3]);
-					break;
-
-				default:
-					midFile.Song1ArrangeA((byte) 0x00, (byte) vel[0]);
-					midFile.Song1ArrangeB((byte) 0x01, (byte) vel[1]);
-					midFile.Song1Melody((byte) 0x02, (byte) vel[2]);
-					midFile.Song1PercussionA((byte) 0x09, (byte) vel[3]);
-					break;
-			}
+			midFile.SelectSong( songNo, DrumNo, vel );
 		}
 		catch( Exception e )
 		{
@@ -309,7 +294,6 @@ public class Sound_Front extends Activity
 		}
 	}
 
-	@Override
 	//タッチイベントを拾う
 	public boolean onTouchEvent(MotionEvent motionEvent)
 	{
