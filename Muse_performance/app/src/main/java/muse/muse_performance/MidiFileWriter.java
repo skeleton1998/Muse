@@ -18,8 +18,14 @@ public class MidiFileWriter
 	private FileOutputStream fos = null;
 	private String FILE_ID = ".mid";
 	private Context context = null;
-	private ArrayList<TrackData> TrackDataList = new ArrayList<TrackData>();
 	private int quarterNoteDeltaTime;
+	// Trackデータ
+	private ArrayList<TrackData> TrackDataList = new ArrayList<TrackData>();
+	protected class TrackData
+	{
+		protected int length = 0;
+		protected byte[] data;
+	}
 
 	// コンストラクタ
 	public MidiFileWriter(Context context)
@@ -1324,13 +1330,5 @@ public class MidiFileWriter
 		{
 			e.printStackTrace();
 		}
-	}
-
-	/* 定数 */
-	// Trackデータ
-	protected class TrackData
-	{
-		protected int length = 0;
-		protected byte[] data;
 	}
 }
