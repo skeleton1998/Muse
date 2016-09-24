@@ -336,7 +336,7 @@ public class Sound_Front extends Activity
 				// テンポが変わった時
 				if( beat != bpm ) this.changeMidiFile();	// midi更新
 
-				if(Math.abs(pushx-getx)>75 || Math.abs(pushy-gety)>75){//移動距離が長いとき
+				if(Math.abs(pushx-getx)>40 || Math.abs(pushy-gety)>40){//移動距離が長いとき
 					// フリック方向で各エリアごとの操作
 					//左上
 					if( pushx < maxX/2 && pushy < maxY/2 )
