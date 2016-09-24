@@ -12,6 +12,8 @@ import java.io.*;
 public class Sound_Front extends Activity
 {
 	static final int RESULT = 1000;
+
+	//テンポ
 	int beat = 100;
 	int beattemp;
 
@@ -34,7 +36,6 @@ public class Sound_Front extends Activity
 	int Arrange2InstList[] = new int[3];
 	int melodyInstList[] = new int[4];
 
-	//
 	int nowPos = 0;	// 再生位置
 
 	// 画面サイズうんぬん
@@ -295,10 +296,6 @@ public class Sound_Front extends Activity
 		float getx = motionEvent.getX();
 		float gety = motionEvent.getY();
 
-		//画像がおいてある場所取得
-		float nowx[] = graphicView.getBxpoint();
-		float nowy[] = graphicView.getBypoint();
-
 		// 各イベント処理
 		switch( motionEvent.getAction() )
 		{
@@ -312,6 +309,7 @@ public class Sound_Front extends Activity
 					beforey[i]=-1;
 				}
 
+				//タッチ開始位置を保存
 				pushx=getx;
 				pushy=gety;
 
@@ -338,7 +336,7 @@ public class Sound_Front extends Activity
 				// テンポが変わった時
 				if( beat != bpm ) this.changeMidiFile();	// midi更新
 
-				if(Math.abs(pushx-getx)>75 || Math.abs(pushy-gety)>75){//移動距離が長いとき
+				if(Math.abs(pushx-getx)>40 || Math.abs(pushy-gety)>40){//移動距離が長いとき
 					// フリック方向で各エリアごとの操作
 					//左上
 					if( pushx < maxX/2 && pushy < maxY/2 )
