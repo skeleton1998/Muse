@@ -18,8 +18,14 @@ public class MidiFileWriter
 	private FileOutputStream fos = null;
 	private String FILE_ID = ".mid";
 	private Context context = null;
-	private ArrayList<TrackData> TrackDataList = new ArrayList<TrackData>();
 	private int quarterNoteDeltaTime;
+	// Trackデータ
+	private ArrayList<TrackData> TrackDataList = new ArrayList<TrackData>();
+	protected class TrackData
+	{
+		protected int length = 0;
+		protected byte[] data;
+	}
 
 	// コンストラクタ
 	public MidiFileWriter(Context context)
@@ -414,77 +420,110 @@ public class MidiFileWriter
 	{
 		try
 		{
-			this.addNoteOn( ch, 0, (byte)35, vel);
+			his.addNoteOn( ch, 0, (byte)35, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 
 			this.addNoteOn( ch, 0, (byte)35, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
-
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
 
 			this.addNoteOn( ch, 0, (byte)35, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_080), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
 			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
 			this.addNoteOn( ch, 0, (byte)35, vel);
-			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)35, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_160), (byte)54, (byte)0x00);
+			this.addNoteOn( ch, 0, (byte)40, vel);
+			this.addNoteOn( ch, this.getNoteDeltaTime(NoteTime.Note_040), (byte)35, (byte)0x00);
+
 
 			this.closeTrackData();
 		}
@@ -1324,13 +1363,5 @@ public class MidiFileWriter
 		{
 			e.printStackTrace();
 		}
-	}
-
-	/* 定数 */
-	// Trackデータ
-	protected class TrackData
-	{
-		protected int length = 0;
-		protected byte[] data;
 	}
 }

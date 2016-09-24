@@ -26,7 +26,7 @@ public class Sound_Front extends Activity
 	int bpm = 100;				// beat per min
 	int inst[] = { 0, 0, 0, 0 };// 音色
 	int vel[] = { 0, 0, 0, 0 };	// 大きさ
-	int songNo = 0;             //曲セレクト
+	int songNo = 0;				//曲セレクト
 	int DrumNo = 0;				// ドラムトラック用変数
 
 	// 楽器リスト
