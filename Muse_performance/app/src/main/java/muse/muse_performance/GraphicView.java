@@ -11,11 +11,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 import android.view.Display;
 import android.view.WindowManager;
-import android.media.SoundPool;
 
 
 public class GraphicView extends View{
@@ -88,8 +86,7 @@ public class GraphicView extends View{
 	private int flickchange[] ={0,0,0,0};//フリックのフラグ
 
 	//サウンドプール
-	private SoundPool soundPool;
-	private int[] soundID = new int[5];
+	private BackSE backSE;
 
 	//変数管理系
 	public void setFlagPoint(int i,int r) { hoger[i] = r; }
@@ -224,20 +221,11 @@ public class GraphicView extends View{
 	public void onResume(){
 		// タイマーの作成
 		ses = Executors.newSingleThreadScheduledExecutor();
+		//SE関係
+		backSE=new BackSE(5,AudioManager.STREAM_MUSIC,0,getContext());
 
 		//ファイルロード
-		soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-		Log.d("","make soundpool");
-		soundID[0] = soundPool.load(getContext(),R.raw.flog ,1);
-		Log.d("","load1");
-		soundID[1] = soundPool.load(getContext(),R.raw.hiyoko,1);
-		Log.d("","load2");
-		soundID[2] = soundPool.load(getContext(),R.raw.semi,1);
-		Log.d("","load3");
-		soundID[3] = soundPool.load(getContext(),R.raw.hand,1);
-		Log.d("","load4");
-		soundID[4] = soundPool.load(getContext(),R.raw.flog2,1);
-		Log.d("","load5");
+		backSE.soundLoad();
 
 		// 一定時間ごとにRunnableの処理を実行
 		//   => scheduleAtFixedRate(Runnableオブジェクト , 最初の実行時間 , 実行の周期 , 値の単位(列挙型TimeUnitの値) )
@@ -275,7 +263,7 @@ public class GraphicView extends View{
 		if(boundcheck[i] == 20)    boundcheck[i] = 0;     //20を基点とする
 		if(bxpoint[i] > 0 && bypoint[i] > 0 && backcollisionR[i] <= r % d + 8 && backcollisionR[i] >= r % d - 10){
 			if(boundcheck[i] == 0){
-				soundPool.play(soundID[i],0.2f,0.2f,0,0,1);
+				backSE.soundPlay(i);
 				//チャタリング除去フラグ_インデント
 				boundcheck[i]++;
 			}
@@ -294,8 +282,6 @@ public class GraphicView extends View{
 	{
 
 		//背景色の設定
-		////黒
-		//canvas.drawColor( Color.rgb( colorR , colorG, colorB ) );
 		////白
 		canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
 		Resources res=getResources();//画像読み込み
