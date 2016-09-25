@@ -24,7 +24,9 @@ public class GraphicView extends View
 	int terminal_height = display.getHeight();  // モニタ縦
 
 	//画像読み込み
-	private int bSize = 100;
+	private static int sSize = 100;
+	private int bSize = 200;
+	//透過処理
 	public Bitmap ClearBack( Bitmap bmp )
 	{
 		// 縦横取得
@@ -55,15 +57,18 @@ public class GraphicView extends View
 		return bmp;
 	}
 	Resources res = getResources();
-	Bitmap bigTab_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.bigtab ), bSize, bSize, false ) );
-	Bitmap tab_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.tab ), bSize, bSize, false ) );
-	Bitmap chick_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.chick ), bSize, bSize, false ) );
-	Bitmap clap_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.clap ), bSize, bSize, false ) );
-	Bitmap  drum_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), bSize, bSize, false ) );
-	Bitmap frog_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.frog ), bSize, bSize, false ) );
-	Bitmap fue_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.fue ), bSize, bSize, false ) );
-	Bitmap guitar_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.guitar ), bSize, bSize, false ) );
-	Bitmap piano_bmp = ClearBack( Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.piano ), bSize, bSize, false ) );
+	Bitmap bigTab_bmp = /*ClearBack( */Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.bigtab ), 280, 1100, false ) /*)*/;
+	Bitmap tab_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.tab ), 70, 1100, false ) /*)*/;
+	Bitmap chick_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.chick ), sSize, sSize, false ) /*)*/;
+	Bitmap clap_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.clap ), sSize, sSize, false ) /*)*/;
+	Bitmap drum_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), sSize, sSize, false ) /*)*/;
+	Bitmap frog_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.frog ), sSize, sSize, false ) /*)*/;
+	Bitmap fue_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.fue ), sSize, sSize, false ) /*)*/;
+	Bitmap guitar_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.guitar ), sSize, sSize, false ) /*)*/;
+	Bitmap piano_bmp = /*ClearBack(*/ Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.piano ), sSize, sSize, false ) /*)*/;
+	Bitmap BigChick_bmp = Bitmap.createScaledBitmap( chick_bmp, bSize, bSize,false );
+	Bitmap BigClap_bmp = Bitmap.createScaledBitmap( clap_bmp, bSize, bSize, false );
+	Bitmap BigFrog_bmp = Bitmap.createScaledBitmap( frog_bmp, bSize, bSize, false );
 
 	//画面の位置情報変数
 	private int r = 0; //半径
@@ -79,8 +84,19 @@ public class GraphicView extends View
 	private float fxpoint[]={-1,-1,-1,-1};
 	private float fypoint[]={-1,-1,-1,-1};
 
+	//オブジェクトタブのスクロールの一番上
+	private int scrollTop = 0;
+	public void setScrollTop(int i){ this.scrollTop = i; }
+	public int getScrollTop(){ return this.scrollTop; }
+
+
 	//表裏判定
 	private boolean scene;
+
+	//オブジェクトタブのONとOFFの判定
+	private boolean TabFlag = true;
+	public void TabFlagON(){  this.TabFlag = !this.TabFlag;  } //反応したらひっくり返す
+	public boolean getTabFlag(){	return this.TabFlag; }
 
 	//音がはねるのを防ぐ
 	private int boundcheck[] = {0,0,0,0,0};
@@ -313,8 +329,6 @@ public class GraphicView extends View
 		////白
 		canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
 
-		frog_bmp = ClearBack( frog_bmp );
-
 		//Paintオブジェクトの生成
 		Paint paint = new Paint();
 
@@ -463,37 +477,59 @@ public class GraphicView extends View
 			{
 				// 基本表示
 				canvas.drawBitmap( frog_bmp, 0, 0, paint );// オプション : TODO
-				canvas.drawBitmap( frog_bmp, terminal_width - bSize, 0, paint );// 裏画面メニュー : TODO
+				canvas.drawBitmap( frog_bmp, terminal_width - sSize, 0, paint );// 裏画面メニュー : TODO
 				canvas.drawBitmap( guitar_bmp, 460, 770, paint );   // 左上表示
 				canvas.drawBitmap( fue_bmp, 660, 770, paint );   // 右上表示
 				canvas.drawBitmap( piano_bmp, 460, 970, paint );    // 左下表示
 				canvas.drawBitmap( drum_bmp, 660, 970, paint );     // 右下表示
 
 				// 楽器配置
-				if( fxpoint[0] > 0 && fypoint[0] > 0 ) canvas.drawBitmap( guitar_bmp, fxpoint[0], fypoint[0], paint );
-				if( fxpoint[1] > 0 && fypoint[1] > 0 ) canvas.drawBitmap( fue_bmp, fxpoint[1], fypoint[1], paint );
-				if( fxpoint[2] > 0 && fypoint[2] > 0 ) canvas.drawBitmap( piano_bmp, fxpoint[2], fypoint[2], paint );
-				if( fxpoint[3] > 0 && fypoint[3] > 0 ) canvas.drawBitmap( drum_bmp, fxpoint[3], fypoint[3], paint );
+				if( fxpoint[0] > 0 && fypoint[0] > 0 ) canvas.drawBitmap( guitar_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint );
+				if( fxpoint[1] > 0 && fypoint[1] > 0 ) canvas.drawBitmap( fue_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint );
+				if( fxpoint[2] > 0 && fypoint[2] > 0 ) canvas.drawBitmap( piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint );
+				if( fxpoint[3] > 0 && fypoint[3] > 0 ) canvas.drawBitmap( drum_bmp, fxpoint[3] - 30, fypoint[3] - 30, paint );
 			}
 			// 裏画面メニュー
 			else
 			{
-				canvas.drawBitmap( frog_bmp, terminal_width - bSize, 0, paint );  // 表への遷移ボタン
-				canvas.drawBitmap( frog_bmp, 0, 300, paint );   // 打楽器音1
-				canvas.drawBitmap( chick_bmp, 0, 450, paint );  // 打楽器音2
-				canvas.drawBitmap( frog_bmp, 0, 600, paint );   // 打楽器音3
-				canvas.drawBitmap( clap_bmp, 0, 750, paint );   // 打楽器音4
-				canvas.drawBitmap( frog_bmp, 0, 900, paint );   // 打楽器音5
-				canvas.drawBitmap( drum_bmp, 0, 1070, paint );  // 全消去
-
+				canvas.drawBitmap( frog_bmp, terminal_width - sSize, 0, paint );  // 表への遷移ボタン
+				//設置オブジェクト選択バー表示
+				if(TabFlag) {
+					canvas.drawBitmap(bigTab_bmp, 0 , 300,paint);
+					for(int i=0;i<4;i++){
+						switch( (scrollTop + i ) % 6 ) {
+							case 0:
+								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250*i, paint);   // 打楽器音1
+								break;
+							case 1:
+								canvas.drawBitmap(BigChick_bmp, 7, 370 + 250*i, paint);  // 打楽器音2
+								break;
+							case 2:
+								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250*i, paint);   // 打楽器音3
+								break;
+							case 3:
+								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250*i, paint);   // 打楽器音4
+								break;
+							case 4:
+								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250*i, paint);   // 打楽器音5
+								break;
+							case 5:
+								canvas.drawBitmap(drum_bmp, 7, 370 + 250*i, paint);  // 全消去
+								break;
+						}
+					}
+				}
+				else{
+					canvas.drawBitmap(tab_bmp, 0 , 300, paint);
+				}
 			}
 
 			// 置かれた楽器&打楽器画像表示
-			if( bxpoint[0] > 0 && bypoint[0] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[0], bypoint[0], paint );
-			if( bxpoint[1] > 0 && bypoint[1] > 0 ) canvas.drawBitmap( chick_bmp, bxpoint[1], bypoint[1], paint );
-			if( bxpoint[2] > 0 && bypoint[2] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[2], bypoint[2], paint );
-			if( bxpoint[3] > 0 && bypoint[3] > 0 ) canvas.drawBitmap( clap_bmp, bxpoint[3], bypoint[3], paint );
-			if( bxpoint[4] > 0 && bypoint[4] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[4], bypoint[4], paint );
+			if( bxpoint[0] > 0 && bypoint[0] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[0] - 30, bypoint[0] - 30, paint );
+			if( bxpoint[1] > 0 && bypoint[1] > 0 ) canvas.drawBitmap( chick_bmp, bxpoint[1] - 30, bypoint[1] - 30, paint );
+			if( bxpoint[2] > 0 && bypoint[2] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[2] - 30, bypoint[2] - 30, paint );
+			if( bxpoint[3] > 0 && bypoint[3] > 0 ) canvas.drawBitmap( clap_bmp, bxpoint[3] - 30, bypoint[3] - 30, paint );
+			if( bxpoint[4] > 0 && bypoint[4] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[4] - 30, bypoint[4] - 30, paint );
 
 			// 打楽器音設定
 			for( int i = 0; i < bxpoint.length; i++ ) ObjectMusic( i, canvas, paint );
