@@ -96,23 +96,23 @@ public class Sound_Back extends Activity {
 
 			case MotionEvent.ACTION_UP://離した時
 				Log.d("", "ACTION_UP");
-				if(getx>1070 && gety<140){
+				if(getx>1070 && gety<140) {
 					Intent intent2 = new Intent();
-					intent2.putExtra("RES_S1",sound[0]);//データを返す
-					intent2.putExtra("RES_S2",sound[1]);
-					intent2.putExtra("RES_S3",sound[2]);
-					intent2.putExtra("RES_S4",sound[3]);
-					intent2.putExtra("RES_BEAT",beat);
-					intent2.putExtra("RES_SONGNO",songNo);
-					setResult(RESULT_OK,intent2);
+					intent2.putExtra("RES_S1", sound[0]);//データを返す
+					intent2.putExtra("RES_S2", sound[1]);
+					intent2.putExtra("RES_S3", sound[2]);
+					intent2.putExtra("RES_S4", sound[3]);
+					intent2.putExtra("RES_BEAT", beat);
+					intent2.putExtra("RES_SONGNO", songNo);
+					setResult(RESULT_OK, intent2);
 					finish();//表に戻る
 				}
-
-				else if(getx>nowx[0]+20 && getx<nowx[0]+90 && gety>nowy[0]+60 && gety<nowy[0]+130){
+				//置いてあるものをタップしたら消す
+				else if(getx>nowx[0]-50 && getx<nowx[0]+50 && gety>nowy[0]-50 && gety<nowy[0]+50){
 					graphicView.setBxpoint(0,-1);//画像1の消去
 					graphicView.setBypoint(0,-1);
 				}
-				else if(getx>nowx[1]+20 && getx<nowx[1]+90 && gety>nowy[1]+60 && gety<nowy[1]+130){
+				else if(getx>nowx[1]-50 && getx<nowx[1]+50 && gety>nowy[1]+60 && gety<nowy[1]+130){
 					graphicView.setBxpoint(1,-1);//画像2の消去
 					graphicView.setBypoint(1,-1);
 				}
@@ -128,18 +128,27 @@ public class Sound_Back extends Activity {
 					graphicView.setBxpoint(4,-1);//画像5の消去
 					graphicView.setBypoint(4,-1);
 				}
-
-				else if(getx<60 && gety>330 && gety<1079){
-					edit=((int)gety-330)/150;//編集する画像の選択
+				//エディットモニタ
+				else if(getx<280 && gety>340 && gety<1450 && graphicView.getTabFlag()){
+					if(getx>230){graphicView.TabFlagON();}
+					else if(gety < 400){ graphicView.setScrollTop((graphicView.getScrollTop() + 5) % 6); }
+					else if(gety > 1400){ graphicView.setScrollTop((graphicView.getScrollTop() + 1) % 6); }
+					else{
+						edit = ( ((int)gety-400)/255 + graphicView.getScrollTop() ) % 6 ;//編集する画像の選択
+					}
 				}
-
-				else if(getx<60 && gety>1100 && gety<1200){
+				//全消しオブジェクト
+				/*else if(getx<60 && gety>1100 && gety<1200){
 					for(int i=0;i<5;i++) {//全画像消去
 						graphicView.setBxpoint(i, -1);
 						graphicView.setBypoint(i, -1);
 					}
+				}*/
+				//オブジェクト設置タブの開閉処理
+				else if(getx<60 && gety>340 && gety<1450 && !graphicView.getTabFlag()){
+					graphicView.TabFlagON();
 				}
-
+				//配置
 				else{
 					graphicView.setBxpoint(edit,getx-20);//タッチ位置に画像配置
 					graphicView.setBypoint(edit,gety-60);
