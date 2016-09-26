@@ -26,7 +26,6 @@ public class GraphicView extends View
 	//画像読み込み
 	private static int sSize = 100;
 	private int bSize = 200;
-	//透過処理
 	public Bitmap ClearBack( Bitmap bmp )
 	{
 		// 縦横取得
@@ -89,10 +88,8 @@ public class GraphicView extends View
 	public void setScrollTop(int i){ this.scrollTop = i; }
 	public int getScrollTop(){ return this.scrollTop; }
 
-
 	//表裏判定
 	private boolean scene;
-
 	//オブジェクトタブのONとOFFの判定
 	private boolean TabFlag = true;
 	public void TabFlagON(){  this.TabFlag = !this.TabFlag;  } //反応したらひっくり返す
@@ -119,8 +116,8 @@ public class GraphicView extends View
 
 	////画面の背景色
 	private int colorR = graTopcolorR + colorDeference
-			   ,colorG = graTopcolorG + colorDeference
-			   ,colorB = graTopcolorB + colorDeference;
+			,colorG = graTopcolorG + colorDeference
+			,colorB = graTopcolorB + colorDeference;
 
 	//半径の最大値
 	private int overR = sqrt(x  * x + y * y);
@@ -329,6 +326,8 @@ public class GraphicView extends View
 		////白
 		canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
 
+		//frog_bmp = ClearBack( frog_bmp );
+
 		//Paintオブジェクトの生成
 		Paint paint = new Paint();
 
@@ -446,93 +445,114 @@ public class GraphicView extends View
 		int colorGap; //グラデーションの色の差の値
 
 		//グラデーション
-		for (int j = -graLevel; j <= graLevel;j ++ )
-		{
+		for (int j = -graLevel; j <= graLevel;j ++ ) {
 			//値計算
 			colorGap = j * graWidth;
-			if( colorGap < 0 ) colorGap *= -1;
+			if (colorGap < 0) colorGap *= -1;
 			//色計算
 			//白
-			paint.setColor(  Color.rgb( colorR - colorGap,  colorG - colorGap,  colorB - colorGap) );
+			paint.setColor(Color.rgb(colorR - colorGap, colorG - colorGap, colorB - colorGap));
 			// 表示
 			//波の数ループ
-			for( int i = 0; i <= r / d; i++ ) {
+			for (int i = 0; i <= r / d; i++) {
 				canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
 			}
 
-			for(int i = 0; i < 4 ; i++){
-				if(tapCircleR[i] > 0){
-					if(r % d >= tapCircleCollisionR[i] && r % d < tapCircleCollisionR[i] + 30){
-						paint.setColor(  Color.rgb( graTopcolorEfeR - colorGap,  graTopcolorEfeG - colorGap,  graTopcolorEfeB - colorGap) );
+			for (int i = 0; i < 4; i++) {
+				if (tapCircleR[i] > 0) {
+					if (r % d >= tapCircleCollisionR[i] && r % d < tapCircleCollisionR[i] + 30) {
+						paint.setColor(Color.rgb(graTopcolorEfeR - colorGap, graTopcolorEfeG - colorGap, graTopcolorEfeB - colorGap));
 					}
-					canvas.drawCircle(fxpoint[i],fypoint[i], tapCircleR[i] + j * graWidth, paint);
-					if(r % d >= tapCircleCollisionR[i] && r % d < tapCircleCollisionR[i] + 30){
-						paint.setColor(  Color.rgb( graTopcolorR - colorGap,  graTopcolorG - colorGap,  graTopcolorB - colorGap) );
+					canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + j * graWidth, paint);
+					if (r % d >= tapCircleCollisionR[i] && r % d < tapCircleCollisionR[i] + 30) {
+						paint.setColor(Color.rgb(graTopcolorR - colorGap, graTopcolorG - colorGap, graTopcolorB - colorGap));
 					}
 				}
 			}
 
 			// 表画面メニュー
-			if( this.scene )
-			{
+			if (this.scene) {
 				// 基本表示
-				canvas.drawBitmap( frog_bmp, 0, 0, paint );// オプション : TODO
-				canvas.drawBitmap( frog_bmp, terminal_width - sSize, 0, paint );// 裏画面メニュー : TODO
-				canvas.drawBitmap( guitar_bmp, 460, 770, paint );   // 左上表示
-				canvas.drawBitmap( fue_bmp, 660, 770, paint );   // 右上表示
-				canvas.drawBitmap( piano_bmp, 460, 970, paint );    // 左下表示
-				canvas.drawBitmap( drum_bmp, 660, 970, paint );     // 右下表示
+				canvas.drawBitmap(frog_bmp, 0, 0, paint);// オプション : TODO
+				canvas.drawBitmap(frog_bmp, terminal_width - sSize, 0, paint);// 裏画面メニュー : TODO
+				canvas.drawBitmap(guitar_bmp, 460, 770, paint);   // 左上表示
+				canvas.drawBitmap(fue_bmp, 660, 770, paint);   // 右上表示
+				canvas.drawBitmap(piano_bmp, 460, 970, paint);    // 左下表示
+				canvas.drawBitmap(drum_bmp, 660, 970, paint);     // 右下表示
 
 				// 楽器配置
-				if( fxpoint[0] > 0 && fypoint[0] > 0 ) canvas.drawBitmap( guitar_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint );
-				if( fxpoint[1] > 0 && fypoint[1] > 0 ) canvas.drawBitmap( fue_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint );
-				if( fxpoint[2] > 0 && fypoint[2] > 0 ) canvas.drawBitmap( piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint );
-				if( fxpoint[3] > 0 && fypoint[3] > 0 ) canvas.drawBitmap( drum_bmp, fxpoint[3] - 30, fypoint[3] - 30, paint );
+				if (fxpoint[0] > 0 && fypoint[0] > 0)
+					canvas.drawBitmap(guitar_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint);
+				if (fxpoint[1] > 0 && fypoint[1] > 0)
+					canvas.drawBitmap(fue_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint);
+				if (fxpoint[2] > 0 && fypoint[2] > 0)
+					canvas.drawBitmap(piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint);
+				if (fxpoint[3] > 0 && fypoint[3] > 0)
+					canvas.drawBitmap(drum_bmp, fxpoint[3] - 30, fypoint[3] - 30, paint);
 			}
 			// 裏画面メニュー
-			else
-			{
-				canvas.drawBitmap( frog_bmp, terminal_width - sSize, 0, paint );  // 表への遷移ボタン
+			else {
+				canvas.drawBitmap(frog_bmp, terminal_width - sSize, 0, paint);  // 表への遷移ボタン
 				//設置オブジェクト選択バー表示
-				if(TabFlag) {
-					canvas.drawBitmap(bigTab_bmp, 0 , 300,paint);
-					for(int i=0;i<4;i++){
-						switch( (scrollTop + i ) % 6 ) {
+				if (TabFlag) {
+					canvas.drawBitmap(bigTab_bmp, 0, 300, paint);
+					for (int i = 0; i < 4; i++) {
+						switch ((scrollTop + i) % 6) {
 							case 0:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250*i, paint);   // 打楽器音1
+								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音1
 								break;
 							case 1:
-								canvas.drawBitmap(BigChick_bmp, 7, 370 + 250*i, paint);  // 打楽器音2
+								canvas.drawBitmap(BigChick_bmp, 7, 370 + 250 * i, paint);  // 打楽器音2
 								break;
 							case 2:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250*i, paint);   // 打楽器音3
+								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音3
 								break;
 							case 3:
-								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250*i, paint);   // 打楽器音4
+								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250 * i, paint);   // 打楽器音4
 								break;
 							case 4:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250*i, paint);   // 打楽器音5
+								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
 								break;
 							case 5:
-								canvas.drawBitmap(drum_bmp, 7, 370 + 250*i, paint);  // 全消去
+								canvas.drawBitmap(drum_bmp, 7, 370 + 250 * i, paint);  // 全消去
 								break;
 						}
 					}
-				}
-				else{
-					canvas.drawBitmap(tab_bmp, 0 , 300, paint);
+				} else {
+					canvas.drawBitmap(tab_bmp, 0, 300, paint);
 				}
 			}
 
 			// 置かれた楽器&打楽器画像表示
-			if( bxpoint[0] > 0 && bypoint[0] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[0] - 30, bypoint[0] - 30, paint );
-			if( bxpoint[1] > 0 && bypoint[1] > 0 ) canvas.drawBitmap( chick_bmp, bxpoint[1] - 30, bypoint[1] - 30, paint );
-			if( bxpoint[2] > 0 && bypoint[2] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[2] - 30, bypoint[2] - 30, paint );
-			if( bxpoint[3] > 0 && bypoint[3] > 0 ) canvas.drawBitmap( clap_bmp, bxpoint[3] - 30, bypoint[3] - 30, paint );
-			if( bxpoint[4] > 0 && bypoint[4] > 0 ) canvas.drawBitmap( frog_bmp, bxpoint[4] - 30, bypoint[4] - 30, paint );
+			if (bxpoint[0] > 0 && bypoint[0] > 0) {
+				if (!TabFlag || bxpoint[0] > 280 || bypoint[0] < 370 || bxpoint[0] > 1450) {
+					canvas.drawBitmap(frog_bmp, bxpoint[0] - 30, bypoint[0] - 30, paint);
+				}
+			}
+			if (bxpoint[1] > 0 && bypoint[1] > 0) {
+				if (!TabFlag || bxpoint[1] > 280 || bypoint[1] < 370 || bxpoint[1] > 1450) {
+					canvas.drawBitmap(chick_bmp, bxpoint[1] - 30, bypoint[1] - 30, paint);
+				}
+			}
+			if (bxpoint[2] > 0 && bypoint[2] > 0) {
+				if (!TabFlag || bxpoint[2] > 280 || bypoint[2] < 370 || bxpoint[2] > 1450) {
+					canvas.drawBitmap(frog_bmp, bxpoint[2] - 30, bypoint[2] - 30, paint);
+				}
+			}
+			if (bxpoint[3] > 0 && bypoint[3] > 0) {
+				if (!TabFlag || bxpoint[3] > 280 || bypoint[3] < 370 || bxpoint[3] > 1450) {
+					canvas.drawBitmap(clap_bmp, bxpoint[3] - 30, bypoint[3] - 30, paint);
+				}
+			}
+			if (bxpoint[4] > 0 && bypoint[4] > 0){
+				if (!TabFlag || bxpoint[4] > 280 || bypoint[4] < 370 || bxpoint[4] > 1450) {
+					canvas.drawBitmap(frog_bmp, bxpoint[4] - 30, bypoint[4] - 30, paint);
+				}
+			}
+
 
 			// 打楽器音設定
-			for( int i = 0; i < bxpoint.length; i++ ) ObjectMusic( i, canvas, paint );
+			for (int i = 0; i < bxpoint.length; i++) ObjectMusic(i, canvas, paint);
 		}
 	}
 }

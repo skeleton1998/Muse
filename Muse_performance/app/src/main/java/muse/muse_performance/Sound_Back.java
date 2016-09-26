@@ -108,7 +108,7 @@ public class Sound_Back extends Activity {
 					finish();//表に戻る
 				}
 				//置いてあるものをタップしたら消す
-				else if(getx>nowx[0]-50 && getx<nowx[0]+50 && gety>nowy[0]-50 && gety<nowy[0]+50){
+				else if(getx>nowx[0]-50 && getx<nowx[0]+50 && gety>nowy[0]+60 && gety<nowy[0]+130){
 					graphicView.setBxpoint(0,-1);//画像1の消去
 					graphicView.setBypoint(0,-1);
 				}
@@ -149,9 +149,16 @@ public class Sound_Back extends Activity {
 					graphicView.TabFlagON();
 				}
 				//配置
-				else{
-					graphicView.setBxpoint(edit,getx-20);//タッチ位置に画像配置
-					graphicView.setBypoint(edit,gety-60);
+				else {
+					if (edit == 5) {
+						for(int i=0;i<5;i++) {//全画像消去
+							graphicView.setBxpoint(i, -1);
+							graphicView.setBypoint(i, -1);
+						}
+					} else {
+						graphicView.setBxpoint(edit, getx - 20);//タッチ位置に画像配置
+						graphicView.setBypoint(edit, gety - 60);
+					}
 				}
 				break;
 
