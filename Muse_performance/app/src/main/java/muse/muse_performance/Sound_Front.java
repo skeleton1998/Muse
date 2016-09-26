@@ -350,7 +350,7 @@ public class Sound_Front extends Activity
 						}
 						else this.inst[0] = Arrange1InstList[ this.frickVec( getx, gety ) ];
 
-						graphicView.setflick( 0, this.inst[0]);
+						graphicView.setFlick( 0, this.frickVec( getx, gety ), this.inst[0]);
 					}
 					// 右上
 					else if( pushx > maxX/2 && pushy < maxY/2 )
@@ -364,13 +364,13 @@ public class Sound_Front extends Activity
 						}
 						else this.inst[1] = Arrange2InstList[ this.frickVec( getx, gety ) ];
 
-						graphicView.setflick( 1, this.inst[1]);
+						graphicView.setFlick( 1, this.frickVec( getx, gety ), this.inst[1]);
 					}
 					// 左下
 					else if( pushx < maxX/2 && pushy > maxY/2 )
 					{
 						this.inst[2] = melodyInstList[ this.frickVec( getx, gety ) ];
-						graphicView.setflick( 2, this.inst[2]);
+						graphicView.setFlick( 2, this.frickVec( getx, gety ), this.inst[2]);
 					}
 					// 右下
 					else if( pushx > maxX/2 && pushy > maxY/2 )
@@ -388,7 +388,7 @@ public class Sound_Front extends Activity
 							this.inst[3] = this.frickVec( getx, gety );
 						}
 
-						graphicView.setflick( 3, this.inst[3]);
+						graphicView.setFlick( 3, this.frickVec( getx, gety ), this.inst[3]);
 					}
 
 					// midi更新
