@@ -167,7 +167,7 @@ public class Option extends Activity
 		//曲のドロップダウンメニュー
 		selectSong=(Spinner)findViewById(R.id.songSpinner);
 		ArrayAdapter<String> adapterSong = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,songItems);
-		adapterSong.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapterSong.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 		selectSong.setAdapter(adapterSong);
 		selectSong.setSelection(songNo);
 		selectSong.setOnItemSelectedListener(new OnItemSelectedListener(){
