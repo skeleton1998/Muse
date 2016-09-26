@@ -18,7 +18,7 @@ public class Option extends Activity
 	// 曲セレクト
 	private TextView songTextView;
 	private Spinner selectSong;
-	String songItems[] = { "Song1", "Song2","Song3","Song4" };
+	String songItems[] = { "Song1", "Song2","Song3","Song4","Song5" };
 	private int songNo = 0;     // 曲番号(配列添え字)
 
 	// 左上フリックに対応する楽器変更
@@ -352,9 +352,9 @@ public class Option extends Activity
 			public void onClick(View v) {
 			Intent intent=new Intent();
 			intent.putExtra("RES_SongNo", songNo);
-			intent.putExtra("RES_A1Inst0", arrange2Inst[0]);
-			intent.putExtra("RES_A1Inst1", arrange2Inst[1]);
-			intent.putExtra("RES_A1Inst2", arrange2Inst[2]);
+			intent.putExtra("RES_A1Inst0", arrange1Inst[0]);
+			intent.putExtra("RES_A1Inst1", arrange1Inst[1]);
+			intent.putExtra("RES_A1Inst2", arrange1Inst[2]);
 			intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
 			intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
 			intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
