@@ -97,18 +97,24 @@ public class Sound_Back extends Activity {
 			case MotionEvent.ACTION_UP://離した時
 				Log.d("", "ACTION_UP");
 				if(getx>1070 && gety<140) {
-					Intent intent2 = new Intent();
-					intent2.putExtra("RES_S1", sound[0]);//データを返す
-					intent2.putExtra("RES_S2", sound[1]);
-					intent2.putExtra("RES_S3", sound[2]);
-					intent2.putExtra("RES_S4", sound[3]);
-					intent2.putExtra("RES_BEAT", beat);
-					intent2.putExtra("RES_SONGNO", songNo);
-					setResult(RESULT_OK, intent2);
+					Intent intent = new Intent();
+					intent.putExtra("RES_SongNo", songNo);
+					intent.putExtra("RES_A1Inst0", Arrange1InstList[0]);
+					intent.putExtra("RES_A1Inst1", Arrange1InstList[1]);
+					intent.putExtra("RES_A1Inst2", Arrange1InstList[2]);
+					intent.putExtra("RES_A2Inst0", Arrange2InstList[0]);
+					intent.putExtra("RES_A2Inst1", Arrange2InstList[1]);
+					intent.putExtra("RES_A2Inst2", Arrange2InstList[2]);
+					intent.putExtra("RES_MInst0", melodyInstList[0]);
+					intent.putExtra("RES_MInst1", melodyInstList[1]);
+					intent.putExtra("RES_MInst2", melodyInstList[2]);
+					intent.putExtra("RES_MInst3", melodyInstList[3]);
+					intent.putExtra("RES_BEAT", beat);
+					setResult(RESULT_OK, intent);
 					finish();//表に戻る
 				}
 				//置いてあるものをタップしたら消す
-				else if(getx>nowx[0]-50 && getx<nowx[0]+50 && gety>nowy[0]-50 && gety<nowy[0]+50){
+				else if(getx>nowx[0]-50 && getx<nowx[0]+50 && gety>nowy[0]+60 && gety<nowy[0]+130){
 					graphicView.setBxpoint(0,-1);//画像1の消去
 					graphicView.setBypoint(0,-1);
 				}
@@ -149,9 +155,16 @@ public class Sound_Back extends Activity {
 					graphicView.TabFlagON();
 				}
 				//配置
-				else{
-					graphicView.setBxpoint(edit,getx-20);//タッチ位置に画像配置
-					graphicView.setBypoint(edit,gety-60);
+				else {
+					if (edit == 5) {
+						for(int i=0;i<5;i++) {//全画像消去
+							graphicView.setBxpoint(i, -1);
+							graphicView.setBypoint(i, -1);
+						}
+					} else {
+						graphicView.setBxpoint(edit, getx - 20);//タッチ位置に画像配置
+						graphicView.setBypoint(edit, gety - 60);
+					}
 				}
 				break;
 

@@ -167,7 +167,7 @@ public class Option extends Activity
 		//曲のドロップダウンメニュー
 		selectSong=(Spinner)findViewById(R.id.songSpinner);
 		ArrayAdapter<String> adapterSong = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,songItems);
-		adapterSong.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		adapterSong.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 		selectSong.setAdapter(adapterSong);
 		selectSong.setSelection(songNo);
 		selectSong.setOnItemSelectedListener(new OnItemSelectedListener(){
@@ -352,9 +352,9 @@ public class Option extends Activity
 			public void onClick(View v) {
 			Intent intent=new Intent();
 			intent.putExtra("RES_SongNo", songNo);
-			intent.putExtra("RES_A1Inst0", arrange2Inst[0]);
-			intent.putExtra("RES_A1Inst1", arrange2Inst[1]);
-			intent.putExtra("RES_A1Inst2", arrange2Inst[2]);
+			intent.putExtra("RES_A1Inst0", arrange1Inst[0]);
+			intent.putExtra("RES_A1Inst1", arrange1Inst[1]);
+			intent.putExtra("RES_A1Inst2", arrange1Inst[2]);
 			intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
 			intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
 			intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
