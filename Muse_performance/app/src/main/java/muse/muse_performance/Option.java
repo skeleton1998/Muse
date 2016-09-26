@@ -18,7 +18,7 @@ public class Option extends Activity
 	// 曲セレクト
 	private TextView songTextView;
 	private Spinner selectSong;
-	String songItems[] = { "Song1", "Song2","Song3","Song4","Song5" };
+	String songItems[] = { "Song1", "Song2","Song3","Song4" };
 	private int songNo = 0;     // 曲番号(配列添え字)
 
 	// 左上フリックに対応する楽器変更
