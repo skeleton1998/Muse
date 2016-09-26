@@ -30,6 +30,7 @@ public class GraphicView extends View
 	Resources res = getResources();
 	Bitmap bigTab_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.bigtab ), 280, 1100, false );
 	Bitmap tab_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.tab ), 70, 1100, false );
+
 	Bitmap chick_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.chick ), sSize, sSize, false );
 	Bitmap clap_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.clap ), sSize, sSize, false );
 	Bitmap drum_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), sSize, sSize, false );
@@ -40,6 +41,9 @@ public class GraphicView extends View
 	Bitmap BigChick_bmp = Bitmap.createScaledBitmap( chick_bmp, bSize, bSize,false );
 	Bitmap BigClap_bmp = Bitmap.createScaledBitmap( clap_bmp, bSize, bSize, false );
 	Bitmap BigFrog_bmp = Bitmap.createScaledBitmap( frog_bmp, bSize, bSize, false );
+
+	Bitmap objectIcon_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.objicon ), sSize, sSize, false );
+	Bitmap setting_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.setting ), sSize, sSize, false );
 
 	//画面の位置情報変数
 	private int r = 0; //半径
@@ -330,7 +334,7 @@ public class GraphicView extends View
 	{
 		// 文字列用ペイントの生成
 		Paint textPaint = new Paint( Paint.ANTI_ALIAS_FLAG);
-		textPaint.setTextSize( 35 );
+		textPaint.setTextSize( 50 );
 		textPaint.setColor( Color.WHITE );
 		FontMetrics fontMetrics = textPaint.getFontMetrics();
 
@@ -344,7 +348,7 @@ public class GraphicView extends View
 
 		// 吹き出し用ペイントの生成
 		Paint balloonPaint = new Paint( Paint.ANTI_ALIAS_FLAG );
-		balloonPaint.setTextSize( 35 );
+		balloonPaint.setTextSize( 50 );
 		balloonPaint.setColor( c );
 
 		// 吹き出しの座標。文字列の5ポイント外側を囲む
@@ -400,19 +404,19 @@ public class GraphicView extends View
 			}
 
 			for (int i = 0; i < 4; i++) {
-				if (tapCircleR[i] > 0) {	canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + j * graWidth, paint);		}
+				if (tapCircleR[i] > 0) canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + j * graWidth, paint);
 			}
 
 			// 表画面メニュー
 			if (this.scene)
 			{
 				// 基本表示
-				canvas.drawBitmap(frog_bmp, 0, 0, paint);                           // オプション : TODO
-				canvas.drawBitmap(frog_bmp, terminal_width - sSize, 0, paint);      // 裏画面メニュー : TODO
-				DrawPopString( canvas, "伴奏A", x - 100, y - 100, Color.RED );      // いい感じの色 : TODO
-				DrawPopString( canvas, "伴奏B", x + 100, y - 100, Color.MAGENTA );
-				DrawPopString( canvas, "主旋律", x - 100, y + 100, Color.BLUE );
-				DrawPopString( canvas, "ドラム", x + 100, y + 100, Color.GREEN );
+				canvas.drawBitmap( setting_bmp, 0, 0, paint);							// オプション
+				canvas.drawBitmap( objectIcon_bmp, terminal_width - sSize, 0, paint);	// 裏画面メニュー
+				DrawPopString( canvas, "伴奏A", x - 100, y - 100, Color.RED );			// 右上エリアの看板 いい感じの色 : TODO
+				DrawPopString( canvas, "伴奏B", x + 100, y - 100, Color.MAGENTA );		// 左上エリアの看板
+				DrawPopString( canvas, "主旋律", x - 100, y + 100, Color.BLUE );		// 右下エリアの看板
+				DrawPopString( canvas, "ドラム", x + 100, y + 100, Color.GREEN );		// 左下エリアの看板
 
 				// 楽器配置
 				if (fxpoint[0] > 0 && fypoint[0] > 0)
