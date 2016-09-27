@@ -437,7 +437,7 @@ public class GraphicView extends View
 			}
 			// 裏画面メニュー
 			else {
-				canvas.drawBitmap(frog_bmp, terminal_width - sSize, 0, paint);  // 表への遷移ボタン
+				canvas.drawBitmap(frontIcon_bmp, terminal_width - sSize, 0, paint);  // 表への遷移ボタン
 				//設置オブジェクト選択バー表示
 				if (TabFlag) {
 					canvas.drawBitmap(bigTab_bmp, 0, 300, paint);
