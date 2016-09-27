@@ -1,4 +1,4 @@
-package com.shun.prototype;
+package muse.muse_performance;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +15,10 @@ import android.content.Intent;
 public class Option extends Activity
 {
 	/* メニューのための変数共 */
-    // 曲セレクト
+	// 曲セレクト
 	private TextView songTextView;
-    private Spinner selectSong;
-    String songItems[] = { "Song1", "Song2","Song3","Song4","Song5" };
+	private Spinner selectSong;
+	String songItems[] = { "Song1", "Song2","Song3","Song4" };
 	private int songNo = 0;     // 曲番号(配列添え字)
 
 	// 左上フリックに対応する楽器変更
@@ -53,7 +53,7 @@ public class Option extends Activity
 	private SeekBar seekbar;
 
 	//データ保存用変数
-    private int beat = 0;
+	private int beat = 0;
 	private int arrange1Inst[] = new int[3];
 	private int arrange2Inst[] = new int[3];
 	private int melodyInst[] = new int[4];
@@ -78,20 +78,22 @@ public class Option extends Activity
 
 	// 本体
 	private Instrument[] InstList = {
-			new Instrument( "ピアノ", 0 ),
-			new Instrument( "オルゴール", 11 ),
-			new Instrument( "マリンバ", 13 ),
-			new Instrument( "ドローパーオルガン", 17 ),
-			new Instrument( "アコーディオン", 22 ),
-			new Instrument( "ハーモニカ", 23 ),
-			new Instrument( "ナイロン弦アコギ", 25 ),
-			new Instrument( "スラップベース", 37 ),
-			new Instrument( "シンセベース2", 40 ),
-			new Instrument( "ヴァイオリン", 41 ),
-			new Instrument( "トランペット", 57 ),
-			new Instrument( "ソプラノサックス", 65 ),
-			new Instrument( "三味線", 107 ),
-			new Instrument( "太鼓", 117 )
+		new Instrument( "ピアノ", 0 ),
+		new Instrument("パープシコード",7),
+		new Instrument( "オルゴール", 11 ),
+		new Instrument( "マリンバ", 13 ),
+		new Instrument( "ドローパーオルガン", 17 ),
+		new Instrument( "アコーディオン", 22 ),
+		new Instrument( "ナイロン弦アコギ", 25 ),
+		new Instrument( "スラップベース", 37 ),
+		new Instrument( "シンセベース2", 40 ),
+		new Instrument( "ヴァイオリン", 41 ),
+		new Instrument("ティンパニ",48),
+		new Instrument( "トランペット", 57 ),
+		new Instrument( "ソプラノサックス", 65 ),
+		new Instrument("フルート",74),
+		new Instrument("クリスタル",99),
+		new Instrument( "三味線", 107 ),
 	};
 	public String[] nameList = new String[ InstList.length ];
 	public int[] instList = new int[ InstList.length ];
@@ -112,15 +114,15 @@ public class Option extends Activity
 		return -1;
 	}
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
 	{
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_option);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_option);
 
-        //テキスト定義
-	    songTextView = (TextView)findViewById(R.id.songTextView);
-	    songTextView.setText("Select Song");
+		//テキスト定義
+		songTextView = (TextView)findViewById(R.id.songTextView);
+		songTextView.setText("Select Song");
 
 		arrange1UpFlickTextView = (TextView)findViewById(R.id.arrange1UpFlickTextView);
 		arrange1UpFlickTextView.setText("Select Arrange1 Up Flick Instrument");
@@ -150,7 +152,7 @@ public class Option extends Activity
 		this.makeInstList();
 
 		//データの受け取り
-        Intent intent = getIntent();
+		Intent intent = getIntent();
 		songNo = intent.getIntExtra("SongNo", 0);
 		arrange1Inst[0] = intent.getIntExtra("A1Inst0", 0);
 		arrange1Inst[1] = intent.getIntExtra("A1Inst1", 0);
@@ -164,20 +166,20 @@ public class Option extends Activity
 		melodyInst[3] = intent.getIntExtra("MInst3", 0);
 		beat = intent.getIntExtra("BEAT", 0);
 
-	    //曲のドロップダウンメニュー
-	    selectSong=(Spinner)findViewById(R.id.songSpinner);
-	    ArrayAdapter<String> adapterSong = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,songItems);
-	    adapterSong.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	    selectSong.setAdapter(adapterSong);
-	    selectSong.setSelection(songNo);
-	    selectSong.setOnItemSelectedListener(new OnItemSelectedListener(){
-		    public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
-			    Spinner spinner=(Spinner)parent;
-			    String item=(String)spinner.getSelectedItem();
-			    songNo = indexOfString( songItems, item );
-		}
-		    public void onNothingSelected(AdapterView<?> parent){}
-	    });
+		//曲のドロップダウンメニュー
+		selectSong=(Spinner)findViewById(R.id.songSpinner);
+		ArrayAdapter<String> adapterSong = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,songItems);
+		adapterSong.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+		selectSong.setAdapter(adapterSong);
+		selectSong.setSelection(songNo);
+		selectSong.setOnItemSelectedListener(new OnItemSelectedListener(){
+			public void onItemSelected(AdapterView<?> parent,View viw,int arg2,long arg3){
+				Spinner spinner=(Spinner)parent;
+				String item=(String)spinner.getSelectedItem();
+				songNo = indexOfString( songItems, item );
+			}
+			public void onNothingSelected(AdapterView<?> parent){}
+		});
 
 		// 左上の上フリックのドロップダウンメニュー
 		selectArrange1UpFlick = (Spinner)findViewById(R.id.selectArrange1UpFlickSpinner);
@@ -332,41 +334,40 @@ public class Option extends Activity
 		//テンポのシークバー
 		tempoTextView=(TextView)findViewById(R.id.text_view5);
 		tempoTextView.setText("bpm"+beat);
-        seekbar=(SeekBar)findViewById(R.id.tempo);
-        seekbar.setMax(255);
-        seekbar.setProgress(beat);
-        seekbar.setOnSeekBarChangeListener(
-                new SeekBar.OnSeekBarChangeListener(){
-                    @Override
-                    public void onProgressChanged(SeekBar seekbar,int progress,boolean fromUser){
-                        beat=seekbar.getProgress();
-	                    tempoTextView.setText("bpm"+beat);
-                    }
-                    public void onStartTrackingTouch(SeekBar seekbar){}
-                    public void onStopTrackingTouch(SeekBar seekbar){                    }
-                });
+		seekbar=(SeekBar)findViewById(R.id.tempo);
+		seekbar.setMax(255);
+		seekbar.setProgress(beat);
+		seekbar.setOnSeekBarChangeListener(
+			new SeekBar.OnSeekBarChangeListener(){
+				@Override
+				public void onProgressChanged(SeekBar seekbar,int progress,boolean fromUser){
+					beat=seekbar.getProgress();
+					tempoTextView.setText("bpm"+beat);
+				}
+				public void onStartTrackingTouch(SeekBar seekbar){}
+				public void onStopTrackingTouch(SeekBar seekbar){}
+			});
 
-        Button sendButton = (Button) findViewById(R.id.return_button);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent();
-	            intent.putExtra("RES_SongNo", songNo);
-	            intent.putExtra("RES_A1Inst0", arrange2Inst[0]);
-	            intent.putExtra("RES_A1Inst1", arrange2Inst[1]);
-	            intent.putExtra("RES_A1Inst2", arrange2Inst[2]);
-	            intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
-	            intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
-	            intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
-	            intent.putExtra("RES_MInst0", melodyInst[0]);
-	            intent.putExtra("RES_MInst1", melodyInst[1]);
-	            intent.putExtra("RES_MInst2", melodyInst[2]);
-	            intent.putExtra("RES_MInst3", melodyInst[3]);
-	            intent.putExtra("RES_BEAT", beat);
-                setResult(RESULT_OK,intent);
-                finish();
-            }
-        });
-
-    }
+		Button sendButton = (Button) findViewById(R.id.return_button);
+		sendButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			Intent intent=new Intent();
+			intent.putExtra("RES_SongNo", songNo);
+			intent.putExtra("RES_A1Inst0", arrange1Inst[0]);
+			intent.putExtra("RES_A1Inst1", arrange1Inst[1]);
+			intent.putExtra("RES_A1Inst2", arrange1Inst[2]);
+			intent.putExtra("RES_A2Inst0", arrange2Inst[0]);
+			intent.putExtra("RES_A2Inst1", arrange2Inst[1]);
+			intent.putExtra("RES_A2Inst2", arrange2Inst[2]);
+			intent.putExtra("RES_MInst0", melodyInst[0]);
+			intent.putExtra("RES_MInst1", melodyInst[1]);
+			intent.putExtra("RES_MInst2", melodyInst[2]);
+			intent.putExtra("RES_MInst3", melodyInst[3]);
+			intent.putExtra("RES_BEAT", beat);
+			setResult(RESULT_OK,intent);
+			finish();
+			}
+		});
+	}
 }

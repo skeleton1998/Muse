@@ -73,6 +73,7 @@ public class MidiFileWriter
         }
     }
 
+    // 打楽器
     protected void Song1PercussionA( byte ch, byte vel )
     {
         try
