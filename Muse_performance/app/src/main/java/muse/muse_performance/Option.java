@@ -18,7 +18,7 @@ public class Option extends Activity
 	// 曲セレクト
 	private TextView songTextView;
 	private Spinner selectSong;
-	String songItems[] = { "Song1", "Song2","Song3","Song4","Song5" };
+	String songItems[] = { "Song1", "Song2","Song3","Song4" };
 	private int songNo = 0;     // 曲番号(配列添え字)
 
 	// 左上フリックに対応する楽器変更
@@ -79,19 +79,21 @@ public class Option extends Activity
 	// 本体
 	private Instrument[] InstList = {
 		new Instrument( "ピアノ", 0 ),
+		new Instrument("パープシコード",7),
 		new Instrument( "オルゴール", 11 ),
 		new Instrument( "マリンバ", 13 ),
 		new Instrument( "ドローパーオルガン", 17 ),
 		new Instrument( "アコーディオン", 22 ),
-		new Instrument( "ハーモニカ", 23 ),
 		new Instrument( "ナイロン弦アコギ", 25 ),
 		new Instrument( "スラップベース", 37 ),
 		new Instrument( "シンセベース2", 40 ),
 		new Instrument( "ヴァイオリン", 41 ),
+		new Instrument("ティンパニ",48),
 		new Instrument( "トランペット", 57 ),
 		new Instrument( "ソプラノサックス", 65 ),
+		new Instrument("フルート",74),
+		new Instrument("クリスタル",99),
 		new Instrument( "三味線", 107 ),
-		new Instrument( "太鼓", 117 )
 	};
 	public String[] nameList = new String[ InstList.length ];
 	public int[] instList = new int[ InstList.length ];
