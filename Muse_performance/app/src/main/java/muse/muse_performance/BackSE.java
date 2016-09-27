@@ -28,7 +28,7 @@ public class BackSE {
 		soundID[1] = soundPool.load(context,R.raw.hiyoko,1);
 		soundID[2] = soundPool.load(context,R.raw.semi,1);
 		soundID[3] = soundPool.load(context,R.raw.hand,1);
-		soundID[4] = soundPool.load(context,R.raw.flog2,1);
+		soundID[4] = soundPool.load(context,R.raw.drop,1);
 	}
 
 	//鳴らす
