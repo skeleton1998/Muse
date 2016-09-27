@@ -28,19 +28,23 @@ public class GraphicView extends View
 	private static int sSize = 100;
 	private int bSize = 200;
 	Resources res = getResources();
-	Bitmap bigTab_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.bigtab ), 280, 1100, false );
+	Bitmap bigTab_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.bigtap ), 280, 1100, false );
 	Bitmap tab_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.tab ), 70, 1100, false );
 
 	Bitmap chick_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.chick ), sSize, sSize, false );
 	Bitmap clap_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.clap ), sSize, sSize, false );
-	Bitmap drum_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), sSize, sSize, false );
 	Bitmap frog_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.frog ), sSize, sSize, false );
-	Bitmap fue_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.fue ), sSize, sSize, false );
-	Bitmap guitar_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.guitar ), sSize, sSize, false );
-	Bitmap piano_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.piano ), sSize, sSize, false );
+	Bitmap cicada_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.cicada ), sSize, sSize, false );
+
 	Bitmap BigChick_bmp = Bitmap.createScaledBitmap( chick_bmp, bSize, bSize,false );
 	Bitmap BigClap_bmp = Bitmap.createScaledBitmap( clap_bmp, bSize, bSize, false );
 	Bitmap BigFrog_bmp = Bitmap.createScaledBitmap( frog_bmp, bSize, bSize, false );
+	Bitmap BigCicada_bmp = Bitmap.createScaledBitmap( cicada_bmp, bSize, bSize, false );
+
+	Bitmap piano_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.piano ), sSize, sSize, false );
+	Bitmap drum_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), sSize, sSize, false );
+	Bitmap arrange1_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.arrange1 ), sSize, sSize, false );
+	Bitmap arrange2_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.arrange2 ), sSize, sSize, false );
 
 	Bitmap objectIcon_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.objicon ), sSize, sSize, false );
 	Bitmap setting_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.setting ), sSize, sSize, false );
@@ -420,9 +424,9 @@ public class GraphicView extends View
 
 				// 楽器配置
 				if (fxpoint[0] > 0 && fypoint[0] > 0)
-					canvas.drawBitmap(guitar_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint);
+					canvas.drawBitmap(arrange1_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint);
 				if (fxpoint[1] > 0 && fypoint[1] > 0)
-					canvas.drawBitmap(fue_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint);
+					canvas.drawBitmap(arrange2_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint);
 				if (fxpoint[2] > 0 && fypoint[2] > 0)
 					canvas.drawBitmap(piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint);
 				if (fxpoint[3] > 0 && fypoint[3] > 0)
@@ -443,7 +447,7 @@ public class GraphicView extends View
 								canvas.drawBitmap(BigChick_bmp, 7, 370 + 250 * i, paint);  // 打楽器音2
 								break;
 							case 2:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音3
+								canvas.drawBitmap(BigCicada_bmp, 7, 370 + 250 * i, paint);   // 打楽器音3
 								break;
 							case 3:
 								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250 * i, paint);   // 打楽器音4
