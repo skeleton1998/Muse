@@ -42,6 +42,7 @@ public class GraphicView extends View
 	private Bitmap BigFrog_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.frog ), bSize, bSize, false );
 	private Bitmap BigCicada_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.cicada ), bSize, bSize, false );
 	private Bitmap BigDrop_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drop ), bSize, bSize, false );
+	private Bitmap BigDelete_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.deleteicon ), bSize, bSize, false );
 
 	private Bitmap piano_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.piano ), sSize, sSize, false );
 	private Bitmap drum_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), sSize, sSize, false );
@@ -315,7 +316,7 @@ public class GraphicView extends View
 		//else flickchange[i] = -1;
 	}
 
-	protected void ObjectMusic(int i, Canvas canvas,Paint paint)
+	protected void ObjectMusic(int i)
 	{
 		//20を基点とする
 		if(boundcheck[i] == 20) boundcheck[i] = 0;
@@ -327,11 +328,6 @@ public class GraphicView extends View
 				backSE.soundPlay(i);
 				//チャタリング除去フラグ_インデント
 				boundcheck[i]++;
-			}
-			else
-			{
-				paint.setColor(Color.rgb( 0, 0, 0));
-				canvas.drawRect(bxpoint[i]-50,bypoint[i]-50,bxpoint[i]+50,bypoint[i]+50,paint);
 			}
 		}
 		if(boundcheck[i] > 0)     boundcheck[i]++;   //boundしてるときにのみチェックをかける(インデント)
@@ -456,10 +452,10 @@ public class GraphicView extends View
 								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250 * i, paint);   // 打楽器音4
 								break;
 							case 4:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
+								canvas.drawBitmap(BigDrop_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
 								break;
 							case 5:
-								canvas.drawBitmap(BigDrop_bmp, 7, 370 + 250 * i, paint);  // 全消去
+								canvas.drawBitmap(BigDelete_bmp, 7, 370 + 250 * i, paint);  // 全消去
 								break;
 						}
 					}
@@ -495,9 +491,8 @@ public class GraphicView extends View
 				}
 			}
 
-
 			// 打楽器音設定
-			for (int i = 0; i < bxpoint.length; i++) ObjectMusic(i, canvas, paint);
+			for (int i = 0; i < bxpoint.length; i++) ObjectMusic(i);
 		}
 	}
 }
