@@ -42,6 +42,7 @@ public class GraphicView extends View
 	private Bitmap BigFrog_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.frog ), bSize, bSize, false );
 	private Bitmap BigCicada_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.cicada ), bSize, bSize, false );
 	private Bitmap BigDrop_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drop ), bSize, bSize, false );
+	private Bitmap BigDelete_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.deleteicon ), bSize, bSize, false );
 
 	private Bitmap piano_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.piano ), sSize, sSize, false );
 	private Bitmap drum_bmp = Bitmap.createScaledBitmap( BitmapFactory.decodeResource( res, R.drawable.drum ), sSize, sSize, false );
@@ -456,10 +457,10 @@ public class GraphicView extends View
 								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250 * i, paint);   // 打楽器音4
 								break;
 							case 4:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
+								canvas.drawBitmap(BigDrop_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
 								break;
 							case 5:
-								canvas.drawBitmap(BigDrop_bmp, 7, 370 + 250 * i, paint);  // 全消去
+								canvas.drawBitmap(BigDelete_bmp, 7, 370 + 250 * i, paint);  // 全消去
 								break;
 						}
 					}
