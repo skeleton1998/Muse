@@ -344,8 +344,9 @@ public class Sound_Front extends Activity
 						// 下フリックで消す
 						if( this.frickVec( getx, gety ) == Vec.DOWN )
 						{
-							graphicView.setFxpoint( 0, 0 );
-							graphicView.setFypoint( 0, 0 );
+							graphicView.setFxpoint( 0, -1 );
+							graphicView.setFypoint( 0, -1 );
+							graphicView.setFlagPoint( 0, 0);
 							dist[ 0 ] = 0;
 						}
 						else this.inst[0] = Arrange1InstList[ this.frickVec( getx, gety ) ];
@@ -358,8 +359,9 @@ public class Sound_Front extends Activity
 						// 下フリックで消す
 						if( this.frickVec( getx, gety ) == Vec.DOWN )
 						{
-							graphicView.setFxpoint( 1, 0 );
-							graphicView.setFypoint( 1, 0 );
+							graphicView.setFxpoint( 1, -1 );
+							graphicView.setFypoint( 1, -1 );
+							graphicView.setFlagPoint( 1, 0);
 							dist[ 1 ] = 0;
 						}
 						else this.inst[1] = Arrange2InstList[ this.frickVec( getx, gety ) ];
@@ -378,8 +380,9 @@ public class Sound_Front extends Activity
 						// 下フリックで消す
 						if( this.frickVec( getx, gety ) == Vec.DOWN )
 						{
-							graphicView.setFxpoint(3, 0);
-							graphicView.setFypoint(3, 0);
+							graphicView.setFxpoint( 3, -1 );
+							graphicView.setFypoint( 3, -1 );
+							graphicView.setFlagPoint( 3, 0 );
 							dist[ 3 ] = 0;
 						}
 						else
