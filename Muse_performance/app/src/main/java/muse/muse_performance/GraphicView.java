@@ -1,5 +1,6 @@
 package muse.muse_performance;
 
+import java.util.StringTokenizer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.graphics.*;
 import android.graphics.Color;
 import android.graphics.Paint.FontMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Display;
 import android.view.WindowManager;
@@ -96,7 +98,6 @@ public class GraphicView extends View
 
 	//画面の色
 	static private int graTopcolorR=148,graTopcolorG=213,graTopcolorB= 225;
-	static private int graTopcolorEfeR=0,graTopcolorEfeG=0,graTopcolorEfeB=0;
 
 	////画面の背景色
 	private int colorR = graTopcolorR + colorDeference
@@ -388,12 +389,33 @@ public class GraphicView extends View
 		//描画色の指定
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setStrokeWidth( graWidth );
+		//paint.setStyle(Paint.Style.STROKE);
+
+		int rGap = 213 /2;
+		int gGap = 102 /2;
+		int bGap = 28  /2;
+
+		int wR = 0;
+		int wG = 136;
+		int wB = 227;
+
+		double level;
+
+		for( int i = 0; i < overR; i++ )
+		{
+			level = Math.sin( Math.toRadians( ( r - i )%d ) ) + 1;
+
+			paint.setColor( Color.rgb( wR + (int)(rGap*level), wG + (int)(gGap*level), wB + (int)(bGap*level) ) );
+
+			canvas.drawCircle( x, y, i * graWidth, paint);
+		}
 
 		//円
 		int colorGap; //グラデーションの色の差の値
 
 		//グラデーション
-		for (int j = -graLevel; j <= graLevel;j ++ ) {
+		/*for (int j = -graLevel; j <= graLevel;j ++ )
+		{
 			//値計算
 			colorGap = j * graWidth;
 			if (colorGap < 0) colorGap *= -1;
@@ -409,90 +431,90 @@ public class GraphicView extends View
 			for (int i = 0; i < 4; i++) {
 				if (tapCircleR[i] > 0) canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + j * graWidth, paint);
 			}
+		}*/
 
-			// 表画面メニュー
-			if (this.scene)
-			{
-				// 基本表示
-				canvas.drawBitmap( setting_bmp, 0, 0, paint);							// オプション
-				canvas.drawBitmap( objectIcon_bmp, terminal_width - sSize, 0, paint);	// 裏画面メニュー
-				DrawPopString( canvas, "伴奏A", x - 100, y - 100, Color.RED );			// 右上エリアの看板 いい感じの色 : TODO
-				DrawPopString( canvas, "伴奏B", x + 100, y - 100, Color.MAGENTA );		// 左上エリアの看板
-				DrawPopString( canvas, "主旋律", x - 100, y + 100, Color.BLUE );		// 右下エリアの看板
-				DrawPopString( canvas, "ドラム", x + 100, y + 100, Color.GREEN );		// 左下エリアの看板
+		// 表画面メニュー
+		if (this.scene)
+		{
+			// 基本表示
+			canvas.drawBitmap( setting_bmp, 0, 0, paint);							// オプション
+			canvas.drawBitmap( objectIcon_bmp, terminal_width - sSize, 0, paint);	// 裏画面メニュー
+			DrawPopString( canvas, "伴奏A", x - 100, y - 100, Color.RED );			// 右上エリアの看板 いい感じの色 : TODO
+			DrawPopString( canvas, "伴奏B", x + 100, y - 100, Color.MAGENTA );		// 左上エリアの看板
+			DrawPopString( canvas, "主旋律", x - 100, y + 100, Color.BLUE );		// 右下エリアの看板
+			DrawPopString( canvas, "ドラム", x + 100, y + 100, Color.GREEN );		// 左下エリアの看板
 
-				// 楽器配置
-				if (fxpoint[0] > 0 && fypoint[0] > 0)
-					canvas.drawBitmap(arrange1_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint);
-				if (fxpoint[1] > 0 && fypoint[1] > 0)
-					canvas.drawBitmap(arrange2_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint);
-				if (fxpoint[2] > 0 && fypoint[2] > 0)
-					canvas.drawBitmap(piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint);
-				if (fxpoint[3] > 0 && fypoint[3] > 0)
-					canvas.drawBitmap(drum_bmp, fxpoint[3] - 30, fypoint[3] - 30, paint);
-			}
-			// 裏画面メニュー
-			else {
-				canvas.drawBitmap(frontIcon_bmp, terminal_width - sSize, 0, paint);  // 表への遷移ボタン
-				//設置オブジェクト選択バー表示
-				if (TabFlag) {
-					canvas.drawBitmap(bigTab_bmp, 0, 300, paint);
-					for (int i = 0; i < 4; i++) {
-						switch ((scrollTop + i) % 6) {
-							case 0:
-								canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音1
-								break;
-							case 1:
-								canvas.drawBitmap(BigChick_bmp, 7, 370 + 250 * i, paint);  // 打楽器音2
-								break;
-							case 2:
-								canvas.drawBitmap(BigCicada_bmp, 7, 370 + 250 * i, paint);   // 打楽器音3
-								break;
-							case 3:
-								canvas.drawBitmap(BigClap_bmp, 7, 370 + 250 * i, paint);   // 打楽器音4
-								break;
-							case 4:
-								canvas.drawBitmap(BigDrop_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
-								break;
-							case 5:
-								canvas.drawBitmap(BigDelete_bmp, 7, 370 + 250 * i, paint);  // 全消去
-								break;
-						}
-					}
-				} else {
-					canvas.drawBitmap(tab_bmp, 0, 300, paint);
-				}
-			}
-
-			// 置かれた楽器&打楽器画像表示
-			if (bxpoint[0] > 0 && bypoint[0] > 0) {
-				if (!TabFlag || bxpoint[0] > 280 || bypoint[0] < 370 || bxpoint[0] > 1450) {
-					canvas.drawBitmap(frog_bmp, bxpoint[0] - 30, bypoint[0] - 30, paint);
-				}
-			}
-			if (bxpoint[1] > 0 && bypoint[1] > 0) {
-				if (!TabFlag || bxpoint[1] > 280 || bypoint[1] < 370 || bxpoint[1] > 1450) {
-					canvas.drawBitmap(chick_bmp, bxpoint[1] - 30, bypoint[1] - 30, paint);
-				}
-			}
-			if (bxpoint[2] > 0 && bypoint[2] > 0) {
-				if (!TabFlag || bxpoint[2] > 280 || bypoint[2] < 370 || bxpoint[2] > 1450) {
-					canvas.drawBitmap(cicada_bmp, bxpoint[2] - 30, bypoint[2] - 30, paint);
-				}
-			}
-			if (bxpoint[3] > 0 && bypoint[3] > 0) {
-				if (!TabFlag || bxpoint[3] > 280 || bypoint[3] < 370 || bxpoint[3] > 1450) {
-					canvas.drawBitmap(clap_bmp, bxpoint[3] - 30, bypoint[3] - 30, paint);
-				}
-			}
-			if (bxpoint[4] > 0 && bypoint[4] > 0){
-				if (!TabFlag || bxpoint[4] > 280 || bypoint[4] < 370 || bxpoint[4] > 1450) {
-					canvas.drawBitmap(drop_bmp, bxpoint[4] - 30, bypoint[4] - 30, paint);
-				}
-			}
-
-			// 打楽器音設定
-			for (int i = 0; i < bxpoint.length; i++) ObjectMusic(i);
+			// 楽器配置
+			if (fxpoint[0] > 0 && fypoint[0] > 0)
+				canvas.drawBitmap(arrange1_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint);
+			if (fxpoint[1] > 0 && fypoint[1] > 0)
+				canvas.drawBitmap(arrange2_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint);
+			if (fxpoint[2] > 0 && fypoint[2] > 0)
+				canvas.drawBitmap(piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint);
+			if (fxpoint[3] > 0 && fypoint[3] > 0)
+				canvas.drawBitmap(drum_bmp, fxpoint[3] - 30, fypoint[3] - 30, paint);
 		}
+		// 裏画面メニュー
+		else {
+			canvas.drawBitmap(frontIcon_bmp, terminal_width - sSize, 0, paint);  // 表への遷移ボタン
+			//設置オブジェクト選択バー表示
+			if (TabFlag) {
+				canvas.drawBitmap(bigTab_bmp, 0, 300, paint);
+				for (int i = 0; i < 4; i++) {
+					switch ((scrollTop + i) % 6) {
+						case 0:
+							canvas.drawBitmap(BigFrog_bmp, 7, 370 + 250 * i, paint);   // 打楽器音1
+							break;
+						case 1:
+							canvas.drawBitmap(BigChick_bmp, 7, 370 + 250 * i, paint);  // 打楽器音2
+							break;
+						case 2:
+							canvas.drawBitmap(BigCicada_bmp, 7, 370 + 250 * i, paint);   // 打楽器音3
+							break;
+						case 3:
+							canvas.drawBitmap(BigClap_bmp, 7, 370 + 250 * i, paint);   // 打楽器音4
+							break;
+						case 4:
+							canvas.drawBitmap(BigDrop_bmp, 7, 370 + 250 * i, paint);   // 打楽器音5
+							break;
+						case 5:
+							canvas.drawBitmap(BigDelete_bmp, 7, 370 + 250 * i, paint);  // 全消去
+							break;
+					}
+				}
+			} else {
+				canvas.drawBitmap(tab_bmp, 0, 300, paint);
+			}
+		}
+
+		// 置かれた楽器&打楽器画像表示
+		if (bxpoint[0] > 0 && bypoint[0] > 0) {
+			if (!TabFlag || bxpoint[0] > 280 || bypoint[0] < 370 || bxpoint[0] > 1450) {
+				canvas.drawBitmap(frog_bmp, bxpoint[0] - 30, bypoint[0] - 30, paint);
+			}
+		}
+		if (bxpoint[1] > 0 && bypoint[1] > 0) {
+			if (!TabFlag || bxpoint[1] > 280 || bypoint[1] < 370 || bxpoint[1] > 1450) {
+				canvas.drawBitmap(chick_bmp, bxpoint[1] - 30, bypoint[1] - 30, paint);
+			}
+		}
+		if (bxpoint[2] > 0 && bypoint[2] > 0) {
+			if (!TabFlag || bxpoint[2] > 280 || bypoint[2] < 370 || bxpoint[2] > 1450) {
+				canvas.drawBitmap(cicada_bmp, bxpoint[2] - 30, bypoint[2] - 30, paint);
+			}
+		}
+		if (bxpoint[3] > 0 && bypoint[3] > 0) {
+			if (!TabFlag || bxpoint[3] > 280 || bypoint[3] < 370 || bxpoint[3] > 1450) {
+				canvas.drawBitmap(clap_bmp, bxpoint[3] - 30, bypoint[3] - 30, paint);
+			}
+		}
+		if (bxpoint[4] > 0 && bypoint[4] > 0){
+			if (!TabFlag || bxpoint[4] > 280 || bypoint[4] < 370 || bxpoint[4] > 1450) {
+				canvas.drawBitmap(drop_bmp, bxpoint[4] - 30, bypoint[4] - 30, paint);
+			}
+		}
+
+		// 打楽器音設定
+		for (int i = 0; i < bxpoint.length; i++) ObjectMusic(i);
 	}
 }
