@@ -242,7 +242,7 @@ public class GraphicView extends View
 			postInvalidate();
 
 			// rがあふれない処理
-			if (r > overR)
+			if ( r > overR+d )
 			{
 				r -=  d;
 			}
@@ -369,6 +369,17 @@ public class GraphicView extends View
 		canvas.drawText( text, textX, textY, textPaint );
 	}
 
+	private void DrawExtendBackInst( int area, Canvas canvas, Bitmap bmp )
+	{
+		Rect src = new Rect( 0, 0, bmp.getWidth(), bmp.getHeight() );
+		Rect dst = new Rect( x*(area%2), y*(area/2), x*(area%2+1), y*(area/2+1));
+
+		Paint paint = new Paint();
+		paint.setColor( Color.argb( 0x20, 0, 0, 0 ));
+
+		canvas.drawBitmap( bmp, src, dst, paint );
+	}
+
 	@Override
 	protected void onDraw(Canvas canvas)
 	{
@@ -380,20 +391,21 @@ public class GraphicView extends View
 		Paint paint = new Paint();
 
 		//フリックによる背景の色変更
-		paint.setStyle(Paint.Style.FILL);
+		/*paint.setStyle(Paint.Style.FILL);
 		this.DrawBack( 0, paint, canvas );
 		this.DrawBack( 1, paint, canvas );
 		this.DrawBack( 2, paint, canvas );
-		this.DrawBack( 3, paint, canvas );
+		this.DrawBack( 3, paint, canvas );*/
 
 		//描画色の指定
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setStrokeWidth( graWidth );
 		//paint.setStyle(Paint.Style.STROKE);
 
-		int rGap = 213 /2;
-		int gGap = 102 /2;
-		int bGap = 28  /2;
+
+		int rGap = 60 /2;
+		int gGap = 50 /2;
+		int bGap = 20 /2;
 
 		int wR = 0;
 		int wG = 136;
@@ -401,7 +413,7 @@ public class GraphicView extends View
 
 		double level;
 
-		for( int i = 0; i < overR; i++ )
+		for( int i = 0; i < r; i++ )
 		{
 			level = Math.sin( Math.toRadians( ( r - i )%d ) ) + 1;
 
@@ -445,14 +457,31 @@ public class GraphicView extends View
 			DrawPopString( canvas, "ドラム", x + 100, y + 100, Color.GREEN );		// 左下エリアの看板
 
 			// 楽器配置
+			paint.setStyle(Paint.Style.FILL);
 			if (fxpoint[0] > 0 && fypoint[0] > 0)
-				canvas.drawBitmap(arrange1_bmp, fxpoint[0] - 30, fypoint[0] - 30, paint);
+			{
+				paint.setColor(Color.RED);
+				canvas.drawCircle( fxpoint[0] - 30, fypoint[0] - 30, 30, paint);
+				DrawExtendBackInst( 0, canvas, arrange1_bmp );
+			}
 			if (fxpoint[1] > 0 && fypoint[1] > 0)
-				canvas.drawBitmap(arrange2_bmp, fxpoint[1] - 30, fypoint[1] - 30, paint);
+			{
+				paint.setColor(Color.MAGENTA);
+				canvas.drawCircle( fxpoint[1] - 30, fypoint[1] - 30, 30, paint);
+				DrawExtendBackInst( 1, canvas, arrange2_bmp );
+			}
 			if (fxpoint[2] > 0 && fypoint[2] > 0)
-				canvas.drawBitmap(piano_bmp, fxpoint[2] - 30, fypoint[2] - 30, paint);
+			{
+				paint.setColor(Color.BLUE);
+				canvas.drawCircle( fxpoint[2] - 30, fypoint[2] - 30, 30, paint);
+				DrawExtendBackInst( 2, canvas, piano_bmp );
+			}
 			if (fxpoint[3] > 0 && fypoint[3] > 0)
-				canvas.drawBitmap(drum_bmp, fxpoint[3] - 30, fypoint[3] - 30, paint);
+			{
+				paint.setColor(Color.GREEN);
+				canvas.drawCircle( fxpoint[3] - 30, fypoint[3] - 30, 30, paint);
+				DrawExtendBackInst( 3, canvas, drum_bmp );
+			}
 		}
 		// 裏画面メニュー
 		else {
