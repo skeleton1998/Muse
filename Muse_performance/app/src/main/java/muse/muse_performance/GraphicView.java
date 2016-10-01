@@ -93,7 +93,7 @@ public class GraphicView extends View
 
 	//波生成変数
 	static private int graLevel =  13; //グラデーションの段階
-	static private int graWidth = 2; // グラデーション1段階の幅
+	static private int graWidth = 10; // グラデーション1段階の幅
 	static private int colorDeference = 25; // 波の頂点と一番下の色の差
 
 	//画面の色
@@ -385,7 +385,7 @@ public class GraphicView extends View
 	{
 		//背景色の設定
 		////白
-		canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
+		//canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
 
 		//Paintオブジェクトの生成
 		Paint paint = new Paint();
@@ -399,7 +399,6 @@ public class GraphicView extends View
 
 		//描画色の指定
 		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeWidth( graWidth );
 		//paint.setStyle(Paint.Style.STROKE);
 
 
@@ -412,37 +411,43 @@ public class GraphicView extends View
 		int wB = 227;
 
 		double level;
+		int dis = d/graWidth;
+		paint.setStrokeWidth( dis );
 
 		for( int i = 0; i < r; i++ )
 		{
-			level = Math.sin( Math.toRadians( ( r - i )%d ) ) + 1;
+			// 真ん中
+			if( i == 0 )
+			{
+				paint.setStyle(Paint.Style.FILL);
 
-			paint.setColor( Color.rgb( wR + (int)(rGap*level), wG + (int)(gGap*level), wB + (int)(bGap*level) ) );
+				level = Math.sin(Math.toRadians( ( i - r % d - dis ) / 2) + Math.PI / 2) + 1;
+				paint.setColor(Color.rgb(wR + (int) (rGap * level), wG + (int) (gGap * level), wB + (int) (bGap * level)));
+				canvas.drawCircle(x, y, dis*4/5, paint);
 
-			canvas.drawCircle( x, y, i * graWidth, paint);
+				paint.setStyle(Paint.Style.STROKE);
+			}
+			// その他
+			if( i%dis == 0 )
+			{
+				level = Math.sin(Math.toRadians((i - r % d) / 2) + Math.PI / 2) + 1;
+				paint.setColor(Color.rgb(wR + (int) (rGap * level), wG + (int) (gGap * level), wB + (int) (bGap * level)));
+				canvas.drawCircle(x, y, i + dis , paint);
+			}
 		}
 
 		//円
-		int colorGap; //グラデーションの色の差の値
+		/*paint.setStyle(Paint.Style.STROKE);
+		paint.setColor( Color.BLACK );
+		//paint.setColor( Color.WHITE );
+		// 表示
+		//波の数ループ
+		for (int i = 0; i <= r / d; i++) {
+			canvas.drawCircle(x, y, d * i + r % d + graWidth, paint);
+		}
 
-		//グラデーション
-		/*for (int j = -graLevel; j <= graLevel;j ++ )
-		{
-			//値計算
-			colorGap = j * graWidth;
-			if (colorGap < 0) colorGap *= -1;
-			//色計算
-			//白
-			paint.setColor(Color.rgb(colorR - colorGap, colorG - colorGap, colorB - colorGap));
-			// 表示
-			//波の数ループ
-			for (int i = 0; i <= r / d; i++) {
-				canvas.drawCircle(x, y, d * i + r % d + j * graWidth, paint);
-			}
-
-			for (int i = 0; i < 4; i++) {
-				if (tapCircleR[i] > 0) canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + j * graWidth, paint);
-			}
+		for (int i = 0; i < 4; i++) {
+			if (tapCircleR[i] > 0) canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + graWidth, paint);
 		}*/
 
 		// 表画面メニュー
