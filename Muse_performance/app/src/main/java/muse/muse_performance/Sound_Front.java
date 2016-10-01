@@ -40,7 +40,7 @@ public class Sound_Front extends Activity
 
 	// 画面サイズうんぬん
 	static final int maxX = 1200;
-	static final int maxY = 1900;
+	static final int maxY = 1824;
 	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
 	static final int buttonSize = 60;
 
