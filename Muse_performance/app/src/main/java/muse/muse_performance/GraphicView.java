@@ -1,6 +1,5 @@
 package muse.muse_performance;
 
-import java.util.StringTokenizer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -11,8 +10,6 @@ import android.media.AudioManager;
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.Color;
-import android.graphics.Paint.FontMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Display;
 import android.view.WindowManager;
@@ -92,17 +89,13 @@ public class GraphicView extends View
 	private ScheduledExecutorService ses = null;
 
 	//波生成変数
-	static private int graLevel =  13; //グラデーションの段階
 	static private int graWidth = 25; // グラデーション1段階の幅
-	static private int colorDeference = 25; // 波の頂点と一番下の色の差
-
-	//画面の色
-	static private int graTopcolorR=148,graTopcolorG=213,graTopcolorB= 225;
-
-	////画面の背景色
-	private int colorR = graTopcolorR + colorDeference
-			,colorG = graTopcolorG + colorDeference
-			,colorB = graTopcolorB + colorDeference;
+	static final int wR = 0;			// 水の最も暗い色
+	static final int wG = 136;
+	static final int wB = 227;
+	static final int rGap = 60 /2;		// グラデーションの変化幅
+	static final int gGap = 50 /2;
+	static final int bGap = 20 /2;
 
 	//半径の最大値
 	private int overR = sqrt(x  * x + y * y);
@@ -123,7 +116,6 @@ public class GraphicView extends View
 
 	//変数管理系
 	public void setFlagPoint(int i,int r) { tapCircleR[i] = r; }
-	public int getFlagPoint(int i) { return tapCircleR[i]; }
 
 	//裏座標変数
 	public float[] getBxpoint(){
@@ -140,12 +132,6 @@ public class GraphicView extends View
 	}
 
 	//表座標変数
-	public float[] getFxpoint(){
-		return fxpoint;
-	}
-	public float[] getFypoint(){
-		return fypoint;
-	}
 	public void setFxpoint(int i,float x){
 		fxpoint[i]=x;
 	}
@@ -157,16 +143,10 @@ public class GraphicView extends View
 	public void setScene(boolean i){
 		this.scene = i;
 	}
-	public boolean getScene(){
-		return this.scene;
-	}
 
 	//テンポ変数
 	public void setBpm(int b){
 		bpm=b;
-	}
-	public int getBpm(){
-		return bpm;
 	}
 
 	//スワイプの方向
@@ -185,9 +165,6 @@ public class GraphicView extends View
 			flickVec[i] = -1;
 		}
 	}
-
-	public int getflick(int i){ return flickVec[i]; }
-
 
 	//平方根計算メソッド(めのこ平方)
 	private int sqrt(int num)
@@ -242,7 +219,7 @@ public class GraphicView extends View
 			postInvalidate();
 
 			// rがあふれない処理
-			if ( r > overR*2 )
+			if ( r > overR+d )
 			{
 				r -= d;
 			}
@@ -270,53 +247,6 @@ public class GraphicView extends View
 		ses.scheduleAtFixedRate(task, 0L, 24L, TimeUnit.MILLISECONDS);
 	}
 
-	public void changeColor(int changenum, Paint paint )
-	{
-		if( changenum == Sound_Front.Vec.UP )           paint.setColor( Color.argb( 0x90, graTopcolorR-30, graTopcolorG,    graTopcolorB    ));
-		else if( changenum == Sound_Front.Vec.RIGHT )   paint.setColor( Color.argb( 0x90, graTopcolorR,    graTopcolorG-30, graTopcolorB    ));
-		else if( changenum == Sound_Front.Vec.LEFT )    paint.setColor( Color.argb( 0x90, graTopcolorR,    graTopcolorG,    graTopcolorB-30 ));
-		else if( changenum == Sound_Front.Vec.DOWN )    paint.setColor( Color.argb( 0x90, graTopcolorR-10, graTopcolorG-10, graTopcolorB-10 ));
-		else                                            paint.setColor( Color.argb( 0x90, graTopcolorR,    graTopcolorG,    graTopcolorB    ));
-	}
-
-	public void DrawBack( int i, Paint paint, Canvas canvas )
-	{
-		//基本
-		changeColor( flickVec[i], paint );
-		canvas.drawRect( x*(i%2), y*(i/2), x*(i%2+1), y*(i/2+1), paint );
-
-		//背景変更時の動作
-		if( flickchange[i] > 0 )
-		{
-			// 1手前の背景を少しずつ大きさを変えてアニメーション
-			switch( flickVec[i] )
-			{
-				case Sound_Front.Vec.UP:
-					changeColor( flickLog[i], paint );
-					canvas.drawRect( x*(i%2), y*(i/2), x*(i%2+1), y*(i/2) + y*flickchange[i]/10, paint );
-					break;
-
-				case Sound_Front.Vec.RIGHT:
-					changeColor( flickLog[i], paint );
-					canvas.drawRect( x*(i%2+1) - x*flickchange[i]/10, y*(i/2), x*(i%2+1), y*(i/2+1), paint );
-					break;
-
-				case Sound_Front.Vec.LEFT:
-					changeColor( flickLog[i], paint );
-					canvas.drawRect( x*(i%2), y*(i/2), x*(i%2) + x*flickchange[i]/10, y*(i/2+1), paint );
-					break;
-
-				case Sound_Front.Vec.DOWN:
-					changeColor( flickLog[i], paint );
-					canvas.drawRect( x*(i%2), y*(i/2+1) - y*flickchange[i]/10, x*(i%2+1), y*(i/2+1), paint );
-					break;
-			}
-
-			flickchange[i]--;
-		}
-		//else flickchange[i] = -1;
-	}
-
 	protected void ObjectMusic(int i)
 	{
 		//20を基点とする
@@ -334,41 +264,6 @@ public class GraphicView extends View
 		if(boundcheck[i] > 0)     boundcheck[i]++;   //boundしてるときにのみチェックをかける(インデント)
 	}
 
-	public void DrawPopString( Canvas canvas, String text, int x, int y, int c )
-	{
-		// 文字列用ペイントの生成
-		Paint textPaint = new Paint( Paint.ANTI_ALIAS_FLAG);
-		textPaint.setTextSize( 50 );
-		textPaint.setColor( Color.WHITE );
-		FontMetrics fontMetrics = textPaint.getFontMetrics();
-
-		// 文字列の幅を取得
-		float textWidth = textPaint.measureText( text );
-
-		// 文字列の幅からX座標を計算
-		float textX = x - textWidth / 2;
-		// 文字列の高さからY座標を計算
-		float textY = y - ( fontMetrics.ascent + fontMetrics.descent ) / 2;
-
-		// 吹き出し用ペイントの生成
-		Paint balloonPaint = new Paint( Paint.ANTI_ALIAS_FLAG );
-		balloonPaint.setTextSize( 50 );
-		balloonPaint.setColor( c );
-
-		// 吹き出しの座標。文字列の5ポイント外側を囲む
-		float balloonStartX = textX - 5;
-		float balloonEndX = textX + textWidth + 5;
-		float balloonStartY = textY + fontMetrics.ascent - 5;
-		float balloonEndY = textY + fontMetrics.descent + 5;
-
-		// 吹き出しの描画
-		RectF balloonRectF = new RectF( balloonStartX, balloonStartY, balloonEndX, balloonEndY);
-		canvas.drawRoundRect( balloonRectF, 5, 5, balloonPaint );
-
-		// 文字列の描画
-		canvas.drawText( text, textX, textY, textPaint );
-	}
-
 	private void DrawExtendBackInst( int area, Canvas canvas, Bitmap bmp )
 	{
 		Rect src = new Rect( 0, 0, bmp.getWidth(), bmp.getHeight() );
@@ -384,67 +279,39 @@ public class GraphicView extends View
 	protected void onDraw(Canvas canvas)
 	{
 		//背景色の設定
-		////白
-		//canvas.drawColor( Color.rgb( graTopcolorR , graTopcolorG, graTopcolorB ) );
+		canvas.drawColor( Color.rgb( wR , wG, wB ) );
 
 		//Paintオブジェクトの生成
 		Paint paint = new Paint();
 
-		//フリックによる背景の色変更
-		/*paint.setStyle(Paint.Style.FILL);
-		this.DrawBack( 0, paint, canvas );
-		this.DrawBack( 1, paint, canvas );
-		this.DrawBack( 2, paint, canvas );
-		this.DrawBack( 3, paint, canvas );*/
-
-		//描画色の指定
+		// 水面表示
 		paint.setStyle(Paint.Style.STROKE);
-		//paint.setStyle(Paint.Style.STROKE);
-
-
-		int rGap = 60 /2;
-		int gGap = 50 /2;
-		int bGap = 20 /2;
-
-		int wR = 0;
-		int wG = 136;
-		int wB = 227;
-
-		double level;
-		int dis = d/graWidth;
 		paint.setStrokeWidth( graWidth );
+		double level;
 
 		for( int i = 0; i*graWidth < r; i++ )
 		{
-			// 真ん中
+			// 高さ計算 0~2
+			level = Math.sin(  Math.toRadians( 360*( i*graWidth - r%d )/d) + Math.PI/2 ) + 1;
+			// 色指定
+			paint.setColor( Color.rgb( wR + (int)( rGap*level ), wG + (int)( gGap*level ), wB + (int)( bGap*level ) ) );
+			// 表示( 円で )
 			if( i == 0 )
 			{
+				// 真ん中塗りつぶし
 				paint.setStyle(Paint.Style.FILL);
 
-				level = Math.sin(  Math.toRadians( 360*( i*graWidth - r%d )/d) + Math.PI/2 ) + 1;
-				paint.setColor(Color.rgb(wR + (int) (rGap * level), wG + (int) (gGap * level), wB + (int) (bGap * level)));
 				canvas.drawCircle(x, y, graWidth, paint);
 
 				paint.setStyle(Paint.Style.STROKE);
 			}
-			else
-			{
-				level = Math.sin(  Math.toRadians( 360*( i*graWidth - r%d )/d) + Math.PI/2 ) + 1;
-				paint.setColor(Color.rgb(wR + (int) (rGap * level), wG + (int) (gGap * level), wB + (int) (bGap * level)));
-				canvas.drawCircle(x, y, i * graWidth , paint);
-			}
+			else canvas.drawCircle(x, y, i * graWidth , paint);
 		}
 
-		//円
-		/*paint.setStyle(Paint.Style.STROKE);
+		/*
+		// タップ波のdebug表示
+		paint.setStyle(Paint.Style.STROKE);
 		paint.setColor( Color.BLACK );
-		//paint.setColor( Color.WHITE );
-		// 表示
-		//波の数ループ
-		for (int i = 0; i <= r / d; i++) {
-			canvas.drawCircle(x, y, d * i + r % d + graWidth, paint);
-		}
-
 		for (int i = 0; i < 4; i++) {
 			if (tapCircleR[i] > 0) canvas.drawCircle(fxpoint[i], fypoint[i], tapCircleR[i] + graWidth, paint);
 		}*/
@@ -455,10 +322,6 @@ public class GraphicView extends View
 			// 基本表示
 			canvas.drawBitmap( setting_bmp, 0, 0, paint);							// オプション
 			canvas.drawBitmap( objectIcon_bmp, terminal_width - sSize, 0, paint);	// 裏画面メニュー
-			DrawPopString( canvas, "伴奏A", x - 100, y - 100, Color.RED );			// 右上エリアの看板 いい感じの色 : TODO
-			DrawPopString( canvas, "伴奏B", x + 100, y - 100, Color.MAGENTA );		// 左上エリアの看板
-			DrawPopString( canvas, "主旋律", x - 100, y + 100, Color.BLUE );		// 右下エリアの看板
-			DrawPopString( canvas, "ドラム", x + 100, y + 100, Color.GREEN );		// 左下エリアの看板
 
 			// 楽器配置
 			paint.setStyle(Paint.Style.FILL);
