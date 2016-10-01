@@ -93,7 +93,7 @@ public class GraphicView extends View
 
 	//波生成変数
 	static private int graLevel =  13; //グラデーションの段階
-	static private int graWidth = 10; // グラデーション1段階の幅
+	static private int graWidth = 75; // グラデーション1段階の幅
 	static private int colorDeference = 25; // 波の頂点と一番下の色の差
 
 	//画面の色
@@ -242,9 +242,9 @@ public class GraphicView extends View
 			postInvalidate();
 
 			// rがあふれない処理
-			if ( r > overR+d )
+			if ( r > overR*2 )
 			{
-				r -=  d;
+				r -= d;
 			}
 		}
 	};
@@ -412,27 +412,26 @@ public class GraphicView extends View
 
 		double level;
 		int dis = d/graWidth;
-		paint.setStrokeWidth( dis );
+		paint.setStrokeWidth( graWidth );
 
-		for( int i = 0; i < r; i++ )
+		for( int i = 0; i*graWidth < r; i++ )
 		{
 			// 真ん中
 			if( i == 0 )
 			{
 				paint.setStyle(Paint.Style.FILL);
 
-				level = Math.sin(Math.toRadians( ( i - r % d - dis ) / 2) + Math.PI / 2) + 1;
+				level = Math.sin(  Math.PI*( i*graWidth - r%d )/d + Math.PI / 2) + 1;
 				paint.setColor(Color.rgb(wR + (int) (rGap * level), wG + (int) (gGap * level), wB + (int) (bGap * level)));
-				canvas.drawCircle(x, y, dis*4/5, paint);
+				canvas.drawCircle(x, y, graWidth, paint);
 
 				paint.setStyle(Paint.Style.STROKE);
 			}
-			// その他
-			if( i%dis == 0 )
+			else
 			{
-				level = Math.sin(Math.toRadians((i - r % d) / 2) + Math.PI / 2) + 1;
+				level = Math.sin(  Math.PI*( i*graWidth - r%d )/d + Math.PI / 2) + 1;
 				paint.setColor(Color.rgb(wR + (int) (rGap * level), wG + (int) (gGap * level), wB + (int) (bGap * level)));
-				canvas.drawCircle(x, y, i + dis , paint);
+				canvas.drawCircle(x, y, i * graWidth , paint);
 			}
 		}
 
