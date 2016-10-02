@@ -270,9 +270,27 @@ public class GraphicView extends View
 		Rect dst = new Rect( x*(area%2), y*(area/2), x*(area%2+1), y*(area/2+1));
 
 		Paint paint = new Paint();
-		paint.setColor( Color.argb( 0x20, 0, 0, 0 ));
+		paint.setColor( Color.argb( 0x40, 0, 0, 0 ));
 
-		canvas.drawBitmap( bmp, src, dst, paint );
+		//透過
+		int width = bmp.getWidth();
+		int height = bmp.getHeight();
+		int[] pixels = new int[width * height];
+		int c = bmp.getPixel(0, 0);
+
+		// 0,0 のピクセルと同じ色のピクセルを透明化する．
+		Bitmap bitmap = Bitmap.createBitmap( width, height, Bitmap.Config.ARGB_8888 );
+		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if( pixels[x + y * width]== c){ pixels[x + y * width] = 0; }
+			}
+		}
+		bitmap.eraseColor(Color.argb(0, 0, 0, 0));
+		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+		canvas.drawBitmap( bitmap, src, dst, paint );
 	}
 
 	@Override
