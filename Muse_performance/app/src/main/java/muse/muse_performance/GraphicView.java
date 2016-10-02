@@ -30,7 +30,7 @@ public class GraphicView extends View
 	private Bitmap bigTab_bmp = BitmapFactory.decodeResource( res, R.drawable.bigtap );
 	private Bitmap tab_bmp = BitmapFactory.decodeResource( res, R.drawable.tab );
 
-	private Bitmap chick_bmp =BitmapFactory.decodeResource( res, R.drawable.chick );
+	private Bitmap chick_bmp = BitmapFactory.decodeResource( res, R.drawable.chick );
 	private Bitmap clap_bmp = BitmapFactory.decodeResource( res, R.drawable.clap );
 	private Bitmap frog_bmp = BitmapFactory.decodeResource( res, R.drawable.frog );
 	private Bitmap cicada_bmp = BitmapFactory.decodeResource( res, R.drawable.cicada );
