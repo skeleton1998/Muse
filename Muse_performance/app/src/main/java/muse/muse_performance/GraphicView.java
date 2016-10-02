@@ -89,7 +89,7 @@ public class GraphicView extends View
 	private ScheduledExecutorService ses = null;
 
 	//波生成変数
-	static private int graWidth = 25; // グラデーション1段階の幅
+	static private int graWidth = 10; // グラデーション1段階の幅
 	static final int wR = 0;			// 水の最も暗い色
 	static final int wG = 136;
 	static final int wB = 227;
@@ -328,25 +328,25 @@ public class GraphicView extends View
 			if (fxpoint[0] > 0 && fypoint[0] > 0)
 			{
 				paint.setColor(Color.RED);
-				canvas.drawCircle( fxpoint[0] - 30, fypoint[0] - 30, 30, paint);
+				canvas.drawCircle( fxpoint[0] - 30, fypoint[0] - 30, 20, paint);
 				DrawExtendBackInst( 0, canvas, arrange1_bmp );
 			}
 			if (fxpoint[1] > 0 && fypoint[1] > 0)
 			{
 				paint.setColor(Color.MAGENTA);
-				canvas.drawCircle( fxpoint[1] - 30, fypoint[1] - 30, 30, paint);
+				canvas.drawCircle( fxpoint[1] - 30, fypoint[1] - 30, 20, paint);
 				DrawExtendBackInst( 1, canvas, arrange2_bmp );
 			}
 			if (fxpoint[2] > 0 && fypoint[2] > 0)
 			{
 				paint.setColor(Color.BLUE);
-				canvas.drawCircle( fxpoint[2] - 30, fypoint[2] - 30, 30, paint);
+				canvas.drawCircle( fxpoint[2] - 30, fypoint[2] - 30, 20, paint);
 				DrawExtendBackInst( 2, canvas, piano_bmp );
 			}
 			if (fxpoint[3] > 0 && fypoint[3] > 0)
 			{
 				paint.setColor(Color.GREEN);
-				canvas.drawCircle( fxpoint[3] - 30, fypoint[3] - 30, 30, paint);
+				canvas.drawCircle( fxpoint[3] - 30, fypoint[3] - 30, 20, paint);
 				DrawExtendBackInst( 3, canvas, drum_bmp );
 			}
 		}
