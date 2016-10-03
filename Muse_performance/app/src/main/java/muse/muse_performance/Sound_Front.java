@@ -23,6 +23,11 @@ public class Sound_Front extends Activity
 	int record = 0;
 	double dist[]={0,0,0,0};			// 4エリアの楽器と中心の距離
 	float pushx,pushy;
+	boolean scene=FRONT;
+	int edit=0;
+
+	static final boolean FRONT=true;
+	static final boolean BACK=false;
 
 	// midi用変数
 	int bpm = 100;				// beat per min
@@ -39,7 +44,7 @@ public class Sound_Front extends Activity
 	int nowPos = 0;	// 再生位置
 
 	// 画面サイズうんぬん
-	static final int maxX = 1200;
+	static final int maxX = 1000;
 	static final int maxY = 1824;
 	static final int maxLen = (int)Math.sqrt( maxX*maxX/4 + maxY*maxY/4 );
 	static final int buttonSize = 60;
@@ -103,7 +108,7 @@ public class Sound_Front extends Activity
 		graphicView = new GraphicView(this);
 		setContentView(graphicView);
 		graphicView.setBpm(beat/2);
-		graphicView.setScene(true);
+		graphicView.setScene(FRONT);
 		graphicView.onResume();
 	}
 
@@ -295,6 +300,8 @@ public class Sound_Front extends Activity
 		//タッチ座標取得
 		float getx = motionEvent.getX();
 		float gety = motionEvent.getY();
+		float nowx[]=graphicView.getBxpoint();//画像がおいてある場所取得
+		float nowy[]=graphicView.getBypoint();
 
 		// 各イベント処理
 		switch( motionEvent.getAction() )
@@ -302,246 +309,267 @@ public class Sound_Front extends Activity
 			//押した時
 			case MotionEvent.ACTION_DOWN:
 				Log.d("", "ACTION_DOWN");
-				//前回のタッチ記録を消去
-				for( int i = 0 ; i < 4; i++ )
-				{
-					beforex[i]=-1;
-					beforey[i]=-1;
+				if (scene) {
+						//前回のタッチ記録を消去
+						for (int i = 0; i < 4; i++) {
+							beforex[i] = -1;
+							beforey[i] = -1;
+						}
+
+						//タッチ開始位置を保存
+						pushx = getx;
+						pushy = gety;
+
+						//フラグリセット
+						record = 0;
+						beattemp = 0;
 				}
-
-				//タッチ開始位置を保存
-				pushx=getx;
-				pushy=gety;
-
-				//フラグリセット
-				record = 0;
-				beattemp = 0;
 				break;
 
 			//離した時
 			case MotionEvent.ACTION_UP:
 				Log.d("", "ACTION_UP");
-				// テンポ処理
-				if( beattemp != 0 )
-				{
-					beat += beattemp;
+				if(scene) {
+					// テンポ処理
+					if (beattemp != 0) {
+						beat += beattemp;
 
-					if( beat < 20 ) beat = 20;
-					else if( beat > 240 ) beat = 240;
+						if (beat < 20) beat = 20;
+						else if (beat > 240) beat = 240;
 
-					// テンポセット
-					graphicView.setBpm(beat / 2);
+						// テンポセット
+						graphicView.setBpm(beat / 2);
+					}
+
+					// テンポが変わった時
+					if (beat != bpm) this.changeMidiFile();    // midi更新
+
+					if (Math.abs(pushx - getx) > 40 || Math.abs(pushy - gety) > 40) {//移動距離が長いとき
+						// フリック方向で各エリアごとの操作
+						//左上
+						if (pushx < maxX / 2 && pushy < maxY / 2) {
+							// 下フリックで消す
+							if (this.frickVec(getx, gety) == Vec.DOWN) {
+								graphicView.setFxpoint(0, -1);
+								graphicView.setFypoint(0, -1);
+								graphicView.setFlagPoint(0, 0);
+								dist[0] = 0;
+							} else this.inst[0] = Arrange1InstList[this.frickVec(getx, gety)];
+
+							graphicView.setFlick(0, this.frickVec(getx, gety), this.inst[0]);
+						}
+						// 右上
+						else if (pushx > maxX / 2 && pushy < maxY / 2) {
+							// 下フリックで消す
+							if (this.frickVec(getx, gety) == Vec.DOWN) {
+								graphicView.setFxpoint(1, -1);
+								graphicView.setFypoint(1, -1);
+								graphicView.setFlagPoint(1, 0);
+								dist[1] = 0;
+							} else this.inst[1] = Arrange2InstList[this.frickVec(getx, gety)];
+
+							graphicView.setFlick(1, this.frickVec(getx, gety), this.inst[1]);
+						}
+						// 左下
+						else if (pushx < maxX / 2 && pushy > maxY / 2) {
+							this.inst[2] = melodyInstList[this.frickVec(getx, gety)];
+							graphicView.setFlick(2, this.frickVec(getx, gety), this.inst[2]);
+						}
+						// 右下
+						else if (pushx > maxX / 2 && pushy > maxY / 2) {
+							// 下フリックで消す
+							if (this.frickVec(getx, gety) == Vec.DOWN) {
+								graphicView.setFxpoint(3, -1);
+								graphicView.setFypoint(3, -1);
+								graphicView.setFlagPoint(3, 0);
+								dist[3] = 0;
+							} else {
+								DrumNo = this.frickVec(getx, gety);
+								this.inst[3] = this.frickVec(getx, gety);
+							}
+
+							graphicView.setFlick(3, this.frickVec(getx, gety), this.inst[3]);
+						}
+
+						// midi更新
+						this.changeMidiFile();
+
+						// フラグ
+						this.record = 1;
+					} else {//移動距離が短いとき
+						//座標判定
+						// オプションへの遷移
+						if (getx < buttonSize && gety < buttonSize * 2) {
+							//各データの転送
+							Intent intent1 = new Intent(getApplication(), Option.class);
+							intent1.putExtra("SongNo", songNo);
+							intent1.putExtra("A1Inst0", Arrange1InstList[0]);
+							intent1.putExtra("A1Inst1", Arrange1InstList[1]);
+							intent1.putExtra("A1Inst2", Arrange1InstList[2]);
+							intent1.putExtra("A2Inst0", Arrange2InstList[0]);
+							intent1.putExtra("A2Inst1", Arrange2InstList[1]);
+							intent1.putExtra("A2Inst2", Arrange2InstList[2]);
+							intent1.putExtra("MInst0", melodyInstList[0]);
+							intent1.putExtra("MInst1", melodyInstList[1]);
+							intent1.putExtra("MInst2", melodyInstList[2]);
+							intent1.putExtra("MInst3", melodyInstList[3]);
+							intent1.putExtra("BEAT", beat);
+							int requestCode = RESULT;
+
+							//停止
+							mediaPlayer.pause();
+
+							// 飛ぶ
+							startActivityForResult(intent1, requestCode);
+						}
+						// 裏画面への遷移
+						else if (getx > (maxX - buttonSize) && gety < buttonSize * 2) {
+							graphicView.setScene(BACK);
+							scene=BACK;
+						}
+						// エリア1( 左上 )
+						else if (getx < maxX / 2 && gety < maxY / 2) {
+							// エフェクト
+							graphicView.setFxpoint(0, getx - 10);
+							graphicView.setFypoint(0, gety - 40);
+							graphicView.setFlagPoint(0, 1);
+
+							//距離
+							dist[0] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
+
+							// MediaPlayer処理
+							this.changeMidiFile();
+						}
+						// エリア2( 右上 )
+						else if (getx > maxX / 2 && gety < maxY / 2) {
+							// 画像配置
+							graphicView.setFxpoint(1, getx - 10);
+							graphicView.setFypoint(1, gety - 40);
+							graphicView.setFlagPoint(1, 1);
+
+							//距離
+							dist[1] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
+
+							// MediaPlayer処理
+							this.changeMidiFile();
+						}
+						// エリア3( 左下 )
+						else if (getx < maxX / 2 && gety > maxY / 2) {
+							// 画像配置
+							// エフェクト
+							graphicView.setFxpoint(2, getx - 10);
+							graphicView.setFypoint(2, gety - 40);
+							graphicView.setFlagPoint(2, 1);
+
+							// 距離
+							dist[2] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
+
+							// MediaPlayer処理
+							this.changeMidiFile();
+						}
+						// エリア4( 右下 )
+						else if (getx > maxX / 2 && gety > maxY / 2) {
+							// 画像配置
+							// エフェクト
+							graphicView.setFxpoint(3, getx - 10);
+							graphicView.setFypoint(3, gety - 40);
+							graphicView.setFlagPoint(3, 1);
+
+							// 距離
+							dist[3] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
+
+							// MediaPlayer処理
+							this.changeMidiFile();
+						}
+					}
 				}
-
-				// テンポが変わった時
-				if( beat != bpm ) this.changeMidiFile();	// midi更新
-
-				if(Math.abs(pushx-getx)>40 || Math.abs(pushy-gety)>40){//移動距離が長いとき
-					// フリック方向で各エリアごとの操作
-					//左上
-					if( pushx < maxX/2 && pushy < maxY/2 )
-					{
-						// 下フリックで消す
-						if( this.frickVec( getx, gety ) == Vec.DOWN )
-						{
-							graphicView.setFxpoint( 0, -1 );
-							graphicView.setFypoint( 0, -1 );
-							graphicView.setFlagPoint( 0, 0);
-							dist[ 0 ] = 0;
+				else{
+					if(getx>1000 && gety<140) {
+						graphicView.setScene(FRONT);
+						scene=FRONT;
+					}
+					//置いてあるものをタップしたら消す
+					else if(getx>nowx[0]-50 && getx<nowx[0]+50 && gety>nowy[0]+60 && gety<nowy[0]+130){
+						graphicView.setBxpoint(0,-1);//画像1の消去
+						graphicView.setBypoint(0,-1);
+					}
+					else if(getx>nowx[1]-50 && getx<nowx[1]+50 && gety>nowy[1]+60 && gety<nowy[1]+130){
+						graphicView.setBxpoint(1,-1);//画像2の消去
+						graphicView.setBypoint(1,-1);
+					}
+					else if(getx>nowx[2]+20 && getx<nowx[2]+90 && gety>nowy[2]+60 && gety<nowy[2]+130){
+						graphicView.setBxpoint(2,-1);//画像3の消去
+						graphicView.setBypoint(2,-1);
+					}
+					else if(getx>nowx[3]+20 && getx<nowx[3]+90 && gety>nowy[3]+60 && gety<nowy[3]+130){
+						graphicView.setBxpoint(3,-1);//画像4の消去
+						graphicView.setBypoint(3,-1);
+					}
+					else if(getx>nowx[4]+20 && getx<nowx[4]+90 && gety>nowy[4]+60 && gety<nowy[4]+130){
+						graphicView.setBxpoint(4,-1);//画像5の消去
+						graphicView.setBypoint(4,-1);
+					}
+					//エディットモニタ
+					else if(getx<280 && gety>340 && gety<1450 && graphicView.getTabFlag()){
+						if(getx>230){graphicView.TabFlagON();}
+						else if(gety < 400){ graphicView.setScrollTop((graphicView.getScrollTop() + 5) % 6); }
+						else if(gety > 1400){ graphicView.setScrollTop((graphicView.getScrollTop() + 1) % 6); }
+						else{
+							edit = ( ((int)gety-400)/255 + graphicView.getScrollTop() ) % 6 ;//編集する画像の選択
 						}
-						else this.inst[0] = Arrange1InstList[ this.frickVec( getx, gety ) ];
-
-						graphicView.setFlick( 0, this.frickVec( getx, gety ), this.inst[0]);
 					}
-					// 右上
-					else if( pushx > maxX/2 && pushy < maxY/2 )
-					{
-						// 下フリックで消す
-						if( this.frickVec( getx, gety ) == Vec.DOWN )
-						{
-							graphicView.setFxpoint( 1, -1 );
-							graphicView.setFypoint( 1, -1 );
-							graphicView.setFlagPoint( 1, 0);
-							dist[ 1 ] = 0;
+					//オブジェクト設置タブの開閉処理
+					else if(getx<60 && gety>340 && gety<1450 && !graphicView.getTabFlag()){
+						graphicView.TabFlagON();
+					}
+					//配置
+					else {
+						if (edit == 5) {
+							for(int i=0;i<5;i++) {//全画像消去
+								graphicView.setBxpoint(i, -1);
+								graphicView.setBypoint(i, -1);
+							}
+						} else {
+							graphicView.setBxpoint(edit, getx - 20);//タッチ位置に画像配置
+							graphicView.setBypoint(edit, gety - 60);
 						}
-						else this.inst[1] = Arrange2InstList[ this.frickVec( getx, gety ) ];
-
-						graphicView.setFlick( 1, this.frickVec( getx, gety ), this.inst[1]);
-					}
-					// 左下
-					else if( pushx < maxX/2 && pushy > maxY/2 )
-					{
-						this.inst[2] = melodyInstList[ this.frickVec( getx, gety ) ];
-						graphicView.setFlick( 2, this.frickVec( getx, gety ), this.inst[2]);
-					}
-					// 右下
-					else if( pushx > maxX/2 && pushy > maxY/2 )
-					{
-						// 下フリックで消す
-						if( this.frickVec( getx, gety ) == Vec.DOWN )
-						{
-							graphicView.setFxpoint( 3, -1 );
-							graphicView.setFypoint( 3, -1 );
-							graphicView.setFlagPoint( 3, 0 );
-							dist[ 3 ] = 0;
-						}
-						else
-						{
-							DrumNo = this.frickVec( getx, gety );
-							this.inst[3] = this.frickVec( getx, gety );
-						}
-
-						graphicView.setFlick( 3, this.frickVec( getx, gety ), this.inst[3]);
-					}
-
-					// midi更新
-					this.changeMidiFile();
-
-					// フラグ
-					this.record = 1;
-				}
-
-				else {//移動距離が短いとき
-					//座標判定
-					// オプションへの遷移
-					if (getx < buttonSize && gety < buttonSize * 2) {
-						//各データの転送
-						Intent intent1 = new Intent(getApplication(), Option.class);
-						intent1.putExtra("SongNo", songNo);
-						intent1.putExtra("A1Inst0", Arrange1InstList[0]);
-						intent1.putExtra("A1Inst1", Arrange1InstList[1]);
-						intent1.putExtra("A1Inst2", Arrange1InstList[2]);
-						intent1.putExtra("A2Inst0", Arrange2InstList[0]);
-						intent1.putExtra("A2Inst1", Arrange2InstList[1]);
-						intent1.putExtra("A2Inst2", Arrange2InstList[2]);
-						intent1.putExtra("MInst0", melodyInstList[0]);
-						intent1.putExtra("MInst1", melodyInstList[1]);
-						intent1.putExtra("MInst2", melodyInstList[2]);
-						intent1.putExtra("MInst3", melodyInstList[3]);
-						intent1.putExtra("BEAT", beat);
-						int requestCode = RESULT;
-
-						//停止
-						mediaPlayer.pause();
-
-						// 飛ぶ
-						startActivityForResult(intent1, requestCode);
-					}
-					// 裏画面への遷移
-					else if (getx > (maxX - buttonSize) && gety < buttonSize * 2) {
-						//各データの転送
-						Intent intent2 = new Intent(getApplication(), Sound_Back.class);
-						intent2.putExtra("SongNo", songNo);
-						intent2.putExtra("A1Inst0", Arrange1InstList[0]);
-						intent2.putExtra("A1Inst1", Arrange1InstList[1]);
-						intent2.putExtra("A1Inst2", Arrange1InstList[2]);
-						intent2.putExtra("A2Inst0", Arrange2InstList[0]);
-						intent2.putExtra("A2Inst1", Arrange2InstList[1]);
-						intent2.putExtra("A2Inst2", Arrange2InstList[2]);
-						intent2.putExtra("MInst0", melodyInstList[0]);
-						intent2.putExtra("MInst1", melodyInstList[1]);
-						intent2.putExtra("MInst2", melodyInstList[2]);
-						intent2.putExtra("MInst3", melodyInstList[3]);
-						intent2.putExtra("BEAT", beat);
-						int requestCode = RESULT;
-
-						//裏に飛ぶ
-						startActivityForResult(intent2, requestCode);
-					}
-					// エリア1( 左上 )
-					else if (getx < maxX / 2 && gety < maxY / 2) {
-						// エフェクト
-						graphicView.setFxpoint(0, getx - 10);
-						graphicView.setFypoint(0, gety - 40);
-						graphicView.setFlagPoint(0, 1);
-
-						//距離
-						dist[0] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-
-						// MediaPlayer処理
-						this.changeMidiFile();
-					}
-					// エリア2( 右上 )
-					else if (getx > maxX / 2 && gety < maxY / 2) {
-						// 画像配置
-						graphicView.setFxpoint(1, getx - 10);
-						graphicView.setFypoint(1, gety - 40);
-						graphicView.setFlagPoint(1, 1);
-
-						//距離
-						dist[1] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-
-						// MediaPlayer処理
-						this.changeMidiFile();
-					}
-					// エリア3( 左下 )
-					else if (getx < maxX / 2 && gety > maxY / 2) {
-						// 画像配置
-						// エフェクト
-						graphicView.setFxpoint(2, getx - 10);
-						graphicView.setFypoint(2, gety - 40);
-						graphicView.setFlagPoint(2, 1);
-
-						// 距離
-						dist[2] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-
-						// MediaPlayer処理
-						this.changeMidiFile();
-					}
-					// エリア4( 右下 )
-					else if (getx > maxX / 2 && gety > maxY / 2) {
-						// 画像配置
-						// エフェクト
-						graphicView.setFxpoint(3, getx - 10);
-						graphicView.setFypoint(3, gety - 40);
-						graphicView.setFlagPoint(3, 1);
-
-						// 距離
-						dist[3] = Math.sqrt((getx - maxX / 2) * (getx - maxX / 2) + (gety - maxY / 2) * (gety - maxY / 2));
-
-						// MediaPlayer処理
-						this.changeMidiFile();
 					}
 				}
 				break;
 
 			case MotionEvent.ACTION_MOVE:
-				//スライド座標を保存
-				beforex[3]=beforex[2];
-				beforex[2]=beforex[1];
-				beforex[1]=beforex[0];
-				beforex[0]=getx;
-				beforey[3]=beforey[2];
-				beforey[2]=beforey[1];
-				beforey[1]=beforey[0];
-				beforey[0]=gety;
+				if(scene) {
+					//スライド座標を保存
+					beforex[3] = beforex[2];
+					beforex[2] = beforex[1];
+					beforex[1] = beforex[0];
+					beforex[0] = getx;
+					beforey[3] = beforey[2];
+					beforey[2] = beforey[1];
+					beforey[1] = beforey[0];
+					beforey[0] = gety;
 
-				// テンポ操作
-				if(getx>400 && getx<800 && gety>750 && getx<1150)
-				{
-					//座標が記録されてない時
-					if (record == 0 && beforex[3] != -1)
-					{
-						//右移動時
-						if (getx > beforex[1] && beforex[1] > beforex[3])
-						{
-							record = 1;//フラグ管理
+					// テンポ操作
+					if (getx > 400 && getx < 800 && gety > 750 && getx < 1150) {
+						//座標が記録されてない時
+						if (record == 0 && beforex[3] != -1) {
+							//右移動時
+							if (getx > beforex[1] && beforex[1] > beforex[3]) {
+								record = 1;//フラグ管理
+							}
+							//左移動時
+							else {
+								record = 2;//フラグ管理
+							}
 						}
-						//左移動時
-						else
-						{
-							record = 2;//フラグ管理
+						//右移動から始めた時
+						else if (record == 1) {
+							beattemp += 1;//bpm加算
 						}
-					}
-					//右移動から始めた時
-					else if (record == 1)
-					{
-						beattemp += 1;//bpm加算
-					}
-					//左移動から始めた時
-					else
-					{
-						beattemp -= 1;//bpm減算
+						//左移動から始めた時
+						else {
+							beattemp -= 1;//bpm減算
+						}
 					}
 				}
 				break;
